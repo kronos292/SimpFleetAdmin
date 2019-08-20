@@ -29,8 +29,12 @@ router.post("/register", (req, res) => {
       return res.status(404).json(errors);
     } else {
       const addUser = new User({
-        name: req.body.name,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        fullname: req.body.first_name + " " + req.body.last_name,
+        contact: req.body.contact,
         email: req.body.email,
+        company: req.body.company,
         password: req.body.password
       });
 
@@ -74,7 +78,7 @@ router.post("/login", (req, res) => {
         //User matched
         const payload = {
           id: user.id,
-          name: user.name
+          name: user.fullname
         }; //Create jwt
 
         //sign token
@@ -106,8 +110,10 @@ router.get(
   (req, res) => {
     res.json({
       id: req.user.id,
-      name: req.user.name,
-      email: req.user.email
+      name: req.user.fullname,
+      contact: req.user.contact,
+      email: req.user.email,
+      company: req.user.company
     });
   }
 );
