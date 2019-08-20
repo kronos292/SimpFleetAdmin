@@ -37,3 +37,112 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+/* HEADER */
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+.nav-bar {
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  z-index: 1;
+}
+
+.logout-btn {
+  font-size: 14px;
+  font-family: Roboto;
+  font-weight: bold;
+}
+
+.avatar-dropdown {
+  padding-bottom: 0px !important;
+}
+
+.logo {
+  width: 133px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.font {
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 16px;
+  padding: 1vh 2vw 1vh 2vw;
+}
+
+.navbar-brand {
+  margin: 1vh 15px 1vh 3vw;
+}
+
+.header-avatar-icon-nav-link {
+  text-align: right;
+}
+
+@media (max-width: 425px) {
+  .logo {
+    width: 116px;
+    height: 35px;
+  }
+}
+
+/* FOOTER */
+#footer-div {
+  margin-bottom: 40px;
+}
+
+@media only screen and (min-width: 768px) {
+  #footer-div {
+    margin-bottom: 0;
+  }
+}
+
+.section-footer {
+  background-color: #49ae4b !important;
+  padding: 9vh 0px 5vh 0px;
+}
+
+.nav-link {
+  color: white;
+  font-family: "Roboto";
+  padding: 3px 16px 3px 16px;
+}
+
+.nav-link:hover {
+  color: white !important;
+}
+
+.title-footer {
+  color: white !important;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.line-footer {
+  border: 0;
+  clear: both;
+  display: block;
+  width: 96%;
+  background-color: white;
+  height: 1px;
+}
+
+.nav-btm {
+  padding-bottom: 6%;
+}
+
+.h6-footer {
+  color: white;
+}
+
+.sicon {
+  padding: 0px 10px 0px 10px;
+}
+
+.font-large {
+  font-size: 24px;
+}
+
+.highlight:hover {
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  transform: translate(0px, -8px);
+}
