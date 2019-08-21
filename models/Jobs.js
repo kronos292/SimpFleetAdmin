@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 /* create jobs schema */
 const JobSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "users"
+  },
   job_number: {
     type: String
   },
