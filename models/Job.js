@@ -58,25 +58,28 @@ const JobSchema = new Schema({
   status: [
     {
       status_1: {
-        type: String
+        type: Boolean,
+        default: false
       },
       status_2: {
-        type: String
+        type: Boolean,
+        default: false
       },
       status_3: {
-        type: String
+        type: Boolean,
+        default: false
       },
       status_4: {
-        type: String
+        type: Boolean,
+        default: false
       },
       status_5: {
-        type: String
+        type: Boolean,
+        default: false
       },
       status_6: {
-        type: String
-      },
-      description: {
-        type: String
+        type: Boolean,
+        default: false
       }
     }
   ]

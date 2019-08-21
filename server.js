@@ -6,6 +6,7 @@ const passport = require("passport");
 
 /* routes api */
 const users = require("./routes/api/users");
+const jobs = require("./routes/api/jobs");
 
 /* DB config */
 const db = require("./config/keys").mongoURI;
@@ -34,3 +35,4 @@ app.get("/", (req, res) => res.send("hello"));
 
 /* use route */
 app.use("/api/users", users);
+app.use("/api/jobs", jobs);
