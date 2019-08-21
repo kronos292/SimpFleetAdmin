@@ -4,42 +4,50 @@ export default function Footer() {
   return (
     <div className="section-footer">
       <div className="container">
-        <div class="nav-btm row">
-          <div class="col-md-3 col-6 offset-md-0">
-            <div class="flex-column nav">
-              <a href="#" class="disabled title-footer nav-link" role="button">
+        <div className="nav-btm row">
+          <div className="col-md-3 col-6 offset-md-0">
+            <div className="flex-column nav">
+              <a
+                href="#"
+                className="disabled title-footer footer-link"
+                role="button"
+              >
                 Company
               </a>
               <a
                 target="_blank"
                 href="https://www.shipsuppliesdirect.com/"
                 data-rb-event-key="https://www.shipsuppliesdirect.com/"
-                class="nav-link"
+                className="footer-link"
               >
                 About Ship Supplies Direct
               </a>
               <a
                 href="https://medium.com/@shipsuppliesdirect"
                 data-rb-event-key="https://medium.com/@shipsuppliesdirect"
-                class="nav-link"
+                className="footer-link"
               >
                 Blog
               </a>
-              <a href="/" data-rb-event-key="/" class="nav-link">
+              <a href="/" data-rb-event-key="/" className="footer-link">
                 Press
               </a>
             </div>
           </div>
-          <div class="col-md-3 col-6 offset-md-0">
-            <div class="flex-column nav">
-              <a href="#" class="disabled title-footer nav-link" role="button">
+          <div className="col-md-3 col-6 offset-md-0">
+            <div className="flex-column nav">
+              <a
+                href="#"
+                className="disabled title-footer footer-link"
+                role="button"
+              >
                 SimpFleet
               </a>
               <a
                 target="_blank"
                 href="/"
                 data-rb-event-key="/"
-                class="nav-link"
+                className="footer-link"
               >
                 FAQ
               </a>
@@ -47,32 +55,32 @@ export default function Footer() {
                 target="_blank"
                 href="/"
                 data-rb-event-key="/"
-                class="nav-link"
+                className="footer-link"
               >
                 Career
               </a>
             </div>
           </div>
         </div>
-        <div class="row">
-          <hr class="line-footer" />
+        <div className="row">
+          <hr className="line-footer" />
         </div>
-        <div class="font-large row">
-          <div class="col">
-            <h6 class="h6-footer">©2019 Ship Supplies Direct</h6>
+        <div className="font-large row">
+          <div className="col">
+            <h6 className="h6-footer">©2019 Ship Supplies Direct</h6>
           </div>
-          <div class="d-flex justify-content-end align-items-start col-md-3 offset-md-0">
+          <div className="d-flex justify-content-end align-items-start col-md-3 offset-md-0">
             <a
               href="https://api.whatsapp.com/send?phone=6587480467"
               target="_blank"
-              class="sicon"
+              className="sicon"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fab"
                 data-icon="whatsapp"
-                class="svg-inline--fa fa-whatsapp fa-w-14 highlight"
+                className="svg-inline--fa fa-whatsapp fa-w-14 highlight"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
@@ -87,14 +95,14 @@ export default function Footer() {
             <a
               href="https://www.facebook.com/shipsuppliesdirect"
               target="_blank"
-              class="sicon"
+              className="sicon"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fab"
                 data-icon="facebook"
-                class="svg-inline--fa fa-facebook fa-w-16 highlight"
+                className="svg-inline--fa fa-facebook fa-w-16 highlight"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -109,14 +117,14 @@ export default function Footer() {
             <a
               href="https://www.instagram.com/shipsuppliesdirect/"
               target="_blank"
-              class="sicon"
+              className="sicon"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fab"
                 data-icon="instagram"
-                class="svg-inline--fa fa-instagram fa-w-14 highlight"
+                className="svg-inline--fa fa-instagram fa-w-14 highlight"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
@@ -131,14 +139,14 @@ export default function Footer() {
             <a
               href="https://www.linkedin.com/company/ship-supplies-direct/"
               target="_blank"
-              class="sicon"
+              className="sicon"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fab"
                 data-icon="linkedin"
-                class="svg-inline--fa fa-linkedin fa-w-14 highlight"
+                className="svg-inline--fa fa-linkedin fa-w-14 highlight"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
@@ -153,14 +161,14 @@ export default function Footer() {
             <a
               href="https://telegram.me/ShipSuppliesDirect"
               target="_blank"
-              class="sicon"
+              className="sicon"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fab"
                 data-icon="telegram"
-                class="svg-inline--fa fa-telegram fa-w-16 highlight"
+                className="svg-inline--fa fa-telegram fa-w-16 highlight"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 496 512"

@@ -14,7 +14,7 @@ function App() {
       <Router>
         <Navbar />
         <Route exact path="/" component={Landing} />
-        <div className="container">
+        <div className="">
           <Route exact path="/login" component={Login} />
           <Route exact path="/sign_up" component={Register} />
         </div>
