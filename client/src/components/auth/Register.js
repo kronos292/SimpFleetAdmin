@@ -1,45 +1,80 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Register extends Component {
   render() {
     return (
-      <div className="login">
-        <br />
-        <div className="col-md-4 offset-md-4">
-          <div id="formContent">
-            <div class="first">
-              <h2 class="my-5">Sign Up with SimpFleet</h2>
-            </div>
-            <h5>Get started with us by signing up</h5>
-            <form>
-              <input
-                type="email"
-                id="email"
-                class="second zero-raduis"
-                name="email"
-                placeholder="Email Address"
-              />
-              <input
-                type="text"
-                id="password"
-                class="third zero-raduis"
-                name="login"
-                placeholder="Password"
-              />
-              <div id="formFooter">
-                <a class="underlineHover" href="#">
-                  Forgot Password?
-                </a>
+      <div className="login-div mt-0">
+        <div className="container login col-10 col-lg-4">
+          <h3 className="text-center text-success">Sign up with SimpFleet</h3>
+          <form action="">
+            <div className="row ">
+              <div className="form-group col-6">
+                <small>First Name*</small>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="First Name*"
+                />
               </div>
-              <input type="submit" class="fourth zero-raduis" value="Sign In" />
-              <h2>You don't have a account ?</h2>
+              <div className="form-group col-6">
+                <small>Last Name*</small>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Last Name*"
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <small>Contact Number*</small>
               <input
-                type="button"
-                class="fourth zero-raduis pc"
-                value="register"
+                type="password"
+                className="form-control"
+                placeholder="Contact Number*"
               />
-            </form>
-          </div>
+            </div>
+            <div className="form-group">
+              <small>Email Address*</small>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Email Address*"
+              />
+            </div>
+            <div className="form-group">
+              <small>Company Name*</small>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Company Name*"
+              />
+            </div>
+            <div className="form-group">
+              <small>Password*</small>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Password*"
+              />
+            </div>
+            <div className="form-group">
+              <small>Confirm Password*</small>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Confirm Password*"
+              />
+            </div>
+            <button type="submit" className="btn btn-success btn-block mb-3">
+              SIGN UP NOW
+            </button>
+          </form>
+        </div>
+        <div className="container signup col-10 col-lg-4">
+          <p className="text-center">
+            Have an account? <Link to="/login">Login</Link>
+          </p>
         </div>
       </div>
     );

@@ -1,45 +1,49 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   render() {
     return (
-      <div className="login">
-        <br />
-        <div className="col-md-4 offset-md-4">
-          <div id="formContent">
-            <div class="first">
-              <h2 class="my-5">Log In</h2>
-            </div>
-
-            <form>
-              <input
-                type="email"
-                id="email"
-                class="second zero-raduis"
-                name="email"
-                placeholder="Email Address"
-              />
+      <div className="login-div mt-0">
+        <div className="container login col-10 col-lg-4">
+          <h3 className="text-center text-success">Log In</h3>
+          <form action="">
+            <div className="form-group">
+              <small>Email Address</small>
               <input
                 type="text"
-                id="password"
-                class="third zero-raduis"
-                name="login"
+                className="form-control"
+                placeholder="Email Address"
+              />
+            </div>
+            <div className="form-group">
+              <small>Password</small>
+              <input
+                type="password"
+                className="form-control"
                 placeholder="Password"
               />
-              <div id="formFooter">
-                <a class="underlineHover" href="#">
-                  Forgot Password?
-                </a>
-              </div>
-              <input type="submit" class="fourth zero-raduis" value="Sign In" />
-              <h2>You don't have a account ?</h2>
-              <input
-                type="button"
-                class="fourth zero-raduis pc"
-                value="register"
-              />
-            </form>
-          </div>
+            </div>
+            <div className="form-check mb-3">
+              <label className="form-check-small">
+                <input type="checkbox" className="form-check-input" value="" />
+                Remember me
+              </label>
+            </div>
+            <button type="submit" className="btn btn-success btn-block mb-3">
+              SIGN IN
+            </button>
+            <p className="text-center mb-0">
+              <Link to="/" className="forget">
+                Forget Password?{" "}
+              </Link>
+            </p>
+          </form>
+        </div>
+        <div className="container signup col-10 col-lg-4">
+          <p className="text-center">
+            Don't have account? <Link to="/sign_up">Sign Up</Link>
+          </p>
         </div>
       </div>
     );
