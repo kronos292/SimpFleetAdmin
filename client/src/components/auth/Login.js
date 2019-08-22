@@ -30,9 +30,11 @@ class Login extends Component {
                 Remember me
               </label>
             </div>
-            <button type="submit" className="btn btn-success btn-block mb-3">
-              SIGN IN
-            </button>
+            <Link to="/admin_home">
+              <button type="submit" className="btn btn-success btn-block mb-3">
+                SIGN IN
+              </button>
+            </Link>
             <p className="text-center mb-0">
               <Link to="/" className="forget">
                 Forget Password?{" "}

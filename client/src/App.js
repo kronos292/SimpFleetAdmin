@@ -7,6 +7,7 @@ import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import Home from "./components/admin/Home";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <div className="">
           <Route exact path="/login" component={Login} />
           <Route exact path="/sign_up" component={Register} />
+          <Route exact path="/admin_home" component={Home} />
         </div>
         <Footer />
       </Router>

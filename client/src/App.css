@@ -59,3 +59,23 @@
   background-size: cover;
   height: 100%;
 }
+
+/* admin */
+.admin .sidebar {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.admin .createjob {
+  border-radius: 50px;
+  font-weight: bold;
+  margin-bottom: 60px;
+}
+.admin a {
+  font-weight: bold;
+  color: #707070;
+}
+.admin a:hover {
+  font-weight: bold;
+  color: #707070;
+  text-decoration: none;
+}
