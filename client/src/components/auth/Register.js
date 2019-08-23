@@ -7,7 +7,7 @@ class Register extends Component {
       <div className="login-div mt-0">
         <div className="container login col-10 col-lg-4">
           <h3 className="text-center text-success">Sign up with SimpFleet</h3>
-          <form action="">
+          <form onSubmit={this.onSubmit}>
             <div className="row ">
               <div className="form-group col-6">
                 <small>First Name*</small>
