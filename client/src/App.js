@@ -1,11 +1,27 @@
 import React from "react";
 import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import Landing from "./components/layout/Landing";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import Home from "./components/admin/Home";
 
 function App() {
   return (
     <div className="App">
-      <h1>SimpFleet App</h1>
-      <i class="fas fa-camera" />
+      <Router>
+        <Navbar />
+        <Route exact path="/" component={Landing} />
+        <div className="">
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/sign_up" component={Register} />
+          <Route exact path="/admin_home" component={Home} />
+        </div>
+        <Footer />
+      </Router>
     </div>
   );
 }
