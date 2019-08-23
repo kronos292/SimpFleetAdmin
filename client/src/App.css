@@ -1,39 +1,81 @@
-img {
-  width: 100%;
+/* navbar */
+.navbar {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  padding: 1rem 1rem;
+  background-color: white !important;
 }
-
-.landing {
-  position: relative;
-  background: url("./img/showcase.jpg") no-repeat;
+.navbar .nav-link:hover {
+  color: white !important;
+}
+.navbar .sign-in {
+  padding-right: 25px;
+  padding-left: 25px;
+}
+/* footer */
+.footer {
+  background-color: #49ae4b;
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+.footer a:hover {
+  color: white !important;
+  text-decoration: none;
+}
+.footer i {
+  margin-left: 10px;
+}
+/* login */
+.login {
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  background: white;
+}
+.login .forget {
+  color: black;
+}
+.login .forget:hover {
+  color: #49ae4b;
+  font-weight: bold;
+}
+.signup {
+  margin-top: 20px;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  padding-top: 15px;
+  padding-bottom: 3px;
+  background: white;
+}
+.signup a {
+  color: black;
+}
+.signup a:hover {
+  color: #49ae4b;
+  font-weight: bold;
+}
+.login-div {
+  padding-top: 5%;
+  padding-bottom: 5%;
+  background-image: url("./img/home.png");
   background-size: cover;
-  background-position: center;
-  height: 100vh;
-  margin-top: -24px;
-  margin-bottom: -50px;
-}
-
-.landing-inner {
-  padding-top: 80px;
-}
-
-.dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
 }
 
-.card-form {
-  opacity: 0.9;
+/* admin */
+.admin .sidebar {
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
-
-.latest-profiles-img {
-  width: 40px;
-  height: 40px;
+.admin .createjob {
+  border-radius: 50px;
+  font-weight: bold;
+  margin-bottom: 60px;
 }
-
-.form-control::placeholder {
-  color: #bbb !important;
+.admin a {
+  font-weight: bold;
+  color: #707070;
+}
+.admin a:hover {
+  font-weight: bold;
+  color: #707070;
+  text-decoration: none;
 }
