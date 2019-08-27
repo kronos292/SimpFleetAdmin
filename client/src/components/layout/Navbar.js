@@ -16,17 +16,35 @@ class Navbar extends Component {
 
     const userLink = (
       <ul className="navbar-nav ml-auto">
-        <li className="nav-item ml-1">
-          <p className="blockquote">Hallo, {user.name}</p>
-        </li>
-        <br />
-        <li className="nav-item ml-1">
-          <a
-            className="btn btn-outline-success"
-            onClick={this.onLogoutClick.bind(this)}
+        <li className="nav-item">
+          <div
+            className="avatar ml-3 mr-3 d-flex align-items-center justify-content-center"
+            data-toggle="dropdown"
           >
-            Logout
-          </a>
+            <h5 className="text-light mt-1">S</h5>
+          </div>
+          <div className="dropdown-menu dropdown-menu-right dropdown-menu-lg-right">
+            <div className="dropdown-item m-3 p-why disabled">
+              <div className="row">
+                <div className="avatar d-flex align-items-center justify-content-center">
+                  <h5 className="text-light mt-1">S</h5>
+                </div>
+                <div className="col lg-auto">
+                  <p className="closer font-weight-bold">{user.name}</p>
+                  <p className="closer">Email</p>
+                </div>
+              </div>
+            </div>
+            <div className="dropdown-divider"></div>
+            <div className="dropdown-item text-right signout">
+              <button
+                className="btn btn-outline-success"
+                onClick={this.onLogoutClick.bind(this)}
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
         </li>
       </ul>
     );
@@ -68,7 +86,7 @@ class Navbar extends Component {
           <img src={Logo} width="133" height="40" alt="" />
         </Link>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler btn btn-outline-secondary"
           type="button"
           data-toggle="collapse"
           data-target="#navbarNav"
@@ -78,8 +96,9 @@ class Navbar extends Component {
         >
           <span className="navbar-toggler-icon" />
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav" />
-        {isAuthenticated ? userLink : guestLink}
+        <div className="collapse navbar-collapse" id="navbarNav">
+          {isAuthenticated ? userLink : guestLink}
+        </div>
       </nav>
     );
   }

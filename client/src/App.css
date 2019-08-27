@@ -110,3 +110,22 @@
   padding-left: 150px;
   padding-right: 150px;
 }
+.name {
+  margin-bottom: -15px;
+}
+.closer {
+  margin-bottom: 0px;
+}
+.avatar {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #bdbdbd;
+}
+.dropdown-menu {
+  width: 350px;
+}
+.signout:hover {
+  background-color: transparent;
+}
