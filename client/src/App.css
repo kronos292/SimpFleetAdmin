@@ -79,3 +79,53 @@
   color: #707070;
   text-decoration: none;
 }
+
+/* landing */
+.landing {
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+  background-image: url("./img/home.png");
+  background-size: cover;
+  height: 100%;
+}
+.p-why {
+  color: #707070;
+}
+.p-why:hover {
+  color: #707070;
+}
+.greybg {
+  background-color: #edefee;
+}
+.line5img {
+  background-image: url("./img/features.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+.container-fluid .contact {
+  padding-left: 150px;
+  padding-right: 150px;
+}
+.name {
+  margin-bottom: -15px;
+}
+.closer {
+  margin-bottom: 0px;
+}
+.avatar {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #bdbdbd;
+}
+.dropdown-menu {
+  width: 350px;
+}
+.signout:hover {
+  background-color: transparent;
+}
