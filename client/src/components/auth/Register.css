@@ -1,0 +1,35 @@
+.signup-background{
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.45), 
+      rgba(0, 0, 0, 0.45)
+    ), url(/images/home.png) no-repeat center ;
+  background-size: cover;
+  display: table;
+  height: 80vh;
+  width: 100%;
+  position: relative;
+}
+
+.signup-paper-top{
+  padding-top:5%;
+  padding-bottom: 5%;
+  margin-top: 60px;
+}
+
+.link{
+  color: black !important;
+  text-decoration: none;
+}
+
+.link:hover{
+  text-decoration: underline;
+  font-weight: bold;
+  color: #49AE4B !important;
+
+}
+
+.signup{
+  padding: 3%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

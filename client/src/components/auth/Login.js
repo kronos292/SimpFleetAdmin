@@ -1,16 +1,23 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authAction";
-import TextFieldGroup from "../common/TextFieldGroup";
-
+import { NavLink, Redirect } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import { Grid, Paper, TextField } from "@material-ui/core";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import { Container, Row, Col, Form } from "reactstrap";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import "./Login.css";
 class Login extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
       password: "",
+      rememberMe: false,
       errors: {}
     };
 
@@ -21,6 +28,16 @@ class Login extends Component {
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
+      if (
+        localStorage.getItem("checked") &&
+        localStorage.getItem("checked") !== ""
+      ) {
+        this.setState({
+          email: localStorage.getItem("email"),
+          password: localStorage.getItem("password"),
+          rememberMe: true
+        });
+      }
     }
   }
 
@@ -41,65 +58,137 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-
+    if (this.state.rememberMe) {
+      localStorage.setItem("checked", "checked");
+      localStorage.setItem("email", this.state.email);
+      localStorage.setItem("password", this.state.password);
+    } else {
+      localStorage.setItem("checked", "");
+    }
     this.props.loginUser(userData);
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
-  render() {
+  onChecked = e => {
+    this.setState({ rememberMe: e.target.checked });
+  };
+  renderContent = () => {
     const { errors } = this.state;
+    switch (this.props.auth.isAuthenticated) {
+      case null:
+        return;
+      case false:
+        return (
+          <Container fluid className="signin-background">
+            <Row>
+              <Col xs="12" md={{ size: 10, offset: 1 }}>
+                <Row>
+                  <Col md={{ size: 4, offset: 4 }}>
+                    <Paper className="signin-top">
+                      <Form onSubmit={this.onSubmit}>
+                        <Grid container spacing={0}>
+                          <Grid item xs={12}>
+                            <h2 className="text-center signin-title">Log In</h2>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              name="email"
+                              type="email"
+                              value={this.state.email}
+                              onChange={this.onChange}
+                              variant="outlined"
+                              margin="normal"
+                              fullWidth
+                              id="email-login"
+                              label="Email Address"
+                              autoComplete="email"
+                              autoFocus
+                            />
+
+                            <TextField
+                              variant="outlined"
+                              margin="normal"
+                              name="password"
+                              type="password"
+                              value={this.state.password}
+                              onChange={this.onChange}
+                              fullWidth
+                              label="Password"
+                              id="password"
+                              autoComplete="current-password"
+                            />
+                          </Grid>
+                          <Grid item>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  onChange={this.onChecked}
+                                  checked={this.state.rememberMe}
+                                  color="primary"
+                                />
+                              }
+                              label="Remember me"
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Button
+                              type="submit"
+                              fullWidth
+                              variant="contained"
+                              color="primary"
+                              className="button-text"
+                            >
+                              Sign In
+                            </Button>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <p className="text-center signin-forget">
+                              <NavLink to="/password_reset" className="link">
+                                Forgot Password?
+                              </NavLink>
+                            </p>
+                          </Grid>
+                        </Grid>
+                      </Form>
+                    </Paper>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{ size: 4, offset: 4 }}>
+                    <Paper>
+                      <p className="text-center signup">
+                        Don't have account?
+                        <NavLink to="/register" className="link">
+                          {" "}
+                          Sign Up
+                        </NavLink>
+                      </p>
+                    </Paper>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+        );
+      default:
+        return <Redirect to="/" />;
+    }
+  };
+  render() {
+    const theme = createMuiTheme({
+      palette: {
+        primary: {
+          main: "#49AE4B"
+        }
+      }
+    });
+
     return (
-      <div className="login-div mt-0">
-        <div className="container login col-10 col-lg-4">
-          <h3 className="text-center text-success">Log In</h3>
-          <form onSubmit={this.onSubmit}>
-            <div className="form-group">
-              <small>Email Address</small>
-              <TextFieldGroup
-                placeholder="Email Address"
-                name="email"
-                type="email"
-                value={this.state.email}
-                onChange={this.onChange}
-                error={errors.email}
-              />
-            </div>
-            <div className="form-group">
-              <small>Password</small>
-              <TextFieldGroup
-                placeholder="Password"
-                name="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.onChange}
-                error={errors.password}
-              />
-            </div>
-            <div className="form-check mb-3">
-              <label className="form-check-small">
-                <input type="checkbox" className="form-check-input" value="" />
-                Remember me
-              </label>
-            </div>
-            <button type="submit" className="btn btn-success btn-block mb-3">
-              SIGN IN
-            </button>
-            <p className="text-center mb-0">
-              <Link to="/" className="forget">
-                Forget Password?{" "}
-              </Link>
-            </p>
-          </form>
-        </div>
-        <div className="container signup col-10 col-lg-4">
-          <p className="text-center">
-            Don't have account? <Link to="/register">Sign Up</Link>
-          </p>
-        </div>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div>{this.renderContent()}</div>
+      </ThemeProvider>
     );
   }
 }

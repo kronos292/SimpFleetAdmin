@@ -1,0 +1,54 @@
+.signin-title{
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-size: 24px;
+  color: #49AE4B;
+
+}
+
+.signin-background{
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.45), 
+      rgba(0, 0, 0, 0.45)
+    ), url(/images/home.png) no-repeat center;
+  background-size: cover;
+  display: table;
+  height: 80vh;
+  width: 100%;
+  position: relative;
+}
+
+.signin-top{
+  padding: 8% 8% 2% 8%;
+  margin-top: 60px;
+}
+
+.MuiButton-label{
+  color: white;
+  font-weight: bold;
+  font-family: 'Roboto';
+}
+
+.MuiOutlinedInput-input{
+  padding: 15px 14px !important;
+}
+
+.link{
+  color: black !important;
+  text-decoration: none;
+}
+
+.link:hover{
+  text-decoration: underline;
+  font-weight: bold;
+  color: #49AE4B !important;
+}
+
+.signin-forget{
+  padding-top: 3%; 
+}
+
+.signup{
+  padding: 3%;
+  margin-top: 20px;
+}
