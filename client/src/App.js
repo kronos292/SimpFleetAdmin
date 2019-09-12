@@ -1,42 +1,74 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import setAuthToken from "./utility/setAuthToken";
-import jwt_decode from "jwt-decode";
-import { setCurrentUser, logoutUser } from "./actions/authAction";
-import { Provider } from "react-redux";
-import store from "./store";
+
 import VIP from "./components/common/PrivateRoute";
-import Navbar from "./components/layout/Navbar";
+import ExNavbar from "./components/layout/ExNavbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Home from "./components/pages/Home";
 
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  setAuthToken(localStorage.jwtToken);
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(localStorage.jwtToken);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
+class DynamicImport extends Component {
+  state = {
+    component: null
+  };
 
-  // Check for expired token
-  const currentTime = Date.now() / 1000;
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = "/login";
+  componentDidMount() {
+    this.props.load().then(component => {
+      this.setState(() => ({
+        component: component.default ? component.default : component
+      }));
+    });
+  }
+
+  render() {
+    return this.props.children(this.state.component);
   }
 }
-function App() {
-  return (
-    <Provider store={store}>
+const MainNavbar = props => (
+  <DynamicImport load={() => import("./components/layout/MainNavbar.js")}>
+    {Component =>
+      Component === null ? <p>Loading</p> : <Component {...props} />
+    }
+  </DynamicImport>
+);
+
+class App extends Component {
+  state = {
+    openMenu: false,
+    isPopoverOpen: false
+  };
+
+  handleOpenMenu = () => {
+    this.setState({ openMenu: true });
+  };
+  render() {
+    const { isAuthenticated } = this.props.auth;
+    return (
       <div className="App">
         <Router>
-          <Navbar />
+          <Switch>
+            {isAuthenticated ? (
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <MainNavbar {...props} handleOpenMenu={this.handleOpenMenu} />
+                )}
+              />
+            ) : (
+              <Route exact path="/" component={ExNavbar} />
+            )}
+            <Route
+              path="/"
+              render={props => (
+                <MainNavbar {...props} handleOpenMenu={this.handleOpenMenu} />
+              )}
+            />
+          </Switch>
           <Route exact path="/" component={Landing} />
           <div className="">
             <Route exact path="/login" component={Login} />
@@ -48,8 +80,12 @@ function App() {
           <Footer />
         </Router>
       </div>
-    </Provider>
-  );
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(App);

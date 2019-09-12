@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+.nav-bar{
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
+    z-index: 1;
+}
+
+.logout-btn{
+    font-size: 14px;
+    font-family: Roboto;
+    font-weight: bold;
+}
+
+.avatar-dropdown{
+    padding-bottom: 0px!important;
+}
+
+.logo {
+    width:133px;
+    height:40px;
+    cursor: pointer;
+}
+
+.font{
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 16px;
+    padding: 1vh 2vw 1vh 2vw;
+}
+
+.navbar-brand{
+    margin: 1vh 15px 1vh 3vw;
+}
+
+.header-avatar-icon-nav-link{
+    text-align: right;
+}
+
+@media (max-width: 425px) {
+
+    .logo{
+        width:116px;
+        height:35px;
+    }
+
+}
+
