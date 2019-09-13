@@ -1,0 +1,29 @@
+.line {
+  border: 0;
+  clear: both;
+  display: block;
+  width: 100%;
+  background-color: #707070;
+  height: 1px;
+  opacity: 0.23;
+}
+
+.section-title {
+  text-align: center;
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 2rem;
+  color: #49ae4b;
+  padding: 0 0 7.3vh;
+}
+
+.p-why {
+  font-family: "Roboto";
+  font-size: 18px !important;
+  color: #707070;
+}
+
+.explaintion-padding {
+  padding-top: 7.3vh;
+  padding-bottom: 10.4vh;
+}

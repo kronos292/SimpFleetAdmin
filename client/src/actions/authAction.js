@@ -8,7 +8,12 @@ import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/users/register", userData)
-    .then(res => history.push("/login"))
+    .then(res => {
+      window.alert(
+        `Dear, ${userData.first_name}. Thank you for signing up! Please wait for our confirmation email to gain access to your SimpFleet account. If however, you have something that is time sensitive and wish to reach us, please email us at service@simpfleet.com`
+      );
+      history.push("/login");
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -33,6 +38,8 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded));
+
+      window.location = "/";
     })
     .catch(err =>
       dispatch({
@@ -40,7 +47,6 @@ export const loginUser = userData => dispatch => {
         payload: err.response.data
       })
     );
-  
 };
 
 // Set logged in user

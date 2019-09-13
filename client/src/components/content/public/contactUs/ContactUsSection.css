@@ -1,0 +1,39 @@
+.hover:hover {
+  background-color: #6abc6b !important;
+}
+
+.hover_underline:hover {
+  text-decoration: underline;
+  color: #707070 !important;
+}
+
+.ripple-color:active {
+  background-color: #3c8f3e !important;
+}
+
+.h6-contact {
+  font-weight: bold;
+  color: #707070;
+}
+
+.a-contact {
+  color: #707070;
+}
+
+.contact-padding {
+  padding-top: 10.4vh;
+  padding-bottom: 10.4vh;
+}
+
+.font-contact {
+  font-family: "Roboto";
+}
+
+.contact-button {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.MuiOutlinedInput-input {
+  padding: 15px 14px !important;
+}

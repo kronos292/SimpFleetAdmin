@@ -1,0 +1,8 @@
+.MuiStepper-root {
+    padding: 24px 0px 24px 0px;
+}
+
+.MuiStepContent-root {
+    padding: 0px !important;
+    margin: 8px 0px 0px 0px !important;
+}

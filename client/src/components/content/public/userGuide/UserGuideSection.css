@@ -1,0 +1,19 @@
+.guide-padding{
+    padding-top: 10.4vh;
+    padding-bottom: 10.4vh;
+}
+
+.mobile-margin{
+    margin-top: 30px;
+}
+
+#user-guide-section-container {
+    margin-top: 80px;
+    margin-bottom: 30px;
+}
+
+@media only screen and (max-width: 800px) {
+    #user-guide-section-container {
+        margin-top: 30px;;
+    }
+}

@@ -6,10 +6,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import VIP from "./components/common/PrivateRoute";
 import ExNavbar from "./components/layout/ExNavbar";
 import Footer from "./components/layout/Footer";
-import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import Home from "./components/pages/Home";
 
 class DynamicImport extends Component {
   state = {
@@ -30,6 +28,13 @@ class DynamicImport extends Component {
 }
 const MainNavbar = props => (
   <DynamicImport load={() => import("./components/layout/MainNavbar.js")}>
+    {Component =>
+      Component === null ? <p>Loading</p> : <Component {...props} />
+    }
+  </DynamicImport>
+);
+const Home = props => (
+  <DynamicImport load={() => import("./components/content/Home.js")}>
     {Component =>
       Component === null ? <p>Loading</p> : <Component {...props} />
     }
@@ -69,13 +74,10 @@ class App extends Component {
               )}
             />
           </Switch>
-          <Route exact path="/" component={Landing} />
+          <Route exact path="/" component={Home} />
           <div className="">
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Switch>
-              <VIP exact path="/dashboard" component={Home} />
-            </Switch>
           </div>
           <Footer />
         </Router>

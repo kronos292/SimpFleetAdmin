@@ -1,0 +1,22 @@
+.stepperButton:focus{
+    outline: none;
+}
+
+.MuiStepConnector-vertical{
+    padding: 8px 0px 8px !important;
+}
+.MuiStepIcon-root{
+    color: white;
+    border-radius: 50%;
+    border: 2px solid #49AE4B;
+}
+
+.MuiStepIcon-text{
+    fill: #49AE4B !important;
+    font-weight: bolder;
+}
+
+.MuiStepIcon-active .MuiStepIcon-text{
+    fill: white !important;
+    font-weight: bolder;
+}

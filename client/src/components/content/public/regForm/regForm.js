@@ -53,10 +53,6 @@ class RegForm extends Component {
       password2: this.state.password2
     };
     this.props.registerUser(newUser, this.props.history);
-    const name = this.state.first_name;
-    alert(
-      `Dear, ${name}. Thank you for signing up! Please wait for our confirmation email to gain access to your SimpFleet account. If however, you have something that is time sensitive and wish to reach us, please email us at service@simpfleet.com`
-    );
   }
   render() {
     const { errors } = this.state;
