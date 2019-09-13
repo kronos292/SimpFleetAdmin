@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authAction";
+import Typography from "@material-ui/core/Typography";
 import { NavLink, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { Grid, Paper, TextField } from "@material-ui/core";
@@ -99,14 +100,19 @@ class Login extends Component {
                               value={this.state.email}
                               onChange={this.onChange}
                               variant="outlined"
-                              margin="normal"
                               fullWidth
                               id="email-login"
                               label="Email Address"
                               autoComplete="email"
                               autoFocus
                             />
-
+                            <Typography
+                              variant="caption"
+                              display="block"
+                              style={{ color: "red" }}
+                            >
+                              {errors.email}
+                            </Typography>
                             <TextField
                               variant="outlined"
                               margin="normal"
@@ -118,7 +124,15 @@ class Login extends Component {
                               label="Password"
                               id="password"
                               autoComplete="current-password"
+                              helperText=""
                             />
+                            <Typography
+                              variant="caption"
+                              display="block"
+                              style={{ color: "red" }}
+                            >
+                              {errors.password}
+                            </Typography>
                           </Grid>
                           <Grid item>
                             <FormControlLabel
