@@ -14,12 +14,13 @@ class Home extends Component {
       case false:
         return <Public />;
       default:
-        switch (this.props.auth.userType) {
+        /* switch (this.props.auth.userType) {
           case "Admin":
             return <Admin />;
           default:
             return <User />;
-        }
+        } */
+        return <User />;
     }
   };
 
