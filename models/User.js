@@ -31,10 +31,18 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  userType: {
+    type: String,
+    default: ""
+  },
+  isApproved: {
+    type: Boolean,
+    default: false
+  },
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-module.exports = User = mongoose.model("users", UserSchema);
+module.exports = mongoose.model("users", UserSchema);

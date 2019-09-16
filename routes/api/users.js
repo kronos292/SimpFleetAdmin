@@ -35,7 +35,9 @@ router.post("/register", (req, res) => {
         contact: req.body.contact,
         email: req.body.email,
         company: req.body.company,
-        password: req.body.password
+        password: req.body.password,
+        userType: "user",
+        isApproved: false
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -69,6 +71,11 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     if (!user) {
       errors.email = "Users not found";
+      return res.status(404).json(errors);
+    }
+
+    if (!user.isApproved) {
+      errors.isApproved = "Account not yet Approved.";
       return res.status(404).json(errors);
     }
 
