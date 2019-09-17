@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-/* import CreateJob from "./CreateJob"; */
+import CreateJob from "./CreateJob";
 
 export default class CreateJobModal extends Component {
   render() {
@@ -32,12 +32,12 @@ export default class CreateJobModal extends Component {
             </div>
           </DialogTitle>
           <DialogContent className="job-create-modal-content">
-            {/* <CreateJob
+            <CreateJob
               handleCloseModal={this.props.handleCloseModal}
               handlePopoverOpen={this.props.handlePopoverOpen}
               handleCloseMenu={this.props.handleCloseMenu}
               mobile={this.props.fullScreen}
-            /> */}
+            />
           </DialogContent>
         </Dialog>
       </div>

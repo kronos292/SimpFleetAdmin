@@ -1,6 +1,7 @@
 import "./SidebarMenu.css";
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
@@ -28,18 +29,20 @@ class SidebarMenu extends Component {
     return (
       <div id="sidebar-body">
         <Grid container spacing={3}>
-          {/* this.props.auth.userType !== "Admin" ? ( */}
-          <Grid item xs={12} className="d-flex justify-content-center">
-            <Fab
-              variant="extended"
-              size="medium"
-              className="side-bar-create-job-button"
-              onClick={this.handleOpenModal}
-            >
-              + Create job
-            </Fab>
-          </Grid>
-          {/* ) : ( "" )} */}
+          {this.props.auth.user.userType !== "admin" ? (
+            <Grid item xs={12} className="d-flex justify-content-center">
+              <Fab
+                variant="extended"
+                size="medium"
+                className="side-bar-create-job-button"
+                onClick={this.handleOpenModal}
+              >
+                + Create job
+              </Fab>
+            </Grid>
+          ) : (
+            ""
+          )}
           <Grid item xs={12}>
             <NavLink to="/" className="sidebar-link">
               Upcoming Jobs
@@ -57,13 +60,15 @@ class SidebarMenu extends Component {
             </NavLink>
           </Grid>
           {/* ) : ( "" )} */}
-          {/* this.props.auth.userType === "Admin" ? ( */}
-          {/* <Grid item xs={12}>
-            <NavLink to="/job_assignment" className="sidebar-link">
-              Job Assignment
-            </NavLink>
-          </Grid> */}
-          {/* ) : ( "" )} */}
+          {this.props.auth.user.userType === "admin" ? (
+            <Grid item xs={12}>
+              <NavLink to="/job_assignment" className="sidebar-link">
+                Job Assignment
+              </NavLink>
+            </Grid>
+          ) : (
+            ""
+          )}
         </Grid>
 
         <CreateJobModal
@@ -75,4 +80,9 @@ class SidebarMenu extends Component {
     );
   }
 }
-export default SidebarMenu;
+
+const mapStateToProps = ({ auth }) => {
+  return { auth };
+};
+
+export default withRouter(connect(mapStateToProps)(SidebarMenu));

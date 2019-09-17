@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 
 import "../../Job/CreateJobModal.css";
-import JobSummaryTable from "../../Dashboard/Job/JobSummaryTable";
 import "../../SidebarMenu/SidebarMenu.css";
 import SidebarMenu from "../../SidebarMenu/SidebarMenu";
+import JobSummaryTable from "../../Dashboard/Job/JobSummaryTable";
 
 import MediaQuery from "react-responsive";
 

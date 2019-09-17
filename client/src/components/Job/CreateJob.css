@@ -1,0 +1,234 @@
+.create-job-navigation-button {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.job-create-green-circle {
+    border-radius: 50%;
+    background-color: #49AE4B;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.job-create-section-heading {
+    margin-bottom: 35px;
+}
+
+.job-create-section-header {
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 18px;
+    color: #707070;
+    margin-bottom: 0px;
+}
+
+.job-create-section-label {
+    font-family: 'Roboto';
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #707070;
+}
+
+.job-create-section--date-input {
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: #707070;
+}
+
+.rc-time-picker-input:disabled {
+    background-color: #e9ecef !important;
+    opacity: 1;
+    cursor: default !important;
+}
+
+.rc-time-picker-input {
+    display: block !important;
+    width: 100% !important;
+    height: 33px !important;
+    padding: 6px 12px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    background-color: #fff !important;
+    background-clip: padding-box !important;
+    border: 1px solid #ced4da !important;
+    border-radius: .25rem !important;
+    -webkit-transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
+    font-family: 'Roboto' !important;
+    font-size: 14px !important;
+    color: #707070 !important;
+}
+
+.rc-time-picker-panel{
+    z-index: 1300;
+    width: 100%;
+}
+
+.rc-time-picker-panel-input{
+    font-size: 14px;
+    font-family: Roboto;
+    color: #707070;
+}
+
+.rc-time-picker-panel-select{
+    width:50%;
+}
+
+.margin-bottom-zero{
+    margin-bottom: 0 !important;
+}
+
+.job-create-section-input {
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: #707070;
+    margin-bottom: 35px;
+}
+
+.job-create-section-input .rbt-input-main .form-control{
+    font-family: 'Roboto';
+    font-size: 14px!important;
+    color: #707070!important;
+    margin-bottom: 35px!important;
+}
+
+.job-create-section-formtext {
+    margin-top: -35px;
+    margin-bottom: 35px;
+    color: red;
+}
+
+.job-create-section-divider{
+}
+
+.job-create-section-label-helper-text{
+    font-family: 'Roboto';
+    font-size: 9px;
+    color: #707070;
+}
+
+.job-create-section-input-label {
+    font-family: 'Roboto';
+    font-size: 11px;
+    color: #707070;
+}
+
+.job-create-section{
+    padding: 10% 12% !important;
+    background-color: #F7F8F7;
+}
+
+.full-height{
+    height: 100%;
+}
+
+.job-create-section-action{
+    padding: 0px 85px 20px 85px !important;
+    background-color: #F7F8F7;
+}
+
+.job-create-submit-btn{
+
+    padding: 8px 36px;
+}
+
+.job-create-cancel-btn{
+    padding: 8px 36px;
+    margin-left: 20px;
+}
+
+.job-create-section-header-price{
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 18px;
+    color: #49AE4B;
+    margin-bottom: 0px;
+}
+
+.job-create-details-btn{
+    font-family: 'Roboto';
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px 36px;
+    background-color: #49AE4B;
+}
+
+.job-create-success-text{
+    font-family: 'Roboto';
+    color: #707070;
+    font-size: 14px;
+    margin-bottom: 10%;
+}
+
+.job-create-section-success{
+    padding: 90px 85px !important;
+    background-color: #F7F8F7;
+    height: 100%;
+}
+
+.create-dsa-checkbox{
+    color: #707070;
+}
+
+.Mui-checked.create-dsa-checkbox{
+    color: #49AE4B;
+}
+
+
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #49AE4B;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    margin: 0 auto 10% auto;
+    box-shadow: inset 0px 0px 0px #49AE4B;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #49AE4B;
+    }
+}
