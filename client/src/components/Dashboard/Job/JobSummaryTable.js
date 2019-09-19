@@ -23,6 +23,8 @@ class JobSummaryTable extends Component {
     inputSelected: false
   };
 
+  componentDidMount() {}
+
   render() {
     /* switch (this.state.jobs) {
       case null:

@@ -1,0 +1,88 @@
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #f7f8f7;
+  padding: 15px;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+
+.bm-item:focus {
+  outline: none;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-secondary-link {
+  font-family: "Roboto";
+  font-size: 15px;
+  text-decoration: none;
+  color: #707070 !important;
+  padding-left: 40px !important;
+}
+
+.sidebar-secondary-link:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.side-bar-create-job-button {
+  background-color: #498e86 !important;
+  color: white !important;
+  font-family: "Roboto" !important;
+  font-weight: bold !important;
+  font-size: 15px !important;
+  box-shadow: none !important;
+  padding: 5px 35px !important;
+  margin-bottom: 20px !important;
+}
+
+.side-bar-create-job-button:hover {
+  background-color: #7ac4a7 !important;
+}
+
+.sidebar-link {
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 15px;
+  text-decoration: none;
+  color: #707070 !important;
+  padding-left: 40px !important;
+}
+
+.sidebar-link:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 425px) {
+  .menu-width {
+    width: 100vw !important;
+  }
+}

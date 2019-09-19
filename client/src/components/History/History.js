@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import AdminDashboard from "./Admin/AdminDashboard";
-import ConsumerDashboard from "./Consumer/ConsumerDashboard";
+import UserHistory from "./User/UserHistory";
+import AdminHistory from "./Admin/AdminHistory";
 
-class Dashboard extends Component {
+class History extends Component {
   render() {
     switch (this.props.auth) {
       case null:
@@ -15,9 +15,9 @@ class Dashboard extends Component {
       default:
         switch (this.props.auth.user.userType) {
           case "admin":
-            return <AdminDashboard />;
+            return <AdminHistory />;
           default:
-            return <ConsumerDashboard />;
+            return <UserHistory />;
         }
     }
   }
@@ -26,5 +26,4 @@ class Dashboard extends Component {
 const mapStateToProps = ({ auth }) => {
   return { auth };
 };
-
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(History);
