@@ -106,7 +106,7 @@ class CreateJob extends Component {
       return filteredCareOffParties;
   };
 
-  /* onSubmit = async (e) => {
+  onSubmit = async (e) => {
       e.preventDefault();
 
       // Check for empty item entries
@@ -116,7 +116,7 @@ class CreateJob extends Component {
       // Check for empty care-off entries
       const filteredCareOffParties = this.validateCareOffs();
 
-      if (this.state.vesselQueryResults.length > 1) {
+      /* if (this.state.vesselQueryResults.length > 1) {
           let vesselSelected = this.state.vesselQueryResults.filter((o) => o.vesselIMOID === this.state.vesselSelected)[0]
           await this.setState({
               vesselIMOID: vesselSelected.vesselIMOID ? vesselSelected.vesselIMOID : '',
@@ -125,8 +125,8 @@ class CreateJob extends Component {
               isLoading: false,
           });
       }
-
-      if (this.state.vesselIMOID === '' && this.state.vesselCallsign === '') {
+ */
+      /* if (this.state.vesselIMOID === '' && this.state.vesselCallsign === '') {
           window.alert('Either Vessel IMO or Callsign must be filled');
       } else if (this.state.vesselName === '') {
           window.alert('Vessel Name must be filled');
@@ -188,8 +188,8 @@ class CreateJob extends Component {
           }).catch(err => {
               console.log(err);
           });
-      }
-  }; */
+      } */this.setState({activeStep: 2/* , job */});
+  };
 
   handleVesselArrivalTimeChange = (value) => {
       this.setState({vesselArrivalDateTime: value.toDate().toISOString()});
@@ -231,7 +231,7 @@ class CreateJob extends Component {
       this.setState({createDSA: e.target.checked})
   };
 
-  /* handleNextStep = async () => {
+  handleNextStep = async () => {
       const filteredItems = this.validateItems(this.state.jobItems);
       const filteredJobOfflandItems = this.validateItems(this.state.jobOfflandItems);
 
@@ -240,13 +240,13 @@ class CreateJob extends Component {
 
       const now = new Date();
 
-      if (this.state.vesselIMOID === '' && this.state.vesselCallsign === '') {
+      /* if (this.state.vesselIMOID === '' && this.state.vesselCallsign === '') { */
           this.setState({isLoading: true});
           const queryVesselName = this.state.vesselName;
 
           try {
-              const res = await axios.get(`/api/vessels/search?query=${queryVesselName}`);
-              const result = res.data;
+              /* const res = await axios.get(`/api/vessels/search?query=${queryVesselName}`); */
+              /* const result = res.data;
               if (result.length === 1) {
                   this.setState({
                       vesselIMOID: result[0].vesselIMOID ? result[0].vesselIMOID : '',
@@ -260,14 +260,14 @@ class CreateJob extends Component {
                   this.setState({isLoading: false});
                   window.alert(`There is no such Vessel with Name: ${queryVesselName}`)
                   return;
-              }
+              } */
           } catch (err) {
               console.log(err);
-          }
-      }
+          }/* 
+      } */
 
 
-      if (this.state.vesselName === '') {
+      /* if (this.state.vesselName === '') {
           window.alert('Vessel Name must be filled');
       } else if (this.state.vesselLoadingLocation !== 'PSA' && (new Date(this.state.vesselLoadingDateTime) - now.setHours( now.getHours() + 2 )) < 0) {
           window.alert('Vessel Loading Time cannot be 2 hours before Arrival of Vessel')
@@ -279,10 +279,10 @@ class CreateJob extends Component {
           window.alert('Vessel ETA must be filled');
       } else if (this.state.vesselLoadingLocation === 'Others' && this.state.otherVesselLocation === '') {
           window.alert('Vessel Loading Location must be filled');
-      } else {
+      } else { */
           this.setState({activeStep: 1});
-      }
-  }; */
+      /* } */
+  }; 
 
   handlePaymentBack = () => {
       this.setState({activeStep: 0});
@@ -770,7 +770,7 @@ class CreateJob extends Component {
                       <p className='job-create-success-text text-center'>You have successfully booked a job with
                           Simpfleet.</p>
                       <Button variant='success' className='job-create-details-btn' onClick={() => {
-                          this.props.history.push(`/job_details?job=${this.state.job.index}`);
+                          /* this.props.history.push(`/job_details?job=${this.state.job.index}`); */
                           if (this.props.mobile) {
                               this.props.handlePopoverOpen();
                               this.props.handleCloseModal();
