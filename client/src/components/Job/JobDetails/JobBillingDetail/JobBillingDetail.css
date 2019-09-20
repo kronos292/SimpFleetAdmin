@@ -1,0 +1,38 @@
+.job-billing-request-cancel-text {
+  font-family: Roboto;
+  font-size: 14px;
+  color: #49ae4b;
+}
+
+.job-billing-request-cancel-text:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.job-billing-request-section {
+  margin-top: 20px;
+  font-family: Roboto;
+  font-size: 14px;
+  color: #707070;
+}
+
+.job-billing-request-requested {
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  color: #707070;
+}
+
+.job-billing-request-failure {
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  color: #c84630;
+}
+
+.job-billing-request-success {
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  color: #49ae4b;
+}

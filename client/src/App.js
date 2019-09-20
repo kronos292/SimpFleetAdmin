@@ -12,6 +12,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import History from "./components/History/History";
 import JobAssignment from "./components/Job/JobAssignment/JobAssignment";
 import SideMenuSlider from "./components/SideMenuSlider/SideMenuSlider";
+import JobDetails from "./components/Job/JobDetails/JobDetails";
 
 class DynamicImport extends Component {
   state = {
@@ -108,6 +109,7 @@ class App extends Component {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/history" component={History} />
             <Route exact path="/job_assignment" component={JobAssignment} />
+            <Route exact path="/job_details" component={JobDetails}></Route>
           </div>
           <Footer />
         </Router>
