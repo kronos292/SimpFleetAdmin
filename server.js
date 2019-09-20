@@ -24,4 +24,6 @@ require("./startup/db")();
 /* haroku = pro.env.port || local = 5000 */
 const port = process.env.PORT || 5000;
 /* express listening on port */
-app.listen(port, () => console.log(`Server on port: ${port}`));
+app.listen(port, () =>
+  console.log(`System start running on port: ${port}, Happy hacking.`)
+);

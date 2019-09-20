@@ -39,6 +39,7 @@ export const loginUser = userData => dispatch => {
       // Set current user
       dispatch(setCurrentUser(decoded));
 
+      window.alert("Welcome to SimpFleet Apps. you are logged.");
       window.location = "/";
     })
     .catch(err => {

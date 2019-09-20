@@ -14,8 +14,7 @@ import Grid from "@material-ui/core/Grid";
 class ContactUsSection extends Component {
   state = {
     email: "",
-    firstName: "",
-    lastName: "",
+    name: "",
     contactNumber: "",
     remarks: ""
   };
@@ -24,12 +23,8 @@ class ContactUsSection extends Component {
     this.setState({ email: e.target.value });
   };
 
-  handleFirstNameChange = e => {
-    this.setState({ firstName: e.target.value });
-  };
-
-  handleLastNameChange = e => {
-    this.setState({ lastName: e.target.value });
+  handleNameChange = e => {
+    this.setState({ name: e.target.value });
   };
 
   handleContactNumberChange = e => {
@@ -64,18 +59,29 @@ class ContactUsSection extends Component {
   onSubmit = e => {
     e.preventDefault();
 
+    const formData = {
+      email: this.state.email,
+      name: this.state.name,
+      contactNumber: this.state.contactNumber,
+      remarks: this.state.remarks
+    };
+
     const error = this.validateUserDetails();
     if (error !== "") {
       window.alert(error);
     } else {
       axios
-        .post("/util/contact_mail", {
-          ...this.state
-        })
+        .post("/api/users/contact_mail", formData)
         .then(res => {
           window.alert(
             "Contact request successfully submitted! We will get back to you soon."
           );
+          this.setState({
+            email: "",
+            name: "",
+            contactNumber: "",
+            remarks: ""
+          });
         })
         .catch(err => {
           console.log(err);
@@ -124,8 +130,8 @@ class ContactUsSection extends Component {
                         fullWidth
                         id="name"
                         label="Your Name"
-                        onChange={this.handleFirstNameChange}
-                        value={this.state.firstName}
+                        onChange={this.handleNameChange}
+                        value={this.state.name}
                       />
                     </Grid>
                     <Grid item xs={12}>

@@ -1,88 +1,36 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-/* create jobs schema */
-const JobSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "users"
-  },
-  job_number: {
-    type: String
-  },
-  vessel_name: {
-    type: String,
-    required: true
-  },
-  vessel_imo: {
-    type: String,
-    required: true
-  },
-  vessel_callsign: {
-    type: String,
-    required: true
-  },
-  lighter_name: {
-    type: String
-  },
-  lighter_location: {
-    type: String
-  },
-  lighter_remarks: {
-    type: String
-  },
-  addres_vessel_loading: {
-    type: String
-  },
-  berthing_time: {
-    type: Date
-  },
-  unberthing_time: {
-    type: Date
-  },
-  items_delivery: {
-    type: String,
-    required: true
-  },
-  items_offland: {
-    type: String,
-    required: true
-  },
-  remarks: {
-    type: String
-  },
-  permit_request: {
-    type: Boolean,
-    default: false
-  },
-  status: [
-    {
-      status_1: {
-        type: Boolean,
-        default: false
-      },
-      status_2: {
-        type: Boolean,
-        default: false
-      },
-      status_3: {
-        type: Boolean,
-        default: false
-      },
-      status_4: {
-        type: Boolean,
-        default: false
-      },
-      status_5: {
-        type: Boolean,
-        default: false
-      },
-      status_6: {
-        type: Boolean,
-        default: false
-      }
-    }
-  ]
+const jobSchema = new Schema({
+    jobId: {type: String, default: ''},
+    vessel: {type: Schema.Types.ObjectId, ref: 'vessels'},
+    jobTrackers: [{type: Schema.Types.ObjectId, ref: 'jobTrackers'}],
+    paymentTrackers: [{type: Schema.Types.ObjectId, ref: 'paymentTrackers'}],
+    vesselLoadingLocation: {type: String, default: ''},
+    user: {type: Schema.Types.ObjectId, ref: 'users'},
+    index: {type: String, default: ''},
+    jobItems: [{type: Schema.Types.ObjectId, ref: 'jobItems'}],
+    jobOfflandItems: [{type: Schema.Types.ObjectId, ref: 'jobOfflandItems'}],
+    careOffParties: [{type: Schema.Types.ObjectId, ref: 'careOffParties'}],
+    jobBookingDateTime: {type: Date, default: new Date()},
+    vesselArrivalDateTime: {type: Date, default: null},
+    remarks: {type: String, default: ''},
+    vesselLoadingDateTime: {type: Date, default: null},
+    psaBerthingDateTime: {type: Date, default: null},
+    psaUnberthingDateTime: {type: Date, default: null},
+    googleCalendarId: {type: String, default: ''},
+    isCancelled: {type: String, default: 'Nil'},
+    isArchived: {type: Boolean, default: false},
+    createDSA: {type: Boolean, default: false},
+    vesselLighterName: {type: String, default: ''},
+    vesselLighterLocation: {type: String, default: ''},
+    vesselLighterRemarks: {type: String, default: ''},
+    jobTrip: {type: Schema.Types.ObjectId, ref: 'jobTrips'},
+    psaQuayCraneSequences: [{type: Schema.Types.ObjectId, ref: 'psaQuayCraneSequences'}],
+    jobTrackerRemarks: {type: String, default: ''},
+    psaVoyageNumberIn: {type: String, default: ""},
+    psaVoyageNumberOut: {type: String, default: ""},
+    psaBerf: {type: String, default: ""},
 });
 
-module.exports = Job = mongoose.model("jobs", JobSchema);
+module.exports = mongoose.model('jobs', jobSchema);

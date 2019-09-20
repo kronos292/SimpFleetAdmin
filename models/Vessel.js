@@ -3,18 +3,15 @@ const Schema = mongoose.Schema;
 
 /* create a schema */
 const VesselSchema = new Schema({
-  vessel_name: {
-    type: String,
-    required: true
+  psaVessels: [{ type: Schema.Types.ObjectId, ref: "psaVessels" }],
+  mpaVessel: { type: Schema.Types.ObjectId, ref: "mpaVessels" },
+  marineTrafficVessel: {
+    type: Schema.Types.ObjectId,
+    ref: "marineTrafficVessels"
   },
-  vessel_imo: {
-    type: String,
-    required: true
-  },
-  vessel_callsign: {
-    type: String,
-    required: true
-  }
+  vesselIMOID: { type: String, default: "" },
+  vesselName: { type: String, default: "" },
+  vesselCallsign: { type: String, default: "" }
 });
 
 module.exports = Vessel = mongoose.model("vessels", VesselSchema);

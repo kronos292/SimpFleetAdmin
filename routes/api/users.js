@@ -12,10 +12,13 @@ const validateLoginInput = require("../../validation/vi-login");
 /* load user model */
 const User = require("../../models/User");
 
+//Load email methods
+const emailMethods = require("../../service/emailMethods");
+
 /* @route   POST /api/users/register */
 /* @desc    register user */
 /* @access  Public */
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   //Check validation
@@ -50,6 +53,7 @@ router.post("/register", (req, res) => {
             .catch(err => console.log(err));
         });
       });
+      emailMethods.sendSignUpEmail(addUser);
     }
   });
 });
@@ -124,5 +128,20 @@ router.get(
     });
   }
 );
+
+/* @route post contact_us */
+router.post("/contact_mail", (req, res) => {
+  const { email, name, contactNumber, remarks } = req.body;
+
+  const htmlText =
+    `<h1>A user has sent us a contact request:</h1>` +
+    `<p><strong>Name:</strong> ${name}</p>` +
+    `<p><strong>Email:</strong> ${email}</p>` +
+    `<p><strong>Contact Number:</strong> ${contactNumber}</p>` +
+    `<p><strong>Remarks:</strong> ${remarks}</p>`;
+  emailMethods.sendAutomatedEmail(keys.email, "Contact Form Request", htmlText);
+
+  res.send(null);
+});
 
 module.exports = router;
