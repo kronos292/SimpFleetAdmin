@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 
-import "../../Job/CreateJobModal.css";
-import "../../SidebarMenu/SidebarMenu.css";
+import JobSummaryTable from "../Job/JobSummaryTable";
 import SidebarMenu from "../../SidebarMenu/SidebarMenu";
-import JobSummaryTable from "../../Dashboard/Job/JobSummaryTable";
-
 import MediaQuery from "react-responsive";
 
-class User extends Component {
+class ConsumerDashboard extends Component {
   render() {
     return (
       <Container fluid>
@@ -20,11 +17,10 @@ class User extends Component {
             <Col xs="10">
               <Row>
                 <Col xs="12" style={{ padding: "0 40px" }}>
-                  <h3 className="job-summary-header">Upcoming Jobs</h3>
+                  <h3 className="job-summary-header">Dashboard</h3>
                   <JobSummaryTable
-                    numLimit={5}
                     user_only={true}
-                    allowArchive={false}
+                    allowArchive={true}
                     button={true}
                     non_archive_only={true}
                   />
@@ -36,12 +32,13 @@ class User extends Component {
         <MediaQuery maxWidth={768}>
           <Row>
             <Col xs="12" style={{ padding: "20px 10px" }}>
+              {/*<h3 className='job-summary-header'>Dashboard</h3>*/}
               <JobSummaryTable
-                numLimit={5}
                 user_only={true}
-                allowArchive={false}
+                allowArchive={true}
                 button={true}
-                title="Upcoming Jobs"
+                non_archive_only={true}
+                title="Dashboard"
               />
             </Col>
           </Row>
@@ -50,4 +47,4 @@ class User extends Component {
     );
   }
 }
-export default User;
+export default ConsumerDashboard;

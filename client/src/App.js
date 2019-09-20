@@ -8,6 +8,10 @@ import ExNavbar from "./components/layout/ExNavbar";
 import Footer from "./components/layout/Footer";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import Dashboard from "./components/Dashboard/Dashboard";
+import History from "./components/History/History";
+import JobAssignment from "./components/Job/JobAssignment/JobAssignment";
+import SideMenuSlider from "./components/SideMenuSlider/SideMenuSlider";
 
 class DynamicImport extends Component {
   state = {
@@ -47,14 +51,37 @@ class App extends Component {
     isPopoverOpen: false
   };
 
+  handleMenuStateChange = state => {
+    this.setState({ openMenu: state.isOpen });
+  };
+
+  handlePopoverOpen = () => {
+    this.setState({ isPopoverOpen: true });
+  };
+
   handleOpenMenu = () => {
     this.setState({ openMenu: true });
   };
+
+  handleCloseMenu = () => {
+    this.setState({ openMenu: false });
+  };
+
   render() {
     const { isAuthenticated } = this.props.auth;
     return (
       <div className="App">
         <Router>
+          {isAuthenticated ? (
+            <SideMenuSlider
+              open={this.state.openMenu}
+              handleCloseMenu={this.handleCloseMenu}
+              handleMenuStateChange={this.handleMenuStateChange}
+              handlePopoverOpen={this.handlePopoverOpen}
+            />
+          ) : (
+            ""
+          )}
           <Switch>
             {isAuthenticated ? (
               <Route
@@ -78,6 +105,9 @@ class App extends Component {
           <div className="">
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/history" component={History} />
+            <Route exact path="/job_assignment" component={JobAssignment} />
           </div>
           <Footer />
         </Router>
