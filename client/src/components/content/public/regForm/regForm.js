@@ -14,12 +14,11 @@ class RegForm extends Component {
   constructor() {
     super();
     this.state = {
-      first_name: "",
-      last_name: "",
-      fullname: "",
-      contact: "",
+      firstName: "",
+      lastName: "",
+      cantactNumber: "",
       email: "",
-      company: "",
+      companyName: "",
       password: "",
       password2: "",
       showSignUpSuccessModal: false,
@@ -43,12 +42,11 @@ class RegForm extends Component {
   onSubmit(e) {
     e.preventDefault();
     const newUser = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      fullname: this.state.fullname,
-      contact: this.state.contact,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      contactNumber: this.state.cantactNumber,
       email: this.state.email,
-      company: this.state.company,
+      companyName: this.state.companyName,
       password: this.state.password,
       password2: this.state.password2
     };
@@ -71,14 +69,14 @@ class RegForm extends Component {
             <Grid item xs={12} sm={6}>
               <TextField
                 //autoComplete="given-name"
-                name="first_name"
+                name="firstName"
                 variant="outlined"
                 fullWidth
                 id="given-name"
                 label="First Name"
                 autoFocus
                 onChange={this.onChange}
-                value={this.state.first_name}
+                value={this.state.firstName}
                 required
               />
               <Typography
@@ -86,7 +84,7 @@ class RegForm extends Component {
                 display="block"
                 style={{ color: "red" }}
               >
-                {errors.first_name}
+                {errors.firstName}
               </Typography>
             </Grid>
 
@@ -96,10 +94,10 @@ class RegForm extends Component {
                 fullWidth
                 id="family-name"
                 label="Last Name"
-                name="last_name"
+                name="lastName"
                 //autoComplete="family-name"
                 onChange={this.onChange}
-                value={this.state.last_name}
+                value={this.state.lastName}
                 required
               />
               <Typography
@@ -107,7 +105,7 @@ class RegForm extends Component {
                 display="block"
                 style={{ color: "red" }}
               >
-                {errors.last_name}
+                {errors.lastName}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -116,10 +114,10 @@ class RegForm extends Component {
                 fullWidth
                 id="phone-signup"
                 label="Contact Number"
-                name="contact"
+                name="contactNumber"
                 //autoComplete="tel"
                 onChange={this.onChange}
-                value={this.state.contact}
+                value={this.state.cantactNumber}
                 required
               />
               <Typography
@@ -127,7 +125,7 @@ class RegForm extends Component {
                 display="block"
                 style={{ color: "red" }}
               >
-                {errors.contact}
+                {errors.contactNumber}
               </Typography>
             </Grid>
 
@@ -156,11 +154,11 @@ class RegForm extends Component {
               <TextField
                 variant="outlined"
                 fullWidth
-                id="company"
+                id="companyName"
                 label="Company Name"
-                name="company"
+                name="companyName"
                 onChange={this.onChange}
-                value={this.state.company}
+                value={this.state.companyName}
                 required
               />
               <Typography
@@ -168,7 +166,7 @@ class RegForm extends Component {
                 display="block"
                 style={{ color: "red" }}
               >
-                {errors.company}
+                {errors.companyName}
               </Typography>
             </Grid>
             <Grid item xs={12}>
