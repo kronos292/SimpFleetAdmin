@@ -44,7 +44,7 @@ class RegForm extends Component {
     const newUser = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      contactNumber: this.state.cantactNumber,
+      contactNumber: this.state.contactNumber,
       email: this.state.email,
       companyName: this.state.companyName,
       password: this.state.password,
@@ -117,7 +117,7 @@ class RegForm extends Component {
                 name="contactNumber"
                 //autoComplete="tel"
                 onChange={this.onChange}
-                value={this.state.cantactNumber}
+                value={this.state.contactNumber}
                 required
               />
               <Typography

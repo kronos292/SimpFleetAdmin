@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
@@ -10,7 +9,7 @@ const validateRegisterInput = require("../../validation/vi-register");
 const validateLoginInput = require("../../validation/vi-login");
 
 /* load user model */
-const User = require("../../models/User");
+const User = require("simpfleet_models/models/User");
 const constants = require("../../service/constantTypes");
 //Load email methods
 const emailMethods = require("../../service/emailMethods");
@@ -39,6 +38,7 @@ router.post("/register", async (req, res) => {
         companyName: req.body.companyName,
         password: req.body.password,
         userType: constants.USER_TYPE_JOB_OWNER,
+        isApproved: true,
         registerDate: new Date().toString()
       });
       addUser
@@ -78,30 +78,23 @@ router.post("/login", (req, res) => {
 
     //Check password
     if (password && user.password) {
-      if (isMatch) {
-        //User matched
-        const payload = {
-          id: user.id,
-          name: user.fullname,
-          userType: user.userType
-        }; //Create jwt
+      //User matched
+      const payload = {
+        id: user.id,
+        name: user.fullname,
+        userType: user.userType
+      }; //Create jwt
 
-        //sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 3600 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: token
-            });
-          }
-        );
-      } else {
-        errors.password = "Password incorrect";
-        return res.status(404).json(errors);
-      }
+      //sign token
+      jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+        res.json({
+          success: true,
+          token: token
+        });
+      });
+    } else {
+      errors.password = "Password incorrect";
+      return res.status(404).json(errors);
     }
   });
 });

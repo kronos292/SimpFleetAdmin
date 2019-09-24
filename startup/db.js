@@ -37,7 +37,8 @@ module.exports = function() {
 
       const mongoURI = keys.MONGO_URI;
       mongoose.connect(mongoURI, {
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
       });
 
       mongoose.Promise = global.Promise;

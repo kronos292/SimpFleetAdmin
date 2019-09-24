@@ -10,7 +10,7 @@ export const registerUser = (userData, history) => dispatch => {
     .post("/api/users/register", userData)
     .then(res => {
       window.alert(
-        `Dear, ${userData.first_name}. Thank you for signing up! Please wait for our confirmation email to gain access to your SimpFleet account. If however, you have something that is time sensitive and wish to reach us, please email us at service@simpfleet.com`
+        `Dear, ${userData.firstName}. Thank you for signing up! Please wait for our confirmation email to gain access to your SimpFleet account. If however, you have something that is time sensitive and wish to reach us, please email us at service@simpfleet.com`
       );
       history.push("/login");
     })
