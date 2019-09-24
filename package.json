@@ -7,7 +7,8 @@
     "client-install": "npm install --prefix client",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "models-update": "npm un git+https://github.com/kronos292/SimpFleet_Models.git && npm i git+https://github.com/kronos292/SimpFleet_Models.git"
   },
   "author": "wiwie ssd",
   "license": "MIT",
@@ -22,7 +23,8 @@
     "fs": "0.0.1-security",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.6.9",
+    "mongodb": "^3.3.2",
+    "mongoose": "^5.7.1",
     "nodemailer": "^6.3.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
