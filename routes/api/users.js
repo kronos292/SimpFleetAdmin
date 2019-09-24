@@ -11,7 +11,7 @@ const validateLoginInput = require("../../validation/vi-login");
 
 /* load user model */
 const User = require("../../models/User");
-
+const constants = require("../../service/constantTypes");
 //Load email methods
 const emailMethods = require("../../service/emailMethods");
 
@@ -32,27 +32,20 @@ router.post("/register", async (req, res) => {
       return res.status(404).json(errors);
     } else {
       const addUser = new User({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        fullname: req.body.first_name + " " + req.body.last_name,
-        contact: req.body.contact,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        contactNumber: req.body.contactNumber,
         email: req.body.email,
-        company: req.body.company,
+        companyName: req.body.companyName,
         password: req.body.password,
-        userType: "user",
-        isApproved: false
+        userType: constants.USER_TYPE_JOB_OWNER,
+        registerDate: new Date().toString()
       });
+      addUser
+        .save()
+        .then(user => res.json(user))
+        .catch(err => console.log(err));
 
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(addUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          addUser.password = hash;
-          addUser
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
-        });
-      });
       emailMethods.sendSignUpEmail(addUser);
     }
   });
@@ -84,7 +77,7 @@ router.post("/login", (req, res) => {
     }
 
     //Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
+    if (password && user.password) {
       if (isMatch) {
         //User matched
         const payload = {
@@ -109,7 +102,7 @@ router.post("/login", (req, res) => {
         errors.password = "Password incorrect";
         return res.status(404).json(errors);
       }
-    });
+    }
   });
 });
 
