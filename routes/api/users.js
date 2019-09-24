@@ -11,11 +11,14 @@ const validateLoginInput = require("../../validation/vi-login");
 
 /* load user model */
 const User = require("../../models/User");
+const constants = require("../../service/constantTypes");
+//Load email methods
+const emailMethods = require("../../service/emailMethods");
 
 /* @route   POST /api/users/register */
 /* @desc    register user */
 /* @access  Public */
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   //Check validation
@@ -29,27 +32,21 @@ router.post("/register", (req, res) => {
       return res.status(404).json(errors);
     } else {
       const addUser = new User({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        fullname: req.body.first_name + " " + req.body.last_name,
-        contact: req.body.contact,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        contactNumber: req.body.contactNumber,
         email: req.body.email,
-        company: req.body.company,
+        companyName: req.body.companyName,
         password: req.body.password,
-        userType: "user",
-        isApproved: false
+        userType: constants.USER_TYPE_JOB_OWNER,
+        registerDate: new Date().toString()
       });
+      addUser
+        .save()
+        .then(user => res.json(user))
+        .catch(err => console.log(err));
 
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(addUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          addUser.password = hash;
-          addUser
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
-        });
-      });
+      emailMethods.sendSignUpEmail(addUser);
     }
   });
 });
@@ -80,7 +77,7 @@ router.post("/login", (req, res) => {
     }
 
     //Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
+    if (password && user.password) {
       if (isMatch) {
         //User matched
         const payload = {
@@ -105,7 +102,7 @@ router.post("/login", (req, res) => {
         errors.password = "Password incorrect";
         return res.status(404).json(errors);
       }
-    });
+    }
   });
 });
 
@@ -125,5 +122,20 @@ router.get(
     });
   }
 );
+
+/* @route post contact_us */
+router.post("/contact_mail", (req, res) => {
+  const { email, name, contactNumber, remarks } = req.body;
+
+  const htmlText =
+    `<h1>A user has sent us a contact request:</h1>` +
+    `<p><strong>Name:</strong> ${name}</p>` +
+    `<p><strong>Email:</strong> ${email}</p>` +
+    `<p><strong>Contact Number:</strong> ${contactNumber}</p>` +
+    `<p><strong>Remarks:</strong> ${remarks}</p>`;
+  emailMethods.sendAutomatedEmail(keys.email, "Contact Form Request", htmlText);
+
+  res.send(null);
+});
 
 module.exports = router;

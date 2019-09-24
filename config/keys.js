@@ -1,6 +1,5 @@
-module.exports = {
-  mongoURI:
-    /* mongo CDN */
-    "mongodb+srv://testerssd:testerssd@cluster0-e1rew.mongodb.net/simpfleet_db?retryWrites=true&w=majority",
-  secretOrKey: "secret"
-};
+if (process.env.NODE_ENV === "production") {
+  module.exports = require("./prod.js");
+} else {
+  module.exports = require("./dev.js");
+}
