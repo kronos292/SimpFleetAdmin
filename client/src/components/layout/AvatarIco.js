@@ -7,18 +7,18 @@ import "./AvatarIco.css";
 
 class AvatarIco extends Component {
   state = {
-    fullName: ""
+    AvName: ""
   };
 
   componentDidMount() {
-    let fullName = this.props.auth.full_name;
-    this.setState({ fullName: fullName });
+    let firstName = this.props.auth.user.firstName;
+    this.setState({ AvName: firstName.charAt(0) });
   }
 
   render() {
     return (
       <div>
-        <Avatar className="avatar-icon-color">{this.state.fullName}</Avatar>
+        <Avatar className="avatar-icon-color">{this.state.AvName}</Avatar>
       </div>
     );
   }

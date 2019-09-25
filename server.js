@@ -5,7 +5,7 @@ const passport = require("passport");
 
 /* routes api */
 const users = require("./routes/api/users");
-const jobs = require("./routes/api/jobs");
+const jobs = require("./routes/api/jobRoutes");
 /* body parser middleware */
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

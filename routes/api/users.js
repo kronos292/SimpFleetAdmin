@@ -81,7 +81,8 @@ router.post("/login", (req, res) => {
       //User matched
       const payload = {
         id: user.id,
-        name: user.fullname,
+        firstName: user.firstName,
+        email: user.email,
         userType: user.userType
       }; //Create jwt
 
@@ -108,21 +109,21 @@ router.get(
   (req, res) => {
     res.json({
       id: req.user.id,
-      name: req.user.fullname,
-      contact: req.user.contact,
+      firstName: req.user.firstName,
+      contactNumber: req.user.contactNumber,
       email: req.user.email,
-      company: req.user.company
+      companyName: req.user.companyName
     });
   }
 );
 
 /* @route post contact_us */
 router.post("/contact_mail", (req, res) => {
-  const { email, name, contactNumber, remarks } = req.body;
+  const { email, firstName, contactNumber, remarks } = req.body;
 
   const htmlText =
     `<h1>A user has sent us a contact request:</h1>` +
-    `<p><strong>Name:</strong> ${name}</p>` +
+    `<p><strong>Name:</strong> ${firstName}</p>` +
     `<p><strong>Email:</strong> ${email}</p>` +
     `<p><strong>Contact Number:</strong> ${contactNumber}</p>` +
     `<p><strong>Remarks:</strong> ${remarks}</p>`;

@@ -111,7 +111,7 @@ class MainNavbar extends Component {
                             <div className="d-flex align-items-center">
                               <AvatarIco />
                               <div className="d-flex flex-column">
-                                <strong>{user.first_name}</strong>
+                                <strong>{user.firstName}</strong>
                                 {user.email}
                               </div>
                             </div>
