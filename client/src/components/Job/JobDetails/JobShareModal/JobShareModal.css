@@ -1,0 +1,107 @@
+.job-share-modal-url{
+    margin-top: 5px;
+}
+
+.job-share-modal-url-link{
+    font-family: 'Roboto';
+    font-size: 14px;
+}
+
+.job-share-modal-content{
+    padding: 25px 85px 5px 85px !important;
+}
+
+.job-share-modal-email{
+    margin-top: 25px;
+}
+
+.job-share-modal-message{
+    font-family: 'Roboto';
+    color: #707070;
+    font-size: 14px;
+}
+
+.job-share-modal-title{
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Roboto';
+    font-size: 18px;
+    margin-bottom: 0px !important;
+}
+
+.job-share-modal-close{
+    color:white !important;
+}
+
+.job-share-modal-top{
+    background-color: #49AE4B !important;
+}
+
+.job-share-modal-copy{
+    padding-top: 10px;
+}
+
+.job-share-modal-copy-title {
+    font-family: 'Roboto medium';
+    font-size: 14px;
+    color: #707070;
+}
+
+.job-share-modal-bottom{
+    padding: 0px 85px 20px 85px !important;
+}
+
+.job-share-modal-bottom .MuiButton-outlined {
+    padding: 8px 30px !important;
+}
+
+
+.job-modal-email-items {
+    display: inline-block;
+    padding: 3px 8px;
+    background-color: #f7f8f7;
+    font-family: 'Roboto';
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.job-modal-email-container {
+    border: 1px solid #ddd;
+    padding: 5px 0 5px 11px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.job-share-modal-button{
+    color: white !important;
+    font-family: 'Roboto' !important;
+    font-weight: bold !important;
+    background-color: #49AE4B !important;
+}
+
+.job-share-modal-button:hover{
+    background-color: #7AC4A7 !important;
+}
+
+.job-share-modal-button:active{
+    outline: none;
+}
+
+.job-share-email-tag{
+    padding: 2px 5px !important;
+    max-width: 100%;
+}
+
+.job-share-email-input{
+    padding: 0!important;
+    margin: 0!important;
+    width: 100%;
+}
+
+.react-tagsinput--focused{
+    border-color: #B1B1B1;
+}
+
+.job-share-email-inputbox{
+    height:auto!important;
+}

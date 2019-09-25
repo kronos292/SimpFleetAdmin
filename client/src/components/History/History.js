@@ -14,7 +14,7 @@ class History extends Component {
         return <Redirect to="/" />;
       default:
         switch (this.props.auth.user.userType) {
-          case "admin":
+          case "Admin":
             return <AdminHistory />;
           default:
             return <UserHistory />;

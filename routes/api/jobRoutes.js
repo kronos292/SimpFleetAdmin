@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 
   if (req.query.user_only === "true") {
     params = {
-      user: req.session.user._id
+      /* user: req.session.user._id */
     };
   }
 
@@ -95,7 +95,7 @@ router.get("/", async (req, res) => {
   // Get jobs where user is a care-off party
   if (req.query.user_only === "true") {
     const careOffParties = await CareOffParty.find({
-      user: req.session.user._id
+      /* user: req.session.user._id */
     })
       .populate({
         path: "job",
