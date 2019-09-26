@@ -54,51 +54,53 @@ router.get(
       .populate({
         path: "paymentTrackers",
         model: "paymentTrackers"
-      })
+      });
 
-  // Get jobs where user is a care-off party
-  if (req.query.user_only === "true") {
-    const careOffParties = await CareOffParty.find({
-       user: req.user.id
-    })
-      .populate({
-        path: "careOffParties",
-        model: "careOffParties",
-        populate: [
-          {
-            path: "job",
-            model: "jobs"
+    // Get jobs where user is a care-off party
+    if (req.query.user_only === "true") {
+      const careOffParties = await CareOffParty.find({
+        user: req.user.id
+      })
+        .populate({
+          path: "careOffParties",
+          model: "careOffParties",
+          populate: [
+            {
+              path: "job",
+              model: "jobs"
+            }
+          ]
+        })
+        .populate({
+          path: "jobItems",
+          model: "jobItems"
+        })
+        .populate({
+          path: "jobOfflandItems",
+          model: "jobOfflandItems"
+        })
+        .select();
+
+      // Search bar query filter
+      /*   if (req.query.searchBarQuery) {
+        const searchBarQuery = req.query.searchBarQuery.toLowerCase();
+        const filteredJobs = [];
+        for (let i = 0; i < jobs.length; i++) {
+          const job = jobs[i];
+          if (
+            job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
+            job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
+            job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery)  ||
+             (req.session.user &&
+              job.user._id === req.session.user._id &&
+              job.jobId.toLowerCase().includes(searchBarQuery)) 
+          ) {
+            filteredJobs.push(job);
           }
-        ]
-      })
-      .populate({
-        path: "jobItems",
-        model: "jobItems"
-      })
-      .populate({
-        path: "jobOfflandItems",
-        model: "jobOfflandItems"
-      })
-      .select();
-
-    // Search bar query filter
-    if (req.query.searchBarQuery) {
-      const searchBarQuery = req.query.searchBarQuery.toLowerCase();
-      const filteredJobs = [];
-      for (let i = 0; i < jobs.length; i++) {
-        const job = jobs[i];
-        if (
-          job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
-          job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
-          job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery) ||
-          (req.session.user &&
-            job.user._id === req.session.user._id &&
-            job.jobId.toLowerCase().includes(searchBarQuery))
-        ) {
-          filteredJobs.push(job);
         }
       }
       jobs = filteredJobs;
+      */
     }
 
     // Get jobs where user is a care-off party
@@ -419,7 +421,7 @@ router.post("/", async (req, res) => {
 
   // Create Email Notification for job document upload reminder T-24 hrs
   let notification = new Notification({
-    user: req.session.user._id,
+    user: req.user.id,
     job,
     callTime: moment(new Date(job.vesselArrivalDateTime)).subtract(24, "hours"),
     isEmail: true,

@@ -54,20 +54,6 @@ router.post("/register", async (req, res) => {
 /* @route   POST /api/users/login */
 /* @desc    login user / returning jwt token */
 /* @access  Public */
-router.get("/login", (req, res) => {
-  if (req.session.user) {
-    const user = User.findOne({ _id: req.session.user._id }).select();
-    if (!user.isApproved) {
-      req.session = null;
-      res.send(false);
-    } else {
-      req.session.user = user;
-      res.send(req.session.user);
-    }
-  } else {
-    res.send(req.session.user);
-  }
-});
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
