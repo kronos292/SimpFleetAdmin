@@ -215,7 +215,7 @@ class JobSummaryTable extends Component {
                   >
                     <thead>
                       <tr>
-                        {this.props.auth.userType === "Admin" ? (
+                        {this.props.auth.user.userType === "Admin" ? (
                           <th>Company</th>
                         ) : (
                           ""
@@ -231,6 +231,7 @@ class JobSummaryTable extends Component {
                 ) : (
                   <div>
                     <MediaQuery minWidth={768}>
+                      {/* webview table */}
                       <JobSummaryTableSearchBar
                         data={this.state.data}
                         showSharingModal={this.state.showSharingModal}
@@ -281,6 +282,7 @@ class JobSummaryTable extends Component {
                       )}
                     </MediaQuery>
                     <MediaQuery maxWidth={767}>
+                      {/* mobileview table */}
                       <JobSummaryTableDisplayMobile
                         data={this.state.data}
                         showSharingModal={this.state.showSharingModal}

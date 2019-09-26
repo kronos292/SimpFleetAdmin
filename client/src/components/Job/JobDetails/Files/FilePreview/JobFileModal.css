@@ -1,0 +1,48 @@
+.file-preview-modal {
+  width: 100%;
+  max-width: none;
+}
+
+.file-preview-modal .modal-content {
+  background: transparent;
+  border: none;
+}
+
+.preview-container {
+  color: white;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.preview-pagination-container {
+  text-align: center;
+  margin-top: 15px;
+}
+.preview-pagination-container .material-icons {
+  margin: 0 5px;
+}
+
+.back-icon-container,
+.download-icon-container {
+  color: white;
+  cursor: pointer;
+}
+
+.back-icon-container {
+  float: left;
+}
+
+.download-icon-container {
+  float: right;
+}
+
+.document-container {
+  height: 80vh;
+  width: 600px;
+  background: #ffffff;
+}
+
+.preview-container img {
+  width: 100%;
+  height: auto;
+}

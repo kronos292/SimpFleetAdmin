@@ -1,13 +1,13 @@
-import React, { Component } from "./node_modules/react";
-import Dialog from "./node_modules/@material-ui/core/Dialog";
-import DialogTitle from "./node_modules/@material-ui/core/DialogTitle";
-import DialogContent from "./node_modules/@material-ui/core/DialogContent";
-import DialogActions from "./node_modules/@material-ui/core/DialogActions";
-import IconButton from "./node_modules/@material-ui/core/IconButton";
-import CloseIcon from "./node_modules/@material-ui/icons/Close";
-import DoneIcon from "./node_modules/@material-ui/icons/Done";
+import React, { Component } from "react";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import DoneIcon from "@material-ui/icons/Done";
 
-import Button from "./node_modules/react-bootstrap/Button";
+import Button from "react-bootstrap/Button";
 import "./AffirmationModal.css";
 
 class AffirmationModal extends Component {

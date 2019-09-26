@@ -1,0 +1,25 @@
+.calendar-button{
+    padding-top: 3px!important;
+    padding-bottom: 3px!important;
+    background-color: #49AE86;
+    border-color: #49AE86!important;
+}
+
+.calendar-button:hover{
+    background-color: #7AC4A7;
+}
+
+.calendar-button:active{
+    background-color: #367F62 !important;
+}
+
+.calendar-button:disabled{
+    background-color: #D3D3D3 !important;
+    border-color: #ced4da !important;
+}
+
+.job-detail-section--date-input {
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: #707070;
+}

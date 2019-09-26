@@ -109,7 +109,17 @@ class App extends Component {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/history" component={History} />
             <Route exact path="/job_assignment" component={JobAssignment} />
-            <Route exact path="/job_details" component={JobDetails}></Route>
+            <Route
+              exact
+              path="/job_details"
+              render={props => (
+                <JobDetails
+                  {...props}
+                  handlePopoverClose={this.handlePopoverClose}
+                  isPopoverOpen={this.state.isPopoverOpen}
+                />
+              )}
+            ></Route>
           </div>
           <Footer />
         </Router>
