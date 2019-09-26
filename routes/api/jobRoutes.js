@@ -55,6 +55,12 @@ router.get(
         path: "paymentTrackers",
         model: "paymentTrackers"
       })
+
+  // Get jobs where user is a care-off party
+  if (req.query.user_only === "true") {
+    const careOffParties = await CareOffParty.find({
+       user: req.user.id
+    })
       .populate({
         path: "careOffParties",
         model: "careOffParties",

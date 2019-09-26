@@ -29,7 +29,7 @@ class SidebarMenu extends Component {
     return (
       <div id="sidebar-body">
         <Grid container spacing={3}>
-          {this.props.auth.user.userType !== "admin" ? (
+          {/* {this.props.auth.user.userType !== "Admin" ? (
             <Grid item xs={12} className="d-flex justify-content-center">
               <Fab
                 variant="extended"
@@ -42,7 +42,7 @@ class SidebarMenu extends Component {
             </Grid>
           ) : (
             ""
-          )}
+          )} */}
           <Grid item xs={12}>
             <NavLink to="/" className="sidebar-link">
               Upcoming Jobs

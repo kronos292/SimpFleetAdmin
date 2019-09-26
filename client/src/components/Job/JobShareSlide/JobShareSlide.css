@@ -1,0 +1,45 @@
+.job-share-drawer-paper {
+  padding: 0 20px 30px 20px;
+}
+
+.job-share-drawer-divider {
+  margin: 0px;
+}
+
+.drawer-job-share {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.drawer-job-share.full-height-drawer {
+  height: 100vh;
+}
+
+.job-slide-cancel {
+  padding: 10px 20px 2px 20px;
+  color: #49ae4b;
+  font-family: Roboto;
+  font-size: 16px;
+}
+
+.job-slide-cancel:hover {
+  font-weight: bold;
+}
+
+.job-share-modal-message {
+  font-family: "Roboto";
+  color: #707070;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.job-share-modal-button {
+  color: white;
+  font-family: "Roboto";
+  font-weight: bold;
+  background-color: #49ae4b;
+}
+
+.job-share-modal-button:hover {
+  background-color: #7ac4a7;
+}
