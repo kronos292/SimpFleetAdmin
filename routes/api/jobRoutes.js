@@ -54,7 +54,26 @@ router.get(
       .populate({
         path: "paymentTrackers",
         model: "paymentTrackers"
-      });
+      })
+      .populate({
+        path: "careOffParties",
+        model: "careOffParties",
+        populate: [
+          {
+            path: "job",
+            model: "jobs"
+          }
+        ]
+      })
+      .populate({
+        path: "jobItems",
+        model: "jobItems"
+      })
+      .populate({
+        path: "jobOfflandItems",
+        model: "jobOfflandItems"
+      })
+      .select();
 
     // Get jobs where user is a care-off party
     if (req.query.user_only === "true") {
@@ -82,7 +101,7 @@ router.get(
         .select();
 
       // Search bar query filter
-      /*   if (req.query.searchBarQuery) {
+      if (req.query.searchBarQuery) {
         const searchBarQuery = req.query.searchBarQuery.toLowerCase();
         const filteredJobs = [];
         for (let i = 0; i < jobs.length; i++) {
@@ -90,17 +109,17 @@ router.get(
           if (
             job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
             job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
-            job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery)  ||
-             (req.session.user &&
-              job.user._id === req.session.user._id &&
-              job.jobId.toLowerCase().includes(searchBarQuery)) 
+            job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery) ||
+            (req.user &&
+              job.user._id === req.user.id &&
+              job.jobId.toLowerCase().includes(searchBarQuery))
           ) {
             filteredJobs.push(job);
           }
         }
+
+        jobs = filteredJobs;
       }
-      jobs = filteredJobs;
-      */
     }
 
     // Get jobs where user is a care-off party
