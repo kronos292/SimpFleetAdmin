@@ -20,6 +20,7 @@
     "lodash": "^4.17.15",
     "material-table": "^1.50.0",
     "moment": "^2.24.0",
+    "query-string": "^6.8.3",
     "rc-steps": "^3.5.0",
     "rc-time-picker": "^3.7.2",
     "react": "^16.9.0",

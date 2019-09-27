@@ -1,0 +1,47 @@
+.uom-label {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: bold;
+  color: #707070;
+}
+
+.popover-conatiner {
+  width: 300px;
+  padding: 10px;
+}
+
+.uom-plus-btn {
+  background-color: #49ae86;
+}
+
+.uom-plus-btn:active {
+  background-color: #49ae86;
+}
+
+.uom-plus-btn:hover {
+  background-color: #49ae86;
+}
+
+.uom-minus-btn:hover {
+  background-color: #fff;
+}
+
+.uom-minus-btn:active {
+  background-color: #fff;
+}
+
+.uom-input::-webkit-outer-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.uom-input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.uom-input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}

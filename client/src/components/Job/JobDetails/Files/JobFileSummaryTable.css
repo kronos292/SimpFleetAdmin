@@ -1,0 +1,20 @@
+.row-hover:hover {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.16);
+}
+
+.row-hover:hover .hover-buttons {
+  opacity: 1;
+}
+
+.remarks-container {
+  position: relative;
+}
+
+.hover-buttons {
+  z-index: 100;
+  position: absolute;
+  background-color: #eeeeee;
+  opacity: 0;
+  border-radius: 25px;
+  right: 0;
+}

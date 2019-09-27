@@ -3,6 +3,13 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Paper, Button } from "@material-ui/core";
+
+import { Timeline, TimelineEvent } from "react-event-timeline";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTruck } from "@fortawesome/free-solid-svg-icons";
+
+import JobDetailsEdit from "../JobDetailsEdit";
+
 import "rc-steps/assets/index.css";
 import "rc-steps/assets/iconfont.css";
 import Steps, { Step } from "rc-steps";
@@ -59,24 +66,25 @@ class JobStatusDisplay extends Component {
     ],
     showJobDetailsEdit: false
   };
+
   render() {
     const steps = this.state.jobStatuses;
     const job = this.props.job;
-    /* const jobTrackers = job.jobTrackers.sort((a, b) => {
+    const jobTrackers = job.jobTrackers.sort((a, b) => {
       return a.index - b.index;
-    }); */
-    /* const activeStep = jobTrackers.length; */
+    });
+    const activeStep = jobTrackers.length;
 
     const renderSteps = steps.map((step, i) => {
-      /* const jobStatus = jobTrackers.reduce((a, status) => {
+      const jobStatus = jobTrackers.reduce((a, status) => {
         a.push(status.index);
         return a;
-      }, []); */
-      if (/* !jobStatus.includes(step.index) */ true) {
+      }, []);
+      if (!jobStatus.includes(step.index)) {
         return (
           <Step title={step.title} key={i} description={step.description} />
         );
-      } /*  else {
+      } else {
         const statusSelected = jobTrackers.filter(o => {
           return o.index === step.index;
         })[0];
@@ -103,7 +111,7 @@ class JobStatusDisplay extends Component {
             }
           />
         );
-      } */
+      }
     });
 
     //Overall Stepper View
@@ -129,7 +137,7 @@ class JobStatusDisplay extends Component {
               </div>
               <Steps
                 direction="vertical"
-                /* current={activeStep} */
+                current={activeStep}
                 icons={{
                   finish: <span className="status-finish">&#10003;</span>
                 }}
@@ -163,14 +171,14 @@ class JobStatusDisplay extends Component {
       default:
         return (
           <div>
-            {this.props.auth.userType === "Admin"
-              ? {
-                  /* <JobDetailsEdit
+            {this.props.auth.userType === "Admin" ? (
+              <JobDetailsEdit
                 job={this.props.job}
                 cancel={e => this.setState({ showJobDetailsEdit: false })}
-              /> */
-                }
-              : ""}
+              />
+            ) : (
+              ""
+            )}
           </div>
         );
     }

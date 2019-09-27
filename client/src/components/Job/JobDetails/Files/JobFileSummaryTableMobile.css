@@ -1,0 +1,19 @@
+.job-file-slider-drawer-divider {
+  margin: 0px;
+}
+
+.job-file-slider-drawer-paper {
+  padding: 0 10px 0px 10px;
+}
+
+.drawer-job-file-mobile {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.job-slide-cancel {
+  padding: 10px 20px 2px 20px;
+  color: #49ae4b;
+  font-family: Roboto;
+  font-size: 16px;
+}

@@ -1,0 +1,60 @@
+.job-file-upload-label {
+  font-family: Roboto;
+  font-size: 16px;
+  color: #707070 !important;
+}
+
+.job-file-upload-title-input {
+  font-family: Roboto;
+  font-size: 16px;
+  color: #707070;
+  width: 40%;
+}
+
+.green-radio {
+  color: #49ae86 !important;
+}
+
+.job-file-upload-attach-input {
+  font-family: Roboto;
+  font-size: 16px;
+  color: #707070;
+  width: 35%;
+  margin-left: 20px;
+}
+
+.col-padding-margin {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.job-file-upload-numcopies-input {
+  font-family: Roboto;
+  font-size: 16px;
+  color: #707070;
+  /*width: 10%;*/
+}
+
+.job-file-upload-remarks-input {
+  font-family: Roboto;
+  font-size: 16px;
+  color: #707070;
+  /*width: 50%;*/
+}
+
+.job-file-upload-submit-btn {
+  margin-left: 20px;
+  padding: 8px 36px;
+}
+
+.job-file-upload-cancel-btn {
+  padding: 8px 36px;
+}
+
+.file-icon-background {
+  background-color: #f7f8f7;
+  padding: 10px;
+  border-color: #707070;
+}

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { Paper } from "@material-ui/core";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import FormControl from "react-bootstrap/FormControl";
 
 import {
   withScriptjs,
@@ -53,8 +54,8 @@ class JobDropoffDetail extends Component {
   };
 
   getDropoffTime() {
-    /* var deliveryDate = new Date(this.props.job.vesselArrivalDateTime); */
-    /* deliveryDate.setDate(deliveryDate.getHours() - deliveryInAdvance);
+    var deliveryDate = new Date(this.props.job.vesselArrivalDateTime);
+    deliveryDate.setDate(deliveryDate.getHours() - deliveryInAdvance);
     return (
       "" +
       deliveryDate.getDate() +
@@ -62,7 +63,7 @@ class JobDropoffDetail extends Component {
       deliveryDate.getMonth() +
       "/" +
       deliveryDate.getFullYear()
-    ); */
+    );
   }
 
   render() {
