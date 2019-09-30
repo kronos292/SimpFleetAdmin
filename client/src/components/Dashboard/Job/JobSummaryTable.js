@@ -70,7 +70,7 @@ class JobSummaryTable extends Component {
         for (let i = 0; i < jobs.length; i++) {
           let job = jobs[i];
           job.jobTrackers.sort((a, b) => {
-            return a.index - b.index;
+            return b.index - a.index;
           });
           const subtotal = job.jobItems
             .reduce((a, jobItem) => {

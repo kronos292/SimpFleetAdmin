@@ -75,51 +75,25 @@ router.get(
       })
       .select();
 
-    // Get jobs where user is a care-off party
-    if (req.query.user_only === "true") {
-      const careOffParties = await CareOffParty.find({
-        user: req.user.id
-      })
-        .populate({
-          path: "careOffParties",
-          model: "careOffParties",
-          populate: [
-            {
-              path: "job",
-              model: "jobs"
-            }
-          ]
-        })
-        .populate({
-          path: "jobItems",
-          model: "jobItems"
-        })
-        .populate({
-          path: "jobOfflandItems",
-          model: "jobOfflandItems"
-        })
-        .select();
-
-      // Search bar query filter
-      if (req.query.searchBarQuery) {
-        const searchBarQuery = req.query.searchBarQuery.toLowerCase();
-        const filteredJobs = [];
-        for (let i = 0; i < jobs.length; i++) {
-          const job = jobs[i];
-          if (
-            job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
-            job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
-            job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery) ||
-            (req.user &&
-              job.user._id === req.user.id &&
-              job.jobId.toLowerCase().includes(searchBarQuery))
-          ) {
-            filteredJobs.push(job);
-          }
+    // Search bar query filter
+    if (req.query.searchBarQuery) {
+      const searchBarQuery = req.query.searchBarQuery.toLowerCase();
+      const filteredJobs = [];
+      for (let i = 0; i < jobs.length; i++) {
+        const job = jobs[i];
+        if (
+          job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
+          job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
+          job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery) ||
+          (req.user &&
+            job.user._id === req.user.id &&
+            job.jobId.toLowerCase().includes(searchBarQuery))
+        ) {
+          filteredJobs.push(job);
         }
-
-        jobs = filteredJobs;
       }
+
+      jobs = filteredJobs;
     }
 
     // Get jobs where user is a care-off party
@@ -176,10 +150,9 @@ router.get(
 
     // Sort and limit jobs
     jobs = jobs.sort((a, b) => {
-      return (
-        new Date(b.jobBookingDateTime.toString()) -
-        new Date(a.jobBookingDateTime.toString())
-      );
+      a = new Date(a.jobBookingDateTime.toString());
+      b = new Date(b.jobBookingDateTime.toString());
+      return a > b ? -1 : a < b ? 1 : 0;
     });
     const numLimit =
       req.query.numLimit && req.query.numLimit !== "false"
