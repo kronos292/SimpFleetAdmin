@@ -2,10 +2,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const passport = require("passport");
+// Passport require users model
+require("./routes/api/users");
 
-/* routes api */
-const users = require("./routes/api/users");
-const jobs = require("./routes/api/jobRoutes");
 /* body parser middleware */
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -15,10 +14,8 @@ require("./config/passport")(passport);
 //Passport middleware
 app.use(passport.initialize());
 
-/* use route */
-app.use("/api/users", users);
-app.use("/api/jobs", jobs);
-
+// Express route handlers
+require("./startup/routes")(app);
 // MongoDB Connection
 require("./startup/db")();
 /* haroku = pro.env.port || local = 5000 */

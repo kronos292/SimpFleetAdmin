@@ -82,7 +82,8 @@ router.post("/login", (req, res) => {
         id: user.id,
         firstName: user.firstName,
         email: user.email,
-        userType: user.userType
+        userType: user.userType,
+        companyName: user.companyName
       };
 
       //Create jwt

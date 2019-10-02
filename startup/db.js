@@ -38,9 +38,9 @@ module.exports = function() {
       const mongoURI = keys.MONGO_URI;
       mongoose.connect(mongoURI, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useFindAndModify: false
       });
-
       mongoose.Promise = global.Promise;
       const db = mongoose.connection;
       db.on("error", console.error.bind(console, "DB connection error:"));
