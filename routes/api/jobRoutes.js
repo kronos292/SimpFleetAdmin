@@ -17,6 +17,8 @@ const Notification = require("simpfleet_models/models/Notification");
 const PSAVessel = require("simpfleet_models/models/PSAVessel");
 const JobAssignment = require("simpfleet_models/models/JobAssignment");
 
+router.get("/test", (req, res) => res.json({ pesan: "test" }));
+
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),

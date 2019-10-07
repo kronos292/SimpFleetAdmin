@@ -53,14 +53,16 @@ class SidebarMenu extends Component {
               Dashboard
             </NavLink>
           </Grid>
-          {/* this.state.showHistory ? ( */}
+          {/* {this.state.showHistory ? ( */}
           <Grid item xs={12}>
             <NavLink to="/history" className="sidebar-link">
               History
             </NavLink>
           </Grid>
-          {/* ) : ( "" )} */}
-          {this.props.auth.user.userType === "admin" ? (
+          {/* ) : (
+            ""
+          )} */}
+          {this.props.auth.user.userType === "Admin" ? (
             <Grid item xs={12}>
               <NavLink to="/job_assignment" className="sidebar-link">
                 Job Assignment
