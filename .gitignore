@@ -1,5 +1,5 @@
 .idea
-/node_modules
 .vscode
 config/dev.js
 /routes/routes
+node_modules
