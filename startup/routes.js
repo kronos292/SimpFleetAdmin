@@ -14,10 +14,13 @@ module.exports = function(app) {
   app.use("/api/vessels", require("../routes/api/vesselRoutes"));
   app.use("/api/care_off", require("../routes/api/careOffPartyRoutes"));
   app.use("/api/job_assignments", require("../routes/api/jobAssignmentRoutes"));
+  app.use(
+    "/api/logistics_companies",
+    require("../routes/api/logisticsCompanyRoutes")
+  );
   /*
   app.use("/api/job_trackers", require("../routes/api/jobTrackerRoutes"));
   app.use("/api/payment_trackers", require("../routes/api/paymentTrackerRoutes"));
   app.use("/api/job_assignments", require("../routes/api/jobAssignmentRoutes"));
-  app.use("/api/logistics_companies", require("../routes/api/logisticsCompanyRoutes"));
   */
 };
