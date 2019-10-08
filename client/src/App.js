@@ -45,7 +45,13 @@ const Home = props => (
     }
   </DynamicImport>
 );
-
+const Analytics = props => (
+  <DynamicImport load={() => import("./components/Analytics/Analytics.js")}>
+    {Component =>
+      Component === null ? <p>Loading</p> : <Component {...props} />
+    }
+  </DynamicImport>
+);
 class App extends Component {
   state = {
     openMenu: false,
@@ -120,6 +126,7 @@ class App extends Component {
                 />
               )}
             ></Route>
+            <Route path="/analytics" component={Analytics} />
           </div>
           <Footer />
         </Router>

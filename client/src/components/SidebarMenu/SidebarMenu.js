@@ -60,10 +60,19 @@ class SidebarMenu extends Component {
             </NavLink>
           </Grid>
           {/* ) : ( "" )} */}
-          {this.props.auth.user.userType === "admin" ? (
+          {this.props.auth.user.userType === "Admin" ? (
             <Grid item xs={12}>
               <NavLink to="/job_assignment" className="sidebar-link">
                 Job Assignment
+              </NavLink>
+            </Grid>
+          ) : (
+            ""
+          )}
+          {this.props.auth.user.userType === "Admin" ? (
+            <Grid item xs={12}>
+              <NavLink to="/analytics" className="sidebar-link">
+                Analytics
               </NavLink>
             </Grid>
           ) : (

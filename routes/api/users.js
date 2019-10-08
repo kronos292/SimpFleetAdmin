@@ -10,6 +10,8 @@ const validateLoginInput = require("../../validation/vi-login");
 
 /* load user model */
 const User = require("simpfleet_models/models/User");
+const Location = require("simpfleet_models/models/Location");
+const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const constants = require("../../service/constantTypes");
 //Load email methods
 const emailMethods = require("../../service/emailMethods");
@@ -19,24 +21,54 @@ const emailMethods = require("../../service/emailMethods");
 /* @access  Public */
 router.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
-
+  const {
+    email,
+    firstName,
+    lastName,
+    companyName,
+    contactNumber,
+    password,
+    pickupLocation
+  } = req.body;
   //Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ email: email.toLowerCase() }).then(user => {
     if (user) {
       errors.email = "Email already exist";
       return res.status(404).json(errors);
     } else {
+      let pickupLocations =[];
+        if (pickupLocation !== ''){
+            let longLat = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${pickupLocation}&key=${keys.GOOGLE_API_KEY}`);
+            let res = longLat.data.results.geometry.location;
+            if (res){
+                let location = new Location({
+                    lng: res.lat,
+                    lat: res.lng
+                });
+                await location.save();
+
+                let PickupLocation = new PickupLocation({
+                    addressString: pickupLocation,
+                    location: location,
+                });
+                await PickupLocation.save();
+
+                pickupLocations.push(PickupLocation);
+            }
+        }
+
       const addUser = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        contactNumber: req.body.contactNumber,
-        email: req.body.email,
-        companyName: req.body.companyName,
-        password: req.body.password,
+        firstName,
+        lastName,
+        contactNumber,
+        email: email.toLowerCase(),
+        companyName,
+        password,
+        pickupLocations: pickupLocations,
         userType: constants.USER_TYPE_JOB_OWNER,
         isApproved: true,
         registerDate: new Date().toString()
@@ -61,8 +93,7 @@ router.post("/login", (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  const email = req.body.email,
-    password = req.body.password;
+  const {email, password} = req.body;
 
   User.findOne({ email }).then(user => {
     if (!user) {
@@ -88,7 +119,7 @@ router.post("/login", (req, res) => {
 
       //Create jwt
       //sign token
-      jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+      jwt.sign(payload, keys.secretOrKey, { expiresIn: 7200 }, (err, token) => {
         res.json({
           success: true,
           token: token
@@ -98,7 +129,10 @@ router.post("/login", (req, res) => {
       errors.password = "Password incorrect";
       return res.status(404).json(errors);
     }
-  });
+  }).populate({
+    path: 'userCompany',
+    model: 'userCompanies'
+}).select();
 });
 
 /* @route   GET /api/users/current */

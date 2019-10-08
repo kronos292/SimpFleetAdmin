@@ -1,5 +1,9 @@
 const nodemailer = require("nodemailer");
 const keys = require("../config/keys");
+const Email = require("email-templates");
+const fs = require("fs-extra");
+const moment = require("moment-timezone");
+
 module.exports = {
   sendAutomatedEmail: async (email, subject, htmlText) => {
     // Generate email

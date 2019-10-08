@@ -16,19 +16,14 @@ const JobOfflandItem = require("simpfleet_models/models/JobOfflandItem");
 const Notification = require("simpfleet_models/models/Notification");
 const PSAVessel = require("simpfleet_models/models/PSAVessel");
 const JobAssignment = require("simpfleet_models/models/JobAssignment");
+const PickupLocation = require("simpfleet_models/models/PickupLocation");
+const UserCompany = require("simpfleet_models/models/UserCompany");
 
-router.get("/test", (req, res) => res.json("Pesan : succes"));
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     let params = {};
-
-    if (req.query.user_only === "true") {
-      params = {
-        user: req.user.id
-      };
-    }
 
     if (req.query.archive_only === "true") {
       params.isArchived = true;
@@ -86,14 +81,13 @@ router.get(
           job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
           job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
           job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery) ||
-          (req.user &&
-            job.user._id === req.user.id &&
+          (req.user.id &&
+            job.user._id === req.user._id &&
             job.jobId.toLowerCase().includes(searchBarQuery))
         ) {
           filteredJobs.push(job);
         }
       }
-
       jobs = filteredJobs;
     }
 
@@ -112,7 +106,11 @@ router.get(
             },
             {
               path: "user",
-              model: "users"
+              model: "users",
+              populate: {
+                path: "userCompany",
+                model: "userCompanies"
+              }
             },
             {
               path: "jobTrackers",
@@ -149,17 +147,31 @@ router.get(
       }
     }
 
+    // Get jobs that belong to the user company
+    if (req.query.user_only === "true") {
+      const filteredJobs = [];
+      for (let i = 0; i < jobs.length; i++) {
+        const job = jobs[i];
+        const userCompany = job.user.userCompany;
+        if (String(userCompany._id) === String(req.user.userCompany)) {
+          filteredJobs.push(job);
+        }
+      }
+      jobs = filteredJobs;
+    }
+
     // Sort and limit jobs
     jobs = jobs.sort((a, b) => {
-      a = new Date(a.jobBookingDateTime.toString());
-      b = new Date(b.jobBookingDateTime.toString());
-      return a > b ? -1 : a < b ? 1 : 0;
+      return (
+        new Date(b.jobBookingDateTime.toString()) -
+        new Date(a.jobBookingDateTime.toString())
+      );
     });
     const numLimit =
       req.query.numLimit && req.query.numLimit !== "false"
         ? parseInt(req.query.numLimit)
         : jobs.length;
-    const filteredJobs = [];
+    let filteredJobs = [];
     for (let i = 0; i < jobs.length; i++) {
       if (i < numLimit) {
         filteredJobs.push(jobs[i]);
@@ -168,6 +180,33 @@ router.get(
       }
     }
 
+    //Check for tomorrows jobs
+    if (req.query.tomorrow_only && req.query.tomorrow_only === "true") {
+      const jobsTomorrow = [];
+      for (let i = 0; i < filteredJobs.length; i++) {
+        let filteredJob = filteredJobs[i];
+        let loadingDateTime = null;
+        if (
+          filteredJob.vesselLoadingLocation === "PSA" &&
+          filteredJob.psaBerthingDateTime !== null
+        ) {
+          loadingDateTime = filteredJob.psaBerthingDateTime;
+        } else {
+          loadingDateTime = filteredJob.vesselLoadingDateTime;
+        }
+        if (
+          moment(loadingDateTime).isAfter(moment().endOf("day")) &&
+          moment(loadingDateTime).isBefore(
+            moment()
+              .add(1, "days")
+              .endOf("day")
+          )
+        ) {
+          jobsTomorrow.push(filteredJob);
+        }
+      }
+      return res.send(jobsTomorrow);
+    }
     res.send(filteredJobs);
   }
 );
