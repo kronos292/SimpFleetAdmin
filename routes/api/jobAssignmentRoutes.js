@@ -4,7 +4,7 @@ const router = express.Router();
 const JobAssignment = require("simpfleet_models/models/JobAssignment");
 const Job = require("simpfleet_models/models/Job");
 
-/* const telegramBotMethods = require("../../service/telegramBotMethods"); */
+const telegramBotMethods = require("../../service/telegramBotMethods");
 
 router.get("/", async (req, res) => {
   const jobAssignments = await JobAssignment.find({ status: "Pending" })
@@ -75,7 +75,7 @@ router.put("/", async (req, res) => {
           model: "jobOfflandItems"
         })
         .select();
-      /* await telegramBotMethods.sendJobBookingInfo(job); */
+      await telegramBotMethods.sendJobBookingInfo(job);
     }
   }
   res.send(jobAssignments);

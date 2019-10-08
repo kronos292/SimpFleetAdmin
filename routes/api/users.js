@@ -40,8 +40,8 @@ router.post("/register", async (req, res) => {
       errors.email = "Email already exist";
       return res.status(404).json(errors);
     } else {
-      let pickupLocations =[];
-        if (pickupLocation !== ''){
+      let pickupLocations = [];
+      /* if (pickupLocation !== ''){
             let longLat = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${pickupLocation}&key=${keys.GOOGLE_API_KEY}`);
             let res = longLat.data.results.geometry.location;
             if (res){
@@ -59,7 +59,7 @@ router.post("/register", async (req, res) => {
 
                 pickupLocations.push(PickupLocation);
             }
-        }
+        } */
 
       const addUser = new User({
         firstName,
@@ -93,7 +93,7 @@ router.post("/login", (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
   User.findOne({ email }).then(user => {
     if (!user) {
@@ -129,10 +129,12 @@ router.post("/login", (req, res) => {
       errors.password = "Password incorrect";
       return res.status(404).json(errors);
     }
-  }).populate({
-    path: 'userCompany',
-    model: 'userCompanies'
-}).select();
+  });
+  /* .populate({
+      path: "userCompany",
+      model: "userCompanies"
+    }) */
+  /* .select(); */
 });
 
 /* @route   GET /api/users/current */
