@@ -13,6 +13,7 @@ import History from "./components/History/History";
 import JobAssignment from "./components/Job/JobAssignment/JobAssignment";
 import SideMenuSlider from "./components/SideMenuSlider/SideMenuSlider";
 import JobDetails from "./components/Job/JobDetails/JobDetails";
+import UserApproval from "./components/UserApproval/UserApproval";
 
 class DynamicImport extends Component {
   state = {
@@ -75,7 +76,7 @@ class App extends Component {
   };
 
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
     return (
       <div className="App">
         <Router>
@@ -114,7 +115,6 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/history" component={History} />
-            <Route exact path="/job_assignment" component={JobAssignment} />
             <Route
               exact
               path="/job_details"
@@ -126,7 +126,13 @@ class App extends Component {
                 />
               )}
             ></Route>
-            <Route path="/analytics" component={Analytics} />
+            {user.userType === "Admin" ? (
+              <React.Fragment>
+                <Route path="/user_approval" component={UserApproval} />
+                <Route exact path="/job_assignment" component={JobAssignment} />
+                <Route path="/analytics" component={Analytics} />
+              </React.Fragment>
+            ) : null}
           </div>
           <Footer />
         </Router>

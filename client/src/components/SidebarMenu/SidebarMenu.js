@@ -101,6 +101,15 @@ class SidebarMenu extends Component {
           ) : (
             ""
           )}
+          {this.props.auth.user.userType === "Admin" ? (
+            <Grid item xs={12}>
+              <NavLink to="/user_approval" className="sidebar-link">
+                User Approval
+              </NavLink>
+            </Grid>
+          ) : (
+            ""
+          )}
         </Grid>
 
         <CreateJobModal

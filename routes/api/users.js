@@ -160,6 +160,16 @@ router.get(
   }
 );
 
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.find().then(user => {
+      res.json(user);
+    });
+  }
+);
+
 /* @route post contact_us */
 router.post("/contact_mail", (req, res) => {
   const { email, firstName, contactNumber, remarks } = req.body;
