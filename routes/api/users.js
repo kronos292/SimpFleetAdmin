@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
-
+const bcrypt = require("bcryptjs");
 //Load validation
 const validateRegisterInput = require("../../validation/vi-register");
 const validateLoginInput = require("../../validation/vi-login");
@@ -27,8 +27,8 @@ router.post("/register", async (req, res) => {
     lastName,
     companyName,
     contactNumber,
-    password,
-    pickupLocation
+    password
+    //pickupLocation
   } = req.body;
   //Check validation
   if (!isValid) {
@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
       errors.email = "Email already exist";
       return res.status(404).json(errors);
     } else {
-      let pickupLocations =[];
+      /* let pickupLocations =[];
         if (pickupLocation !== ''){
             let longLat = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${pickupLocation}&key=${keys.GOOGLE_API_KEY}`);
             let res = longLat.data.results.geometry.location;
@@ -60,7 +60,7 @@ router.post("/register", async (req, res) => {
                 pickupLocations.push(PickupLocation);
             }
         }
-
+        */
       const addUser = new User({
         firstName,
         lastName,
@@ -68,7 +68,7 @@ router.post("/register", async (req, res) => {
         email: email.toLowerCase(),
         companyName,
         password,
-        pickupLocations: pickupLocations,
+        //pickupLocations: pickupLocations,
         userType: constants.USER_TYPE_JOB_OWNER,
         isApproved: true,
         registerDate: new Date().toString()
@@ -93,9 +93,9 @@ router.post("/login", (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
-  User.findOne({ email }).then(user => {
+  User.findOne({ email: email }).then(user => {
     if (!user) {
       errors.email = "Users not found";
       return res.status(404).json(errors);
@@ -105,34 +105,42 @@ router.post("/login", (req, res) => {
       errors.isApproved = "Account not yet Approved.";
       return res.status(404).json(errors);
     }
-
+    console.log(`${user.password}, ${password}`);
     //Check password
-    if (password && user.password) {
-      //User matched
-      const payload = {
-        id: user.id,
-        firstName: user.firstName,
-        email: user.email,
-        userType: user.userType,
-        companyName: user.companyName
-      };
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        //User matched
+        const payload = {
+          id: user.id,
+          firstName: user.firstName,
+          email: user.email,
+          userType: user.userType,
+          companyName: user.companyName
+        };
 
-      //Create jwt
-      //sign token
-      jwt.sign(payload, keys.secretOrKey, { expiresIn: 7200 }, (err, token) => {
-        res.json({
-          success: true,
-          token: token
-        });
-      });
-    } else {
-      errors.password = "Password incorrect";
-      return res.status(404).json(errors);
-    }
-  }).populate({
+        //Create jwt
+        //sign token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          { expiresIn: 7200 },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: token
+            });
+          }
+        );
+      } else {
+        errors.password = "Password incorrect";
+        return res.status(404).json(errors);
+      }
+    });
+  });
+  /* .populate({
     path: 'userCompany',
     model: 'userCompanies'
-}).select();
+}).select()*/
 });
 
 /* @route   GET /api/users/current */
