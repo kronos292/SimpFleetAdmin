@@ -19,6 +19,19 @@ class UserApproval extends Component {
       });
   }
 
+  onUpdateIsApprove = users => {
+    Axios.put(`/api/users`, users).then(
+      Axios.get(`/api/users`)
+        .then(res => {
+          let users = res.data;
+          this.setState({ users });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    );
+  };
+
   render() {
     switch (this.state.users) {
       case null:
@@ -37,11 +50,14 @@ class UserApproval extends Component {
                 {users.isApproved === true ? "approved" : "not yet approved"}
               </td>
               <td>
-                {users.isApproved ? (
-                  <button className="btn btn-danger">disable</button>
-                ) : (
-                  <button className="btn btn-primary">enable</button>
-                )}
+                <button
+                  className={`btn btn-${
+                    users.isApproved ? "danger" : "primary"
+                  }`}
+                  onClick={() => this.onUpdateIsApprove(users)}
+                >
+                  {users.isApproved ? "disable" : "enable"}
+                </button>
               </td>
             </tr>
           );
@@ -51,7 +67,7 @@ class UserApproval extends Component {
             <br />
             <Row>
               <Col cs="12" md={{ size: 12, offset: 0 }} className="text-center">
-                <h1>Job breakdown by month</h1>
+                <h1>User Approval</h1>
               </Col>
               <Col cs="12" md={{ size: 12, offset: 0 }}>
                 <Table striped hover bordered responsive>

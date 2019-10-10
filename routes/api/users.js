@@ -160,13 +160,43 @@ router.get(
   }
 );
 
+/* @route   GET /api/users */
+/* @desc    get user data */
+/* @access  Private admin */
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.find().then(user => {
-      res.json(user);
-    });
+    if (req.user.userType === "Admin") {
+      User.find().then(user => {
+        res.json(user);
+      });
+    }
+  }
+);
+
+/* @route   PUT /api/users */
+/* @desc    edit user isapproved status */
+/* @access  Private admin */
+router.put(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    if (req.user.userType === "Admin") {
+      if (req.body.isApproved === true) {
+        User.findByIdAndUpdate(req.body._id, {
+          $set: { isApproved: false }
+        }).then(user => {
+          res.json(user);
+        });
+      } else if (req.body.isApproved === false) {
+        User.findByIdAndUpdate(req.body._id, {
+          $set: { isApproved: true }
+        }).then(user => {
+          res.json(user);
+        });
+      }
+    }
   }
 );
 

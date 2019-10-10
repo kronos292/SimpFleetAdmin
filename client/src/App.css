@@ -1,131 +1,141 @@
-/* navbar */
-.navbar {
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-  padding: 1rem 1rem;
-  background-color: white !important;
-}
-.navbar .nav-link:hover {
-  color: white !important;
-}
-.navbar .sign-in {
-  padding-right: 25px;
-  padding-left: 25px;
-}
-/* footer */
-.footer {
-  background-color: #49ae4b;
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-.footer a:hover {
-  color: white !important;
-  text-decoration: none;
-}
-.footer i {
-  margin-left: 10px;
-}
-/* login */
-.login {
-  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
-  padding: 30px;
-  background: white;
-}
-.login .forget {
-  color: black;
-}
-.login .forget:hover {
-  color: #49ae4b;
-  font-weight: bold;
-}
-.signup {
-  margin-top: 20px;
-  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
-  padding: 30px;
-  padding-top: 15px;
-  padding-bottom: 3px;
-  background: white;
-}
-.signup a {
-  color: black;
-}
-.signup a:hover {
-  color: #49ae4b;
-  font-weight: bold;
-}
-.login-div {
-  padding-top: 5%;
-  padding-bottom: 5%;
-  background-image: url("./img/home.png");
-  background-size: cover;
-  height: 100%;
+body {
+  font-family: "Roboto", "HelveticaNeue", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
-/* admin */
-.admin .sidebar {
-  padding-top: 60px;
-  padding-bottom: 60px;
+.global-primary-button {
+  background-color: #48af4a;
 }
-.admin .createjob {
-  border-radius: 50px;
-  font-weight: bold;
-  margin-bottom: 60px;
+
+.global-primary-button:hover {
+  background-color: #1c8024;
 }
-.admin a {
-  font-weight: bold;
-  color: #707070;
+
+.global-primary-button-static {
+  background-color: #48af4a;
 }
-.admin a:hover {
-  font-weight: bold;
-  color: #707070;
+
+.global-primary-button-static:hover {
+  background-color: #1c8024;
+}
+
+.global-secondary-button {
+  background-color: #48af4a;
+  color: #ffffff;
+}
+
+.global-secondary-button:hover {
+  background-color: #1c8024;
+}
+
+.global-success-button {
+  background-color: #74ad5a;
+  color: #ffffff;
+}
+
+.global-success-button:hover {
+  background-color: #74ad5a;
+}
+
+.global-file-button {
+  background-color: rgba(103, 58, 183, 1);
+}
+
+.global-file-button:hover {
+  background-color: rgb(87, 12, 183);
+}
+
+.global-file-button-static {
+  background-color: rgba(103, 58, 183, 1);
+}
+
+.global-horizontal-align-button {
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+@media (min-width: 768px) {
+  .global-horizontal-align-button {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+a {
+  color: #ff5900;
+}
+
+a:hover {
+  color: #c64b00;
+}
+
+h1 {
+  font-size: 1.733em;
+}
+
+h2 {
+  font-size: 1.333em;
+}
+
+h3 {
+  font-size: 1.1em;
+}
+
+.global-active-tab {
+  color: blue;
+}
+
+.global-active-tab > .nav-link {
+  border: 1px solid;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.global-active-tab > .nav-link:hover {
+  border: 1px solid;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.global-edit-icon {
+  font-size: 20px;
+}
+
+.global-cursor-hover {
+  cursor: pointer;
+}
+
+.global-primary-link {
+  color: #ff5900;
+}
+
+.global-primary-link:hover {
+  color: #c64b00;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+.global-nav-bar-links {
+  color: #ffffff;
+}
+
+.global-nav-bar-links:hover {
+  color: #48af4a;
   text-decoration: none;
 }
 
-/* landing */
-.landing {
-  padding-top: 5%;
-  padding-bottom: 5%;
-  padding-left: 5%;
-  padding-right: 5%;
-  background-image: url("./img/home.png");
-  background-size: cover;
-  height: 100%;
+.form-asterisk {
+  color: red;
 }
-.p-why {
-  color: #707070;
-}
-.p-why:hover {
-  color: #707070;
-}
-.greybg {
-  background-color: #edefee;
-}
-.line5img {
-  background-image: url("./img/features.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100%;
-}
-.container-fluid .contact {
-  padding-left: 150px;
-  padding-right: 150px;
-}
-.name {
-  margin-bottom: -15px;
-}
-.closer {
-  margin-bottom: 0px;
-}
-.avatar {
-  vertical-align: middle;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #bdbdbd;
-}
-.dropdown-menu {
-  width: 350px;
-}
-.signout:hover {
-  background-color: transparent;
+
+.header-title {
+  font-weight: bold;
+  margin-top: 50px;
+  margin-left: 50px;
+  margin-bottom: 50px;
+  color: #49AE4B;
 }
