@@ -105,10 +105,11 @@ router.post("/login", (req, res) => {
       errors.isApproved = "Account not yet Approved.";
       return res.status(404).json(errors);
     }
-    console.log(`${user.password}, ${password}`);
     //Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
+        console.log("Conratulations! your password is correct.");
+        console.log("Wait a second you will redirect to home page ...");
         //User matched
         const payload = {
           id: user.id,
