@@ -3,14 +3,14 @@ import { Row, Table, Col } from "reactstrap";
 
 class BreakdownByCompanies extends Component {
   render() {
-    const { jobMonthCategory } = this.props;
-    switch (jobMonthCategory) {
+    const { jobCompaniesCategory } = this.props;
+    switch (jobCompaniesCategory) {
       case null:
         return <div></div>;
       default:
-        const jobCompaniesCategories = Object.keys(jobMonthCategory).map(
+        const jobCompanieCategories = Object.keys(jobCompaniesCategory).map(
           (key, index) => {
-            const jobs = jobMonthCategory[key];
+            const jobs = jobCompaniesCategory[key];
             const cancelledJobs = [];
             const openJobs = [];
             const completedJobs = [];
@@ -33,7 +33,6 @@ class BreakdownByCompanies extends Component {
                 <td>{key}</td>
                 <td>-</td>
                 <td>-</td>
-                <td>-</td>
                 <td style={{ color: "red" }}>-</td>
                 <td>-</td>
               </tr>
@@ -50,7 +49,6 @@ class BreakdownByCompanies extends Component {
               <Table striped hover bordered responsive>
                 <thead>
                   <tr>
-                    <th>Month</th>
                     <th>Companies</th>
                     <th>Ongoing Jobs</th>
                     <th>Completed Jobs</th>
@@ -58,7 +56,7 @@ class BreakdownByCompanies extends Component {
                     <th>Total Jobs</th>
                   </tr>
                 </thead>
-                <tbody>{jobCompaniesCategories}</tbody>
+                <tbody>{jobCompanieCategories}</tbody>
               </Table>
             </Col>
           </Row>

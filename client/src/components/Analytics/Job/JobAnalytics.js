@@ -7,7 +7,8 @@ import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
 class JobAnalytics extends Component {
   state = {
     jobMonthCategories: null,
-    jobDeliveryCategories: null
+    jobDeliveryCategories: null,
+    jobCompaniesCategories: null
   };
 
   componentDidMount() {
@@ -20,30 +21,37 @@ class JobAnalytics extends Component {
         let jobs = res.data;
         let jobMonthCategories = {};
         let jobDeliveryCategories = {};
+        let jobCompaniesCategories = {};
         for (let i = 0; i < jobs.length; i++) {
           const job = jobs[i];
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
             1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
-
           const LocationsOfJob = job.vesselLoadingLocation;
+          const CompaniesOfJob = job.user.companyName;
 
-          let jobListLocation = jobDeliveryCategories[LocationsOfJob];
-          if (!jobListLocation) {
-            jobListLocation = [];
-            jobDeliveryCategories[LocationsOfJob] = jobListLocation;
-          }
           let jobListMonth = jobMonthCategories[monthOfJob];
           if (!jobListMonth) {
             jobListMonth = [];
             jobMonthCategories[monthOfJob] = jobListMonth;
           }
+          let jobListLocation = jobDeliveryCategories[LocationsOfJob];
+          if (!jobListLocation) {
+            jobListLocation = [];
+            jobDeliveryCategories[LocationsOfJob] = jobListLocation;
+          }
+          let jobListCompanies = jobCompaniesCategories[CompaniesOfJob];
+          if (!jobListCompanies) {
+            jobListCompanies = [];
+            jobCompaniesCategories[CompaniesOfJob] = jobListCompanies;
+          }
           jobListMonth.push(job);
           jobListLocation.push(job);
-          console.log(jobListMonth);
+          jobListCompanies.push(job);
         }
         this.setState({
           jobMonthCategories: jobMonthCategories,
-          jobDeliveryCategories: jobDeliveryCategories
+          jobDeliveryCategories: jobDeliveryCategories,
+          jobCompaniesCategories: jobCompaniesCategories
         });
       })
       .catch(err => {
@@ -60,7 +68,7 @@ class JobAnalytics extends Component {
         />
         <BreakdownByVessels jobMonthCategory={this.state.jobMonthCategories} />
         <BreakdownByCompanies
-          jobMonthCategory={this.state.jobMonthCategories}
+          jobCompaniesCategory={this.state.jobCompaniesCategories}
         />
       </div>
     );
