@@ -6,7 +6,8 @@ import BreakdownByVessels from "./BreakdownBy/BreakdownByVessels";
 import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
 class JobAnalytics extends Component {
   state = {
-    jobMonthCategories: null
+    jobMonthCategories: null,
+    jobDeliveryCategories: null
   };
 
   componentDidMount() {
@@ -18,19 +19,31 @@ class JobAnalytics extends Component {
       .then(res => {
         let jobs = res.data;
         let jobMonthCategories = {};
+        let jobDeliveryCategories = {};
         for (let i = 0; i < jobs.length; i++) {
           const job = jobs[i];
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
             1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
-          let jobList = jobMonthCategories[monthOfJob];
-          if (!jobList) {
-            jobList = [];
-            jobMonthCategories[monthOfJob] = jobList;
+
+          const LocationsOfJob = job.vesselLoadingLocation;
+
+          let jobListLocation = jobDeliveryCategories[LocationsOfJob];
+          if (!jobListLocation) {
+            jobListLocation = [];
+            jobDeliveryCategories[LocationsOfJob] = jobListLocation;
           }
-          jobList.push(job);
+          let jobListMonth = jobMonthCategories[monthOfJob];
+          if (!jobListMonth) {
+            jobListMonth = [];
+            jobMonthCategories[monthOfJob] = jobListMonth;
+          }
+          jobListMonth.push(job);
+          jobListLocation.push(job);
+          console.log(jobListMonth);
         }
         this.setState({
-          jobMonthCategories
+          jobMonthCategories: jobMonthCategories,
+          jobDeliveryCategories: jobDeliveryCategories
         });
       })
       .catch(err => {
@@ -43,7 +56,7 @@ class JobAnalytics extends Component {
       <div>
         <BreakdownByMonth jobMonthCategory={this.state.jobMonthCategories} />
         <BreakdownByDeliveryLocations
-          jobMonthCategory={this.state.jobMonthCategories}
+          jobDeliveryCategory={this.state.jobDeliveryCategories}
         />
         <BreakdownByVessels jobMonthCategory={this.state.jobMonthCategories} />
         <BreakdownByCompanies

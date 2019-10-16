@@ -32,10 +32,10 @@ class BreakdownByCompanies extends Component {
               <tr key={index}>
                 <td>{key}</td>
                 <td>-</td>
-                <td>{openJobs.length}</td>
-                <td>{completedJobs.length}</td>
-                <td style={{ color: "red" }}>{cancelledJobs.length}</td>
-                <td>{jobs.length}</td>
+                <td>-</td>
+                <td>-</td>
+                <td style={{ color: "red" }}>-</td>
+                <td>-</td>
               </tr>
             );
           }
@@ -48,15 +48,17 @@ class BreakdownByCompanies extends Component {
             </Col>
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
-                <tr>
-                  <th>Month</th>
-                  <th>Companies</th>
-                  <th>Ongoing Jobs</th>
-                  <th>Completed Jobs</th>
-                  <th>Cancelled Jobs</th>
-                  <th>Total Jobs</th>
-                </tr>
-                {jobCompaniesCategories}
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Companies</th>
+                    <th>Ongoing Jobs</th>
+                    <th>Completed Jobs</th>
+                    <th>Cancelled Jobs</th>
+                    <th>Total Jobs</th>
+                  </tr>
+                </thead>
+                <tbody>{jobCompaniesCategories}</tbody>
               </Table>
             </Col>
           </Row>

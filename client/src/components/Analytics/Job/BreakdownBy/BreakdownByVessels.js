@@ -16,16 +16,6 @@ class BreakdownByVessels extends Component {
             const completedJobs = [];
             for (let i = 0; i < jobs.length; i++) {
               const job = jobs[i];
-
-              if (job.isCancelled === "Confirmed") {
-                cancelledJobs.push(job);
-              } else {
-                if (job.jobTrackers.length === 6) {
-                  completedJobs.push(job);
-                } else {
-                  openJobs.push(job);
-                }
-              }
             }
 
             return (
@@ -34,10 +24,10 @@ class BreakdownByVessels extends Component {
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
-                <td>{openJobs.length}</td>
-                <td>{completedJobs.length}</td>
-                <td style={{ color: "red" }}>{cancelledJobs.length}</td>
-                <td>{jobs.length}</td>
+                <td>-</td>
+                <td>-</td>
+                <td style={{ color: "red" }}>-</td>
+                <td>-</td>
               </tr>
             );
           }
@@ -50,17 +40,19 @@ class BreakdownByVessels extends Component {
             </Col>
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
-                <tr>
-                  <th>Month</th>
-                  <th>Vessels Name</th>
-                  <th>Vessels IMO</th>
-                  <th>Vessels Callsign</th>
-                  <th>Ongoing Jobs</th>
-                  <th>Completed Jobs</th>
-                  <th>Cancelled Jobs</th>
-                  <th>Total Jobs</th>
-                </tr>
-                {jobVesselCategories}
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Vessels Name</th>
+                    <th>Vessels IMO</th>
+                    <th>Vessels Callsign</th>
+                    <th>Ongoing Jobs</th>
+                    <th>Completed Jobs</th>
+                    <th>Cancelled Jobs</th>
+                    <th>Total Jobs</th>
+                  </tr>
+                </thead>
+                <tbody>{jobVesselCategories}</tbody>
               </Table>
             </Col>
           </Row>
