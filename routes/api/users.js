@@ -12,6 +12,7 @@ const validateLoginInput = require("../../validation/vi-login");
 const User = require("simpfleet_models/models/User");
 const Location = require("simpfleet_models/models/Location");
 const PickupLocation = require("simpfleet_models/models/PickupLocation");
+const UserCompany = require("simpfleet_models/models/UserCompany");
 const constants = require("../../service/constantTypes");
 //Load email methods
 const emailMethods = require("../../service/emailMethods");
@@ -169,9 +170,11 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     if (req.user.userType === "Admin") {
-      User.find().then(user => {
-        res.json(user);
-      });
+      User.find()
+        .populate({ path: "userCompany", model: "userCompanies" })
+        .then(user => {
+          res.json(user);
+        });
     }
   }
 );
@@ -191,10 +194,26 @@ router.put(
           res.json(user);
         });
       } else if (req.body.isApproved === false) {
-        User.findByIdAndUpdate(req.body._id, {
-          $set: { isApproved: true }
-        }).then(user => {
-          res.json(user);
+        UserCompany.findById(req.body.userCompany).then(uC => {
+          if (uC) {
+            /* console.log("directly save"); */
+            User.findByIdAndUpdate(req.body._id, {
+              $set: { isApproved: true }
+            }).then(user => {
+              res.json(user);
+            });
+          } else {
+            /* console.log("create usercompany and link to user"); */
+            const newUComp = new UserCompany({ name: req.body.companyName });
+            newUComp.save().then(uComp => {
+              console.log(uComp);
+              User.findByIdAndUpdate(req.body._id, {
+                $set: { isApproved: true, userCompany: uComp._id }
+              }).then(user => {
+                res.json(user);
+              });
+            });
+          }
         });
       }
     }

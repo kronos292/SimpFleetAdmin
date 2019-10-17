@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Container } from "reactstrap";
 import { Row, Table, Col } from "reactstrap";
 import Axios from "axios";
+import UserApprovalModal from "./UserApprovalModal";
 
 class UserApproval extends Component {
   state = {
@@ -20,6 +21,7 @@ class UserApproval extends Component {
   }
 
   onUpdateIsApprove = users => {
+    console.log(users);
     Axios.put(`/api/users`, users).then(
       Axios.get(`/api/users`)
         .then(res => {
@@ -40,26 +42,50 @@ class UserApproval extends Component {
         const content = Object.keys(this.state.users).map((key, index) => {
           const users = this.state.users[key];
           return (
-            <tr key={index}>
-              <td>{users.firstName === "" ? "-" : users.firstName}</td>
-              <td>{users.lastName === "" ? "-" : users.lastName}</td>
-              <td>{users.email === "" ? "-" : users.email}</td>
-              <td>{users.companyName === "" ? "-" : users.companyName}</td>
-              <td>{users.contactNumber === "" ? "-" : users.contactNumber}</td>
-              <td>
-                {users.isApproved === true ? "approved" : "not yet approved"}
-              </td>
-              <td>
-                <button
-                  className={`btn btn-${
-                    users.isApproved ? "danger" : "primary"
-                  }`}
-                  onClick={() => this.onUpdateIsApprove(users)}
-                >
-                  {users.isApproved ? "disable" : "enable"}
-                </button>
-              </td>
-            </tr>
+            <React.Fragment>
+              <tr key={index}>
+                <td>{users.firstName === "" ? "-" : users.firstName}</td>
+                <td>{users.lastName === "" ? "-" : users.lastName}</td>
+                <td>{users.email === "" ? "-" : users.email}</td>
+                <td>{users.companyName === "" ? "-" : users.companyName}</td>
+                <td>
+                  {users.contactNumber === "" ? "-" : users.contactNumber}
+                </td>
+                <td>
+                  {users.isApproved === true ? "approved" : "not yet approved"}
+                </td>
+                <td>
+                  <button
+                    className={`btn btn-${
+                      users.isApproved ? "danger" : "primary"
+                    }`}
+                    /* onClick={() => this.onUpdateIsApprove(users) } */
+                    data-toggle="modal"
+                    data-target={`#approvemodal${users._id}`}
+                  >
+                    {users.isApproved ? "disable" : "enable"}
+                  </button>
+                </td>
+              </tr>
+              {/* modal approve */}
+              <div
+                className="modal fade"
+                id={`approvemodal${users._id}`}
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <UserApprovalModal
+                  user={
+                    users.firstName === "" ? "this account" : users.firstName
+                  }
+                  status={users.isApproved ? "disable" : "enable"}
+                  onUpdateIsApprove={this.onUpdateIsApprove}
+                  users={users}
+                />
+              </div>
+            </React.Fragment>
           );
         });
         return (
