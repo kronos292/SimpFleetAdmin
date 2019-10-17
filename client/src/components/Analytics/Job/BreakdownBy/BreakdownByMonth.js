@@ -77,18 +77,20 @@ class BreakdownByMonth extends Component {
             </Col>
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
-                <tr>
-                  <th>Month</th>
-                  <th>Total jobs</th>
-                  <th style={{ color: "red" }}>Cancelled jobs</th>
-                  <th>Ongoing jobs</th>
-                  <th>Completed jobs</th>
-                  <th>No. of Pallets (Delivery)</th>
-                  <th>Avg No. of Pallets per Delivery</th>
-                  <th>No. of Pallets (Offland)</th>
-                  <th>Avg No. of Pallets per Offland</th>
-                </tr>
-                {jobMonthCategories}
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Total jobs</th>
+                    <th style={{ color: "red" }}>Cancelled jobs</th>
+                    <th>Ongoing jobs</th>
+                    <th>Completed jobs</th>
+                    <th>No. of Pallets (Delivery)</th>
+                    <th>Avg No. of Pallets per Delivery</th>
+                    <th>No. of Pallets (Offland)</th>
+                    <th>Avg No. of Pallets per Offland</th>
+                  </tr>
+                </thead>
+                <tbody>{jobMonthCategories}</tbody>
               </Table>
             </Col>
           </Row>
