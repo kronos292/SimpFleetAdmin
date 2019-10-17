@@ -1,5 +1,6 @@
 module.exports = function(app) {
   app.use("/api/users", require("../routes/api/users"));
+  app.use("/api/company", require("../routes/api/userCompany"));
   app.use("/api/jobs", require("../routes/api/jobRoutes"));
   app.use("/api/job_files", require("../routes/api/jobFileRoutes"));
   app.use(

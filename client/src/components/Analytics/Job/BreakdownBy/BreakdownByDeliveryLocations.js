@@ -10,8 +10,11 @@ class BreakdownByDeliveryLocations extends Component {
       default:
         let itemCountOthers = 0;
         let offlandItemCountOthers = 0;
-        let itemTimesOthers = 0;
-        let offlandItemTimesOthers = 0;
+        let itemall = 0;
+        let itemofflandall = 0;
+        const cancelledJobstotal = [];
+        const openJobstotal = [];
+        const completedJobstotal = [];
         const cancelledJobsOthers = [];
         const openJobsOthers = [];
         const completedJobsOthers = [];
@@ -31,11 +34,14 @@ class BreakdownByDeliveryLocations extends Component {
 
               if (job.isCancelled === "Confirmed") {
                 cancelledJobs.push(job);
+                cancelledJobstotal.push(job);
               } else {
                 if (job.jobTrackers.length === 6) {
                   completedJobs.push(job);
+                  completedJobstotal.push(job);
                 } else {
                   openJobs.push(job);
+                  openJobstotal.push(job);
                 }
 
                 const { jobItems, jobOfflandItems } = job;
@@ -43,12 +49,14 @@ class BreakdownByDeliveryLocations extends Component {
                   for (let j = 0; j < jobItems.length; j++) {
                     const jobItem = jobItems[j];
                     itemCount += jobItem.quantity;
+                    itemall += jobItem.quantity;
                   }
                 }
                 if (jobOfflandItems && jobOfflandItems.length > 0) {
                   for (let j = 0; j < jobOfflandItems.length; j++) {
                     const jobOfflandItem = jobOfflandItems[j];
                     offlandItemCount += jobOfflandItem.quantity;
+                    itemofflandall += jobOfflandItem.quantity;
                   }
                 }
               }
@@ -107,7 +115,7 @@ class BreakdownByDeliveryLocations extends Component {
                     <th>No. of Pallets (Offland)</th>
                     <th>Ongoing Jobs</th>
                     <th>Completed Jobs</th>
-                    <th>Cancelled Jobs</th>
+                    <th style={{ color: "red" }}>Cancelled Jobs</th>
                     <th>Total Jobs</th>
                   </tr>
                 </thead>
@@ -129,6 +137,32 @@ class BreakdownByDeliveryLocations extends Component {
                     </td>
                   </tr>
                 </tbody>
+                <br />
+                <tfoot>
+                  <tr>
+                    <th>Total</th>
+                    <th>{itemCountOthers + itemall} Pallets</th>
+                    <th>{offlandItemCountOthers + itemofflandall} Pallets</th>
+                    <th>{openJobsOthers.length + openJobstotal.length} Jobs</th>
+                    <th>
+                      {completedJobsOthers.length + completedJobstotal.length}{" "}
+                      Jobs
+                    </th>
+                    <th style={{ color: "red" }}>
+                      {cancelledJobsOthers.length + cancelledJobstotal.length}{" "}
+                      jobs
+                    </th>
+                    <th>
+                      {openJobsOthers.length +
+                        completedJobsOthers.length +
+                        cancelledJobsOthers.length +
+                        (openJobstotal.length +
+                          completedJobstotal.length +
+                          cancelledJobstotal.length)}{" "}
+                      Jobs
+                    </th>
+                  </tr>
+                </tfoot>
               </Table>
             </Col>
           </Row>

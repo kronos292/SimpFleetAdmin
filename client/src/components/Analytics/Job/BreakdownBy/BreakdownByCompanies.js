@@ -3,38 +3,53 @@ import { Row, Table, Col } from "reactstrap";
 
 class BreakdownByCompanies extends Component {
   render() {
-    const { jobCompaniesCategory } = this.props;
-    switch (jobCompaniesCategory) {
+    const { jobCompaniesCategory, Company } = this.props;
+    switch (jobCompaniesCategory && Company) {
       case null:
         return <div></div>;
       default:
-        const jobCompanieCategories = Object.keys(jobCompaniesCategory).map(
-          (key, index) => {
-            const jobs = jobCompaniesCategory[key];
+        const cancelledjobstotal = [];
+        const openjobstotal = [];
+        const completedjobstotal = [];
+        const jobCompanieCategories = Object.keys(Company).map(
+          (uniq, index) => {
             const cancelledJobs = [];
             const openJobs = [];
             const completedJobs = [];
-            for (let i = 0; i < jobs.length; i++) {
-              const job = jobs[i];
+            const jobData = Object.keys(jobCompaniesCategory).map(
+              (key, index) => {
+                const jobs = jobCompaniesCategory[key];
+                if (uniq === key) {
+                  for (let i = 0; i < jobs.length; i++) {
+                    let job = jobs[i];
 
-              if (job.isCancelled === "Confirmed") {
-                cancelledJobs.push(job);
-              } else {
-                if (job.jobTrackers.length === 6) {
-                  completedJobs.push(job);
-                } else {
-                  openJobs.push(job);
+                    if (job.isCancelled === "Confirmed") {
+                      cancelledJobs.push(job);
+                      cancelledjobstotal.push(job);
+                    } else {
+                      if (job.jobTrackers.length === 6) {
+                        completedJobs.push(job);
+                        completedjobstotal.push(job);
+                      } else {
+                        openJobs.push(job);
+                        openjobstotal.push(job);
+                      }
+                    }
+                  }
                 }
               }
-            }
-
+            );
             return (
               <tr key={index}>
-                <td>{key}</td>
-                <td>-</td>
-                <td>-</td>
-                <td style={{ color: "red" }}>-</td>
-                <td>-</td>
+                <td>{uniq}</td>
+                <td>{openJobs.length}</td>
+                <td>{completedJobs.length}</td>
+                <td style={{ color: "red" }}>{cancelledJobs.length}</td>
+                <td>
+                  {openJobs.length +
+                    completedJobs.length +
+                    cancelledJobs.length}
+                </td>
               </tr>
             );
           }
@@ -52,11 +67,28 @@ class BreakdownByCompanies extends Component {
                     <th>Companies</th>
                     <th>Ongoing Jobs</th>
                     <th>Completed Jobs</th>
-                    <th>Cancelled Jobs</th>
+                    <th style={{ color: "red" }}>Cancelled Jobs</th>
                     <th>Total Jobs</th>
                   </tr>
                 </thead>
                 <tbody>{jobCompanieCategories}</tbody>
+                <br />
+                <tfoot>
+                  <tr>
+                    <th>Total</th>
+                    <th>{openjobstotal.length} Jobs</th>
+                    <th>{completedjobstotal.length} Jobs</th>
+                    <th style={{ color: "red" }}>
+                      {cancelledjobstotal.length} Jobs
+                    </th>
+                    <th>
+                      {openjobstotal.length +
+                        completedjobstotal.length +
+                        cancelledjobstotal.length}{" "}
+                      Jobs
+                    </th>
+                  </tr>
+                </tfoot>
               </Table>
             </Col>
           </Row>

@@ -6,6 +6,7 @@ import BreakdownByVessels from "./BreakdownBy/BreakdownByVessels";
 import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
 class JobAnalytics extends Component {
   state = {
+    userCompany: null,
     jobMonthCategories: null,
     jobDeliveryCategories: null,
     jobCompaniesCategories: null
@@ -27,7 +28,7 @@ class JobAnalytics extends Component {
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
             1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
           const LocationsOfJob = job.vesselLoadingLocation;
-          const CompaniesOfJob = job.user.companyName;
+          const CompaniesOfJob = job.user.userCompany.name;
 
           let jobListMonth = jobMonthCategories[monthOfJob];
           if (!jobListMonth) {
@@ -57,6 +58,23 @@ class JobAnalytics extends Component {
       .catch(err => {
         console.log(err);
       });
+    axios.get("/api/company/usercompany").then(res => {
+      let Company = res.data;
+      let CompanyCategories = {};
+      for (let i = 0; i < Company.length; i++) {
+        const cmp = Company[i];
+        const Companies = cmp.name;
+        let ListCompany = CompanyCategories[Companies];
+        if (!ListCompany) {
+          ListCompany = [];
+          CompanyCategories[Companies] = ListCompany;
+        }
+      }
+
+      this.setState({
+        userCompany: CompanyCategories
+      });
+    });
   }
 
   render() {
@@ -69,6 +87,7 @@ class JobAnalytics extends Component {
         <BreakdownByVessels jobMonthCategory={this.state.jobMonthCategories} />
         <BreakdownByCompanies
           jobCompaniesCategory={this.state.jobCompaniesCategories}
+          Company={this.state.userCompany}
         />
       </div>
     );

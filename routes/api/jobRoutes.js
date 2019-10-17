@@ -41,7 +41,13 @@ router.get(
       })
       .populate({
         path: "user",
-        model: "users"
+        model: "users",
+        populate: [
+          {
+            path: "userCompany",
+            model: "userCompanies"
+          }
+        ]
       })
       .populate({
         path: "jobTrackers",
