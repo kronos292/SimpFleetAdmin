@@ -8,7 +8,9 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "models-update": "npm un git+https://github.com/kronos292/SimpFleet_Models.git && npm i git+https://github.com/kronos292/SimpFleet_Models.git"
+    "models-update": "npm un git+https://github.com/kronos292/SimpFleet_Models.git && npm i git+https://github.com/kronos292/SimpFleet_Models.git",
+    "deploy": "git checkout aws-deploy && git merge master && git push origin aws-deploy --verbose && npm run build && git add . --verbose && git commit -m \"aws deploy\" --verbose && git push origin aws-deploy --verbose && eb deploy --verbose && eb open --verbose && git checkout master",
+    "quick-deploy": "git checkout aws-deploy && git merge master && git push origin aws-deploy --verbose && eb deploy --verbose && eb open --verbose && git checkout master"
   },
   "author": "wiwie ssd",
   "license": "MIT",
