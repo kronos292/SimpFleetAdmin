@@ -4,6 +4,8 @@
   "description": "transaction tracker for SSD's ops",
   "main": "server.js",
   "scripts": {
+    "test": "jest --verbose",
+    "start": "node index.js",
     "build": "npm run build --prefix client --verbose",
     "client-install": "npm install --prefix client",
     "server": "nodemon server.js",
