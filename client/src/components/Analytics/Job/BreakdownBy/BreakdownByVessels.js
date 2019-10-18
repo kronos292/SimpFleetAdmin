@@ -3,14 +3,14 @@ import { Row, Table, Col } from "reactstrap";
 
 class BreakdownByVessels extends Component {
   render() {
-    const { jobMonthCategory } = this.props;
-    switch (jobMonthCategory) {
+    const { jobVesselCategory } = this.props;
+    switch (jobVesselCategory) {
       case null:
         return <div></div>;
       default:
-        const jobVesselCategories = Object.keys(jobMonthCategory).map(
+        const jobVesselCategories = Object.keys(jobVesselCategory).map(
           (key, index) => {
-            const jobs = jobMonthCategory[key];
+            const jobs = jobVesselCategory[key];
             const cancelledJobs = [];
             const openJobs = [];
             const completedJobs = [];
@@ -42,7 +42,6 @@ class BreakdownByVessels extends Component {
               <Table striped hover bordered responsive>
                 <thead>
                   <tr>
-                    <th>Month</th>
                     <th>Vessels Name</th>
                     <th>Vessels IMO</th>
                     <th>Vessels Callsign</th>
