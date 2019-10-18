@@ -75,10 +75,10 @@ export default class JobSummaryTableSearchBar extends Component {
             render: rowData => (
               <div className="d-flex flex-column">
                 <span className="job-table-text">
-                  {rowData.job.vessel.vesselName.toUpperCase()}
+                  {rowData.job.vessel !== null? rowData.job.vessel.vesselName.toUpperCase(): ''}
                 </span>
                 <span className="job-table-helper-text">
-                  <i>{rowData.job.vessel.vesselIMOID}</i>
+                  <i>{rowData.job.vessel !== null? rowData.job.vessel.vesselIMOID: ''}</i>
                 </span>
               </div>
             ),

@@ -10,79 +10,13 @@ const validateLoginInput = require("../../validation/vi-login");
 
 /* load user model */
 const User = require("simpfleet_models/models/User");
+const AdminUser = require("simpfleet_models/models/AdminUser");
 const Location = require("simpfleet_models/models/Location");
 const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
 const constants = require("../../service/constantTypes");
 //Load email methods
 const emailMethods = require("../../service/emailMethods");
-
-/* @route   POST /api/users/register */
-/* @desc    register user */
-/* @access  Public */
-router.post("/register", async (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
-  const {
-    email,
-    firstName,
-    lastName,
-    companyName,
-    contactNumber,
-    password
-    //pickupLocation
-  } = req.body;
-  //Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-
-  User.findOne({ email: email.toLowerCase() }).then(user => {
-    if (user) {
-      errors.email = "Email already exist";
-      return res.status(404).json(errors);
-    } else {
-      /* let pickupLocations =[];
-        if (pickupLocation !== ''){
-            let longLat = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${pickupLocation}&key=${keys.GOOGLE_API_KEY}`);
-            let res = longLat.data.results.geometry.location;
-            if (res){
-                let location = new Location({
-                    lng: res.lat,
-                    lat: res.lng
-                });
-                await location.save();
-
-                let PickupLocation = new PickupLocation({
-                    addressString: pickupLocation,
-                    location: location,
-                });
-                await PickupLocation.save();
-
-                pickupLocations.push(PickupLocation);
-            }
-        }
-        */
-      const addUser = new User({
-        firstName,
-        lastName,
-        contactNumber,
-        email: email.toLowerCase(),
-        companyName,
-        password,
-        //pickupLocations: pickupLocations,
-        userType: constants.USER_TYPE_JOB_OWNER,
-        isApproved: true,
-        registerDate: new Date().toString()
-      });
-      addUser
-        .save()
-        .then(user => res.json(user))
-        .catch(err => console.log(err));
-
-      emailMethods.sendSignUpEmail(addUser);
-    }
-  });
-});
 
 /* @route   POST /api/users/login */
 /* @desc    login user / returning jwt token */
@@ -96,7 +30,7 @@ router.post("/login", (req, res) => {
   }
   const { email, password } = req.body;
 
-  User.findOne({ email: email }).then(user => {
+  AdminUser.findOne({ email: email }).then(user => {
     if (!user) {
       errors.email = "Users not found";
       return res.status(404).json(errors);
@@ -170,8 +104,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     if (req.user.userType === "Admin") {
-      User.find()
-        .populate({ path: "userCompany", model: "userCompanies" })
+      AdminUser.find()
         .then(user => {
           res.json(user);
         });
