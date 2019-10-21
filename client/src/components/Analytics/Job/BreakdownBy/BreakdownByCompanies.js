@@ -39,6 +39,7 @@ class BreakdownByCompanies extends Component {
                 }
               }
             );
+
             return (
               <tr key={index}>
                 <td>{uniq}</td>

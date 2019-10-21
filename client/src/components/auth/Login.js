@@ -169,19 +169,6 @@ class Login extends Component {
                     </Paper>
                   </Col>
                 </Row>
-                <Row>
-                  <Col md={{ size: 4, offset: 4 }}>
-                    <Paper>
-                      <p className="text-center signup">
-                        Don't have account?
-                        <NavLink to="/register" className="link">
-                          {" "}
-                          Sign Up
-                        </NavLink>
-                      </p>
-                    </Paper>
-                  </Col>
-                </Row>
               </Col>
             </Row>
           </Container>

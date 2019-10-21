@@ -70,15 +70,6 @@ class MainNavbar extends Component {
                     </NavLink>
                   </NavItem>
                 </Nav>
-                <form className="form-inline mt-2 mt-md-0">
-                  <button
-                    onClick={e => this.props.history.push("/sign_up")}
-                    className="btn btn-outline-success my-2 my-sm-0"
-                    type="button"
-                  >
-                    Join Our Platform
-                  </button>
-                </form>
               </Collapse>
             </MediaQuery>
           </div>

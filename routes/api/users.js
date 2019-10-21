@@ -59,7 +59,7 @@ router.post("/login", (req, res) => {
         jwt.sign(
           payload,
           keys.secretOrKey,
-          { expiresIn: 7200 },
+          { expiresIn: 3600 },
           (err, token) => {
             res.json({
               success: true,
@@ -104,10 +104,9 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     if (req.user.userType === "Admin") {
-      AdminUser.find()
-        .then(user => {
-          res.json(user);
-        });
+      AdminUser.find().then(user => {
+        res.json(user);
+      });
     }
   }
 );

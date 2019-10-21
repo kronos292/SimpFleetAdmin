@@ -7,7 +7,6 @@ import VIP from "./components/common/PrivateRoute";
 import ExNavbar from "./components/layout/ExNavbar";
 import Footer from "./components/layout/Footer";
 import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
 import History from "./components/History/History";
 import JobAssignment from "./components/Job/JobAssignment/JobAssignment";
@@ -112,7 +111,6 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <div className="">
             <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/history" component={History} />
             <Route

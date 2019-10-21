@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Container, Row, Col } from "reactstrap";
 
-import RegForm from "./regForm/regForm";
 import MediaQuery from "react-responsive";
 
 import "./MainSection.css";
@@ -37,12 +35,7 @@ class MainSection extends Component {
                       </i>
                     </h1>
                   </Grid>
-
-                  <Grid item xs={5}>
-                    <Paper className="paper-main">
-                      <RegForm />
-                    </Paper>
-                  </Grid>
+                  <Grid item xs={5} style={{ height: "591px" }}></Grid>
                 </Grid>
               </Col>
             </Row>
@@ -68,11 +61,6 @@ class MainSection extends Component {
                 </h1>
               </Container>
             </Row>
-          </Container>
-          <Container style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-            <Paper className="paper-main-mobile" elevation={0}>
-              <RegForm />
-            </Paper>
           </Container>
         </MediaQuery>
       </div>
