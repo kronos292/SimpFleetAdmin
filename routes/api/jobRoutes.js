@@ -21,7 +21,6 @@ const UserCompany = require("simpfleet_models/models/UserCompany");
 
 router.get(
   "/",
-  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     let params = {};
 
