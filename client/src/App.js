@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import { fetchUser } from "./actions/fetchActions";
 import VIP from "./components/common/PrivateRoute";
 import ExNavbar from "./components/layout/ExNavbar";
 import Footer from "./components/layout/Footer";
@@ -143,4 +143,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(
+  mapStateToProps,
+  fetchUser
+)(App);
