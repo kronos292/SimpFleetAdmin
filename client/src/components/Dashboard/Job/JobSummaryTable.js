@@ -179,6 +179,16 @@ class JobSummaryTable extends Component {
                 } else {
                   statusStyle = {};
                 }
+                console.log(vessel);
+                let vesselName = "";
+                let vesselIMOID = "";
+                if (vessel === null) {
+                  vesselName = "";
+                  vesselIMOID = "";
+                } else {
+                  vesselName = vessel.vesselName;
+                  vesselIMOID = vessel.vesselIMOID;
+                }
 
                 return (
                   <tr
@@ -194,8 +204,8 @@ class JobSummaryTable extends Component {
                       ""
                     )}
                     <td data-title="Job Number">{job.jobId}</td>
-                    <td data-title="Vessel IMO">{vessel.vesselIMOID}</td>
-                    <td data-title="Vessel Name">{vessel.vesselName}</td>
+                    <td data-title="Vessel IMO">{vesselIMOID}</td>
+                    <td data-title="Vessel Name">{vesselName}</td>
                     <td data-title="Status" style={statusStyle}>
                       {statusString}
                     </td>
