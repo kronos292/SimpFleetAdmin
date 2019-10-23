@@ -58,6 +58,7 @@ class JobAnalytics extends Component {
       .catch(err => {
         console.log(err);
       });
+
     axios.get("/api/company/usercompany").then(res => {
       let Company = res.data;
       let CompanyCategories = {};

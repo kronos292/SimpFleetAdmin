@@ -10,7 +10,6 @@ import {
   faWhatsapp,
   faFacebook,
   faInstagram,
-  faWeixin,
   faLinkedin,
   faTelegram
 } from "@fortawesome/free-brands-svg-icons";

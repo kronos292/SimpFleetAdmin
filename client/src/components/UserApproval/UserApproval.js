@@ -41,13 +41,20 @@ class UserApproval extends Component {
       default:
         const content = Object.keys(this.state.users).map((key, index) => {
           const users = this.state.users[key];
+          const compObj = users.userCompany;
+          let compName = "";
+          if (compObj === null) {
+            compName = "";
+          } else {
+            compName = compObj.name;
+          }
           return (
-            <React.Fragment>
-              <tr key={index}>
+            <React.Fragment key={index}>
+              <tr>
                 <td>{users.firstName === "" ? "-" : users.firstName}</td>
                 <td>{users.lastName === "" ? "-" : users.lastName}</td>
                 <td>{users.email === "" ? "-" : users.email}</td>
-                <td>{users.companyName === "" ? "-" : users.companyName}</td>
+                <td>{compName === "" ? "-" : compName}</td>
                 <td>
                   {users.contactNumber === "" ? "-" : users.contactNumber}
                 </td>
@@ -71,7 +78,7 @@ class UserApproval extends Component {
               <div
                 className="modal fade"
                 id={`approvemodal${users._id}`}
-                tabindex="-1"
+                tabIndex="-1"
                 role="dialog"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"
@@ -96,17 +103,19 @@ class UserApproval extends Component {
                 <h1>User Approval</h1>
               </Col>
               <Col cs="12" md={{ size: 12, offset: 0 }}>
-                <Table striped hover bordered responsive>
-                  <tr>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Email</th>
-                    <th>Company</th>
-                    <th>Contact</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                  {content}
+                <Table hover bordered responsive striped>
+                  <thead>
+                    <tr>
+                      <th>First name</th>
+                      <th>Last name</th>
+                      <th>Email</th>
+                      <th>Company</th>
+                      <th>Contact</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>{content}</tbody>
                 </Table>
               </Col>
             </Row>
