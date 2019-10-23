@@ -19,203 +19,199 @@ const JobAssignment = require("simpfleet_models/models/JobAssignment");
 const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
 
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    let params = {};
+router.get("/", async (req, res) => {
+  let params = {};
 
-    if (req.query.archive_only === "true") {
-      params.isArchived = true;
+  if (req.query.archive_only === "true") {
+    params.isArchived = true;
+  }
+
+  if (req.query.non_archive_only === "true") {
+    params.isArchived = false;
+  }
+
+  // Get all jobs
+  let jobs = await Job.find(params)
+    .populate({
+      path: "vessel",
+      model: "vessels"
+    })
+    .populate({
+      path: "user",
+      model: "users",
+      populate: [
+        {
+          path: "userCompany",
+          model: "userCompanies"
+        }
+      ]
+    })
+    .populate({
+      path: "jobTrackers",
+      model: "jobTrackers"
+    })
+    .populate({
+      path: "paymentTrackers",
+      model: "paymentTrackers"
+    })
+    .populate({
+      path: "careOffParties",
+      model: "careOffParties",
+      populate: [
+        {
+          path: "job",
+          model: "jobs"
+        }
+      ]
+    })
+    .populate({
+      path: "jobItems",
+      model: "jobItems"
+    })
+    .populate({
+      path: "jobOfflandItems",
+      model: "jobOfflandItems"
+    })
+    .select();
+
+  // Search bar query filter
+  if (req.query.searchBarQuery) {
+    const searchBarQuery = req.query.searchBarQuery.toLowerCase();
+    const filteredJobs = [];
+    for (let i = 0; i < jobs.length; i++) {
+      const job = jobs[i];
+      if (
+        job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
+        job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
+        job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery) ||
+        (req.session.user &&
+          job.user._id === req.session.user._id &&
+          job.jobId.toLowerCase().includes(searchBarQuery))
+      ) {
+        filteredJobs.push(job);
+      }
     }
+    jobs = filteredJobs;
+  }
 
-    if (req.query.non_archive_only === "true") {
-      params.isArchived = false;
-    }
-
-    // Get all jobs
-    let jobs = await Job.find(params)
+  // Get jobs where user is a care-off party
+  if (req.query.user_only === "true") {
+    const careOffParties = await CareOffParty.find({
+      user: req.session.user._id
+    })
       .populate({
-        path: "vessel",
-        model: "vessels"
-      })
-      .populate({
-        path: "user",
-        model: "users",
+        path: "job",
+        model: "jobs",
         populate: [
           {
-            path: "userCompany",
-            model: "userCompanies"
-          }
-        ]
-      })
-      .populate({
-        path: "jobTrackers",
-        model: "jobTrackers"
-      })
-      .populate({
-        path: "paymentTrackers",
-        model: "paymentTrackers"
-      })
-      .populate({
-        path: "careOffParties",
-        model: "careOffParties",
-        populate: [
+            path: "vessel",
+            model: "vessels"
+          },
           {
-            path: "job",
-            model: "jobs"
+            path: "user",
+            model: "users",
+            populate: {
+              path: "userCompany",
+              model: "userCompanies"
+            }
+          },
+          {
+            path: "jobTrackers",
+            model: "jobTrackers"
+          },
+          {
+            path: "paymentTrackers",
+            model: "paymentTrackers"
+          },
+          {
+            path: "careOffParties",
+            model: "careOffParties",
+            populate: [
+              {
+                path: "job",
+                model: "jobs"
+              }
+            ]
+          },
+          {
+            path: "jobItems",
+            model: "jobItems"
+          },
+          {
+            path: "jobOfflandItems",
+            model: "jobOfflandItems"
           }
         ]
-      })
-      .populate({
-        path: "jobItems",
-        model: "jobItems"
-      })
-      .populate({
-        path: "jobOfflandItems",
-        model: "jobOfflandItems"
       })
       .select();
-
-    // Search bar query filter
-    if (req.query.searchBarQuery) {
-      const searchBarQuery = req.query.searchBarQuery.toLowerCase();
-      const filteredJobs = [];
-      for (let i = 0; i < jobs.length; i++) {
-        const job = jobs[i];
-        if (
-          job.vessel.vesselName.toLowerCase().includes(searchBarQuery) ||
-          job.vessel.vesselIMOID.toLowerCase().includes(searchBarQuery) ||
-          job.vessel.vesselCallsign.toLowerCase().includes(searchBarQuery) ||
-          (req.user.id &&
-            job.user._id === req.user._id &&
-            job.jobId.toLowerCase().includes(searchBarQuery))
-        ) {
-          filteredJobs.push(job);
-        }
-      }
-      jobs = filteredJobs;
+    for (let i = 0; i < careOffParties.length; i++) {
+      const careOffParty = careOffParties[i];
+      jobs.push(careOffParty.job);
     }
-
-    // Get jobs where user is a care-off party
-    if (req.query.user_only === "true") {
-      const careOffParties = await CareOffParty.find({
-        user: req.user.id
-      })
-        .populate({
-          path: "job",
-          model: "jobs",
-          populate: [
-            {
-              path: "vessel",
-              model: "vessels"
-            },
-            {
-              path: "user",
-              model: "users",
-              populate: {
-                path: "userCompany",
-                model: "userCompanies"
-              }
-            },
-            {
-              path: "jobTrackers",
-              model: "jobTrackers"
-            },
-            {
-              path: "paymentTrackers",
-              model: "paymentTrackers"
-            },
-            {
-              path: "careOffParties",
-              model: "careOffParties",
-              populate: [
-                {
-                  path: "job",
-                  model: "jobs"
-                }
-              ]
-            },
-            {
-              path: "jobItems",
-              model: "jobItems"
-            },
-            {
-              path: "jobOfflandItems",
-              model: "jobOfflandItems"
-            }
-          ]
-        })
-        .select();
-      for (let i = 0; i < careOffParties.length; i++) {
-        const careOffParty = careOffParties[i];
-        jobs.push(careOffParty.job);
-      }
-    }
-
-    // Get jobs that belong to the user company
-    if (req.query.user_only === "true") {
-      const filteredJobs = [];
-      for (let i = 0; i < jobs.length; i++) {
-        const job = jobs[i];
-        const userCompany = job.user.userCompany;
-        if (String(userCompany._id) === String(req.user.userCompany)) {
-          filteredJobs.push(job);
-        }
-      }
-      jobs = filteredJobs;
-    }
-
-    // Sort and limit jobs
-    jobs = jobs.sort((a, b) => {
-      return (
-        new Date(b.jobBookingDateTime.toString()) -
-        new Date(a.jobBookingDateTime.toString())
-      );
-    });
-    const numLimit =
-      req.query.numLimit && req.query.numLimit !== "false"
-        ? parseInt(req.query.numLimit)
-        : jobs.length;
-    let filteredJobs = [];
-    for (let i = 0; i < jobs.length; i++) {
-      if (i < numLimit) {
-        filteredJobs.push(jobs[i]);
-      } else {
-        break;
-      }
-    }
-
-    //Check for tomorrows jobs
-    if (req.query.tomorrow_only && req.query.tomorrow_only === "true") {
-      const jobsTomorrow = [];
-      for (let i = 0; i < filteredJobs.length; i++) {
-        let filteredJob = filteredJobs[i];
-        let loadingDateTime = null;
-        if (
-          filteredJob.vesselLoadingLocation === "PSA" &&
-          filteredJob.psaBerthingDateTime !== null
-        ) {
-          loadingDateTime = filteredJob.psaBerthingDateTime;
-        } else {
-          loadingDateTime = filteredJob.vesselLoadingDateTime;
-        }
-        if (
-          moment(loadingDateTime).isAfter(moment().endOf("day")) &&
-          moment(loadingDateTime).isBefore(
-            moment()
-              .add(1, "days")
-              .endOf("day")
-          )
-        ) {
-          jobsTomorrow.push(filteredJob);
-        }
-      }
-      return res.send(jobsTomorrow);
-    }
-    res.send(filteredJobs);
   }
-);
+
+  // Get jobs that belong to the user company
+  if (req.query.user_only === "true") {
+    const filteredJobs = [];
+    for (let i = 0; i < jobs.length; i++) {
+      const job = jobs[i];
+      const userCompany = job.user.userCompany;
+      if (String(userCompany._id) === String(req.session.user.userCompany)) {
+        filteredJobs.push(job);
+      }
+    }
+    jobs = filteredJobs;
+  }
+
+  // Sort and limit jobs
+  jobs = jobs.sort((a, b) => {
+    return (
+      new Date(b.jobBookingDateTime.toString()) -
+      new Date(a.jobBookingDateTime.toString())
+    );
+  });
+  const numLimit =
+    req.query.numLimit && req.query.numLimit !== "false"
+      ? parseInt(req.query.numLimit)
+      : jobs.length;
+  let filteredJobs = [];
+  for (let i = 0; i < jobs.length; i++) {
+    if (i < numLimit) {
+      filteredJobs.push(jobs[i]);
+    } else {
+      break;
+    }
+  }
+
+  //Check for tomorrows jobs
+  if (req.query.tomorrow_only && req.query.tomorrow_only === "true") {
+    const jobsTomorrow = [];
+    for (let i = 0; i < filteredJobs.length; i++) {
+      let filteredJob = filteredJobs[i];
+      let loadingDateTime = null;
+      if (
+        filteredJob.vesselLoadingLocation === "PSA" &&
+        filteredJob.psaBerthingDateTime !== null
+      ) {
+        loadingDateTime = filteredJob.psaBerthingDateTime;
+      } else {
+        loadingDateTime = filteredJob.vesselLoadingDateTime;
+      }
+      if (
+        moment(loadingDateTime).isAfter(moment().endOf("day")) &&
+        moment(loadingDateTime).isBefore(
+          moment()
+            .add(1, "days")
+            .endOf("day")
+        )
+      ) {
+        jobsTomorrow.push(filteredJob);
+      }
+    }
+    return res.send(jobsTomorrow);
+  }
+  res.send(filteredJobs);
+});
 
 router.get("/index", async (req, res) => {
   const job = await Job.findOne({ index: req.query.index })
@@ -366,7 +362,7 @@ router.post(
       index: 1,
       label: "Not Yet Invoiced",
       timestamp: new Date().toString(),
-      user: await User.findOne({ _id: req.user.id }).select()
+      user: await User.findOne({ _id: req.session.user.id }).select()
     });
 
     // Create new job
@@ -379,7 +375,7 @@ router.post(
           ? otherVesselLocation
           : vesselLoadingLocation,
       vesselArrivalDateTime,
-      user: await User.findOne({ _id: req.user.id }).select(),
+      user: await User.findOne({ _id: req.session.user.id }).select(),
       index: `OJ${jobCount}`,
       jobTrackers: [jobTracker],
       paymentTrackers: [paymentTracker],
@@ -465,7 +461,7 @@ router.post(
 
     // Create Email Notification for job document upload reminder T-24 hrs
     let notification = new Notification({
-      user: req.user.id,
+      user: req.session.user.id,
       job,
       callTime: moment(new Date(job.vesselArrivalDateTime)).subtract(
         24,

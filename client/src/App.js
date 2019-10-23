@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import { fetchUser } from "./actions/fetchActions";
 import VIP from "./components/common/PrivateRoute";
 import ExNavbar from "./components/layout/ExNavbar";
 import Footer from "./components/layout/Footer";
 import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
 import History from "./components/History/History";
 import JobAssignment from "./components/Job/JobAssignment/JobAssignment";
@@ -112,7 +111,6 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <div className="">
             <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/history" component={History} />
             <Route
@@ -145,4 +143,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(
+  mapStateToProps,
+  fetchUser
+)(App);

@@ -81,8 +81,8 @@ class JobSummaryTable extends Component {
           data.push(
             createRow(
               job.jobId,
-              job.vessel.vesselIMOID,
-              job.vessel.vesselName,
+              job.vessel !== null ? job.vessel.vesselIMOID : "",
+              job.vessel !== null ? job.vessel.vesselName : "",
               job.jobTrackers,
               job,
               job.vesselArrivalDateTime,
@@ -206,6 +206,32 @@ class JobSummaryTable extends Component {
                     <td data-title="Job Number">{job.jobId}</td>
                     <td data-title="Vessel IMO">{vesselIMOID}</td>
                     <td data-title="Vessel Name">{vesselName}</td>
+                    <td data-title="Status" style={statusStyle}>
+                      {statusString}
+                    </td>
+                  </tr>
+                );
+
+                return (
+                  <tr
+                    key={index}
+                    className="job-summary-table-row"
+                    onClick={e =>
+                      this.props.history.push(`/job_details?job=${job.index}`)
+                    }
+                  >
+                    {this.props.auth.userType === "Admin" ? (
+                      <td data-title="Company">{user.companyName}</td>
+                    ) : (
+                      ""
+                    )}
+                    <td data-title="Job Number">{job.jobId}</td>
+                    <td data-title="Vessel IMO">
+                      {vessel !== null ? vessel.vesselIMOID : ""}
+                    </td>
+                    <td data-title="Vessel Name">
+                      {vessel !== null ? vessel.vesselName : ""}
+                    </td>
                     <td data-title="Status" style={statusStyle}>
                       {statusString}
                     </td>

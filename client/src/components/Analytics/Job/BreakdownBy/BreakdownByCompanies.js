@@ -19,7 +19,7 @@ class BreakdownByCompanies extends Component {
             const jobData = Object.keys(jobCompaniesCategory).map(
               (key, index) => {
                 const jobs = jobCompaniesCategory[key];
-                if (uniq === key) {
+                if (uniq.toLowerCase() === key.toLowerCase()) {
                   for (let i = 0; i < jobs.length; i++) {
                     let job = jobs[i];
 
@@ -39,6 +39,7 @@ class BreakdownByCompanies extends Component {
                 }
               }
             );
+
             return (
               <tr key={index}>
                 <td>{uniq}</td>
@@ -54,7 +55,6 @@ class BreakdownByCompanies extends Component {
             );
           }
         );
-
         return (
           <Row>
             <Col cs="12" md={{ size: 12, offset: 0 }} className="text-center">

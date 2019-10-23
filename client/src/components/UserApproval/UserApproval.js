@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container } from "reactstrap";
 import { Row, Table, Col } from "reactstrap";
-import Axios from "axios";
+import axios from "axios";
 import UserApprovalModal from "./UserApprovalModal";
 
 class UserApproval extends Component {
@@ -10,7 +10,7 @@ class UserApproval extends Component {
   };
 
   componentDidMount() {
-    Axios.get(`/api/users`)
+    axios.get(`/api/users`)
       .then(res => {
         let users = res.data;
         this.setState({ users });
@@ -22,8 +22,8 @@ class UserApproval extends Component {
 
   onUpdateIsApprove = users => {
     console.log(users);
-    Axios.put(`/api/users`, users).then(
-      Axios.get(`/api/users`)
+    axios.put(`/api/users`, users).then(
+        axios.get(`/api/users`)
         .then(res => {
           let users = res.data;
           this.setState({ users });
