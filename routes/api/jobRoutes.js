@@ -275,220 +275,210 @@ router.get("/index", async (req, res) => {
   res.send(job);
 });
 
-router.post(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    // const { error } = validateJob(req.body);
-    // if (error) return res.status(400).send(error.details[0].message);
+router.post("/", async (req, res) => {
+  // const { error } = validateJob(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
 
-    let {
-      jobId,
+  let {
+    jobId,
+    vesselIMOID,
+    vesselName,
+    vesselCallsign,
+    vesselLoadingLocation,
+    vesselArrivalDateTime,
+    jobItems,
+    jobOfflandItems,
+    careOffParties,
+    remarks,
+    psaBerthingDateTime,
+    psaUnberthingDateTime,
+    vesselLoadingDateTime,
+    createDSA,
+    vesselLighterName,
+    vesselLighterLocation,
+    vesselLighterRemarks,
+    otherVesselLocation
+  } = req.body;
+
+  let psaBerf = "";
+
+  // Set default Lighter terminal for Jurong Port
+  if (vesselLoadingLocation === "Jurong Port" && vesselLighterLocation === "") {
+    vesselLighterLocation = "Marina South Wharves";
+  }
+
+  let vessel = await Vessel.findOne({ vesselIMOID }).select();
+  if (vessel === null) {
+    vessel = new Vessel({
       vesselIMOID,
       vesselName,
-      vesselCallsign,
-      vesselLoadingLocation,
-      vesselArrivalDateTime,
-      jobItems,
-      jobOfflandItems,
-      careOffParties,
-      remarks,
-      psaBerthingDateTime,
-      psaUnberthingDateTime,
-      vesselLoadingDateTime,
-      createDSA,
-      vesselLighterName,
-      vesselLighterLocation,
-      vesselLighterRemarks,
-      otherVesselLocation
-    } = req.body;
+      vesselCallsign
+    });
+    await vessel.save();
+  }
 
-    let psaBerf = "";
-
-    // Set default Lighter terminal for Jurong Port
-    if (
-      vesselLoadingLocation === "Jurong Port" &&
-      vesselLighterLocation === ""
-    ) {
-      vesselLighterLocation = "Marina South Wharves";
-    }
-
-    let vessel = await Vessel.findOne({ vesselIMOID }).select();
-    if (vessel === null) {
-      vessel = new Vessel({
-        vesselIMOID,
-        vesselName,
-        vesselCallsign
+  // Get PSA berthing date and time if job is in PSA
+  if (vesselLoadingLocation === "PSA") {
+    let psaVessels = await PSAVessel.find({
+      vesselIMO: vesselIMOID,
+      actualUnberthTime: null
+    }).select();
+    if (psaVessels.length > 0) {
+      psaVessels = psaVessels.sort((a, b) => {
+        const berthTimeB =
+          b.estimatedBerthTime !== null
+            ? b.estimatedBerthTime
+            : b.requiredBerthTime;
+        const berthTimeA =
+          a.estimatedBerthTime !== null
+            ? a.estimatedBerthTime
+            : a.requiredBerthTime;
+        return berthTimeB - berthTimeA;
       });
-      await vessel.save();
-    }
-
-    // Get PSA berthing date and time if job is in PSA
-    if (vesselLoadingLocation === "PSA") {
-      let psaVessels = await PSAVessel.find({
-        vesselIMO: vesselIMOID,
-        actualUnberthTime: null
-      }).select();
-      if (psaVessels.length > 0) {
-        psaVessels = psaVessels.sort((a, b) => {
-          const berthTimeB =
-            b.estimatedBerthTime !== null
-              ? b.estimatedBerthTime
-              : b.requiredBerthTime;
-          const berthTimeA =
-            a.estimatedBerthTime !== null
-              ? a.estimatedBerthTime
-              : a.requiredBerthTime;
-          return berthTimeB - berthTimeA;
-        });
-        const latestPSAVessel = psaVessels[0];
-        psaBerthingDateTime =
-          latestPSAVessel.estimatedBerthTime !== null
-            ? latestPSAVessel.estimatedBerthTime
-            : latestPSAVessel.requiredBerthTime;
-        psaUnberthingDateTime =
-          latestPSAVessel.estimatedUnberthTime !== null
-            ? latestPSAVessel.estimatedUnberthTime
-            : latestPSAVessel.requiredUnberthTime;
-        psaBerf = latestPSAVessel.berf;
-      } else {
-        psaBerthingDateTime = null;
-        psaUnberthingDateTime = null;
-      }
+      const latestPSAVessel = psaVessels[0];
+      psaBerthingDateTime =
+        latestPSAVessel.estimatedBerthTime !== null
+          ? latestPSAVessel.estimatedBerthTime
+          : latestPSAVessel.requiredBerthTime;
+      psaUnberthingDateTime =
+        latestPSAVessel.estimatedUnberthTime !== null
+          ? latestPSAVessel.estimatedUnberthTime
+          : latestPSAVessel.requiredUnberthTime;
+      psaBerf = latestPSAVessel.berf;
     } else {
       psaBerthingDateTime = null;
       psaUnberthingDateTime = null;
     }
-
-    // Create job tracker
-    const jobTracker = new JobTracker({
-      index: 1,
-      timestamp: new Date().toString(),
-      trackingType: "Electronic",
-      title: "Job booking pending confirmation",
-      description:
-        "We have received your job booking and are currently checking the details. We will send you a confirmation email once everything is verified.",
-      remarks: ""
-    });
-
-    // Create Payment status
-    const paymentTracker = new PaymentTracker({
-      index: 1,
-      label: "Not Yet Invoiced",
-      timestamp: new Date().toString(),
-      user: await User.findOne({ _id: req.session.user.id }).select()
-    });
-
-    // Create new job
-    const jobCount = (await Job.count({})) + 1;
-    const job = new Job({
-      jobId: jobId !== "" ? jobId : `SSDE-${jobCount}`,
-      vessel,
-      vesselLoadingLocation:
-        vesselLoadingLocation === "Others"
-          ? otherVesselLocation
-          : vesselLoadingLocation,
-      vesselArrivalDateTime,
-      user: await User.findOne({ _id: req.session.user.id }).select(),
-      index: `OJ${jobCount}`,
-      jobTrackers: [jobTracker],
-      paymentTrackers: [paymentTracker],
-      remarks,
-      psaBerthingDateTime,
-      psaUnberthingDateTime,
-      vesselLoadingDateTime,
-      createDSA,
-      vesselLighterName,
-      vesselLighterLocation,
-      vesselLighterRemarks,
-      psaBerf
-    });
-    await job.save();
-
-    // Create job items
-    const jobItemObjs = [];
-
-    for (let i = 0; i < jobItems.length; i++) {
-      const jobItem = jobItems[i];
-      const jobItemObj = new JobItem({
-        job: job._id,
-        ...jobItem
-      });
-      const jobItemPricing = await JobItemPricing.findOne({
-        uom: jobItemObj.uom
-      }).select();
-      jobItemObj.price = jobItemPricing.price;
-      await jobItemObj.save();
-      jobItemObjs.push(jobItemObj);
-    }
-
-    // Create job offland items if any
-    const jobOfflandItemObjs = [];
-    for (let i = 0; i < jobOfflandItems.length; i++) {
-      const jobOfflandItem = jobOfflandItems[i];
-      const jobOfflandItemObj = new JobOfflandItem({
-        job: job._id,
-        ...jobOfflandItem
-      });
-      await jobOfflandItemObj.save();
-      jobOfflandItemObjs.push(jobOfflandItemObj);
-    }
-
-    // Create Care-off Parties if any
-    const careOffPartyObjs = [];
-    for (let i = 0; i < careOffParties.length; i++) {
-      const careOffParty = careOffParties[i];
-      const careOffPartyObj = new CareOffParty({
-        job: job._id,
-        ...careOffParty
-      });
-      await careOffPartyObj.save();
-      careOffPartyObjs.push(careOffPartyObj);
-    }
-
-    // Save additional attributes to job
-    job.jobItems = jobItemObjs;
-    job.jobOfflandItems = jobOfflandItemObjs;
-    job.careOffParties = careOffPartyObjs;
-    await job.save();
-
-    // Update job tracker with job id
-    jobTracker.job = job._id;
-    await jobTracker.save();
-
-    // Update payment tracker with job id
-    paymentTracker.job = job._id;
-    await paymentTracker.save();
-
-    // Create job assignment
-    const jobAssignment = new JobAssignment({
-      job,
-      status: "Pending"
-    });
-    await jobAssignment.save();
-
-    // Notify user of successful job booking, but need to wait for verification and confirmation
-    // await emailMethods.sendUserJobConfirmationEmail(job);
-
-    // Notify admin email of successful job booking, and the need for verification and confirmation
-    // await emailMethods.sendJobBookingAdminConfirmationEmail(job);
-
-    // Create Email Notification for job document upload reminder T-24 hrs
-    let notification = new Notification({
-      user: req.session.user.id,
-      job,
-      callTime: moment(new Date(job.vesselArrivalDateTime)).subtract(
-        24,
-        "hours"
-      ),
-      isEmail: true,
-      type: "userJobDocUploadReminder"
-    });
-    await notification.save();
-
-    res.send(job);
+  } else {
+    psaBerthingDateTime = null;
+    psaUnberthingDateTime = null;
   }
-);
+
+  // Create job tracker
+  const jobTracker = new JobTracker({
+    index: 1,
+    timestamp: new Date().toString(),
+    trackingType: "Electronic",
+    title: "Job booking pending confirmation",
+    description:
+      "We have received your job booking and are currently checking the details. We will send you a confirmation email once everything is verified.",
+    remarks: ""
+  });
+
+  // Create Payment status
+  const paymentTracker = new PaymentTracker({
+    index: 1,
+    label: "Not Yet Invoiced",
+    timestamp: new Date().toString(),
+    user: await User.findOne({ _id: req.session.user.id }).select()
+  });
+
+  // Create new job
+  const jobCount = (await Job.count({})) + 1;
+  const job = new Job({
+    jobId: jobId !== "" ? jobId : `SSDE-${jobCount}`,
+    vessel,
+    vesselLoadingLocation:
+      vesselLoadingLocation === "Others"
+        ? otherVesselLocation
+        : vesselLoadingLocation,
+    vesselArrivalDateTime,
+    user: await User.findOne({ _id: req.session.user.id }).select(),
+    index: `OJ${jobCount}`,
+    jobTrackers: [jobTracker],
+    paymentTrackers: [paymentTracker],
+    remarks,
+    psaBerthingDateTime,
+    psaUnberthingDateTime,
+    vesselLoadingDateTime,
+    createDSA,
+    vesselLighterName,
+    vesselLighterLocation,
+    vesselLighterRemarks,
+    psaBerf
+  });
+  await job.save();
+
+  // Create job items
+  const jobItemObjs = [];
+
+  for (let i = 0; i < jobItems.length; i++) {
+    const jobItem = jobItems[i];
+    const jobItemObj = new JobItem({
+      job: job._id,
+      ...jobItem
+    });
+    const jobItemPricing = await JobItemPricing.findOne({
+      uom: jobItemObj.uom
+    }).select();
+    jobItemObj.price = jobItemPricing.price;
+    await jobItemObj.save();
+    jobItemObjs.push(jobItemObj);
+  }
+
+  // Create job offland items if any
+  const jobOfflandItemObjs = [];
+  for (let i = 0; i < jobOfflandItems.length; i++) {
+    const jobOfflandItem = jobOfflandItems[i];
+    const jobOfflandItemObj = new JobOfflandItem({
+      job: job._id,
+      ...jobOfflandItem
+    });
+    await jobOfflandItemObj.save();
+    jobOfflandItemObjs.push(jobOfflandItemObj);
+  }
+
+  // Create Care-off Parties if any
+  const careOffPartyObjs = [];
+  for (let i = 0; i < careOffParties.length; i++) {
+    const careOffParty = careOffParties[i];
+    const careOffPartyObj = new CareOffParty({
+      job: job._id,
+      ...careOffParty
+    });
+    await careOffPartyObj.save();
+    careOffPartyObjs.push(careOffPartyObj);
+  }
+
+  // Save additional attributes to job
+  job.jobItems = jobItemObjs;
+  job.jobOfflandItems = jobOfflandItemObjs;
+  job.careOffParties = careOffPartyObjs;
+  await job.save();
+
+  // Update job tracker with job id
+  jobTracker.job = job._id;
+  await jobTracker.save();
+
+  // Update payment tracker with job id
+  paymentTracker.job = job._id;
+  await paymentTracker.save();
+
+  // Create job assignment
+  const jobAssignment = new JobAssignment({
+    job,
+    status: "Pending"
+  });
+  await jobAssignment.save();
+
+  // Notify user of successful job booking, but need to wait for verification and confirmation
+  // await emailMethods.sendUserJobConfirmationEmail(job);
+
+  // Notify admin email of successful job booking, and the need for verification and confirmation
+  // await emailMethods.sendJobBookingAdminConfirmationEmail(job);
+
+  // Create Email Notification for job document upload reminder T-24 hrs
+  let notification = new Notification({
+    user: req.session.user.id,
+    job,
+    callTime: moment(new Date(job.vesselArrivalDateTime)).subtract(24, "hours"),
+    isEmail: true,
+    type: "userJobDocUploadReminder"
+  });
+  await notification.save();
+
+  res.send(job);
+});
 
 router.put("/", async (req, res) => {
   const { job, sendEmailUpdate } = req.body;

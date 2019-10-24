@@ -8,6 +8,8 @@ class BreakdownByCompanies extends Component {
       case null:
         return <div></div>;
       default:
+        let jobSort = [];
+        let o = 0;
         const cancelledjobstotal = [];
         const openjobstotal = [];
         const completedjobstotal = [];
@@ -19,7 +21,7 @@ class BreakdownByCompanies extends Component {
             const jobData = Object.keys(jobCompaniesCategory).map(
               (key, index) => {
                 const jobs = jobCompaniesCategory[key];
-                if (uniq.toLowerCase() === key.toLowerCase()) {
+                if (uniq === key) {
                   for (let i = 0; i < jobs.length; i++) {
                     let job = jobs[i];
 
@@ -39,22 +41,34 @@ class BreakdownByCompanies extends Component {
                 }
               }
             );
-
-            return (
-              <tr key={index}>
-                <td>{uniq}</td>
-                <td>{openJobs.length}</td>
-                <td>{completedJobs.length}</td>
-                <td style={{ color: "red" }}>{cancelledJobs.length}</td>
-                <td>
-                  {openJobs.length +
-                    completedJobs.length +
-                    cancelledJobs.length}
-                </td>
-              </tr>
-            );
+            const sortJob = {
+              id: `${o++}`,
+              company: `${uniq}`,
+              ongoing: `${openJobs.length}`,
+              completed: `${completedJobs.length}`,
+              cancelled: `${cancelledJobs.length}`,
+              total: `${openJobs.length +
+                completedJobs.length +
+                cancelledJobs.length}`
+            };
+            jobSort.push(sortJob);
           }
         );
+        jobSort.sort((a, b) => {
+          return b.total - a.total;
+        });
+        const fillData = jobSort.map(job => {
+          return (
+            <tr key={job.id}>
+              <td>{job.company}</td>
+              <td>{job.ongoing}</td>
+              <td>{job.completed}</td>
+              <td style={{ color: "red" }}>{job.cancelled}</td>
+              <td>{job.total}</td>
+            </tr>
+          );
+        });
+        console.log(jobSort);
         return (
           <Row>
             <Col cs="12" md={{ size: 12, offset: 0 }} className="text-center">
@@ -71,7 +85,7 @@ class BreakdownByCompanies extends Component {
                     <th>Total Jobs</th>
                   </tr>
                 </thead>
-                <tbody>{jobCompanieCategories}</tbody>
+                <tbody>{fillData}</tbody>
                 <br />
                 <tfoot>
                   <tr>

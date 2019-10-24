@@ -8,7 +8,7 @@ export const loginUser = userData => dispatch => {
     .post("/api/users/login", userData)
     .then(res => {
       window.alert("Welcome to SimpFleet Apps. you are logged.");
-      window.location = "/";
+      window.location.href = "/";
     })
     .catch(err => {
       dispatch({
