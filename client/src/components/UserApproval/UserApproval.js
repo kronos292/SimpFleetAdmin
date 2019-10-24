@@ -10,7 +10,8 @@ class UserApproval extends Component {
   };
 
   componentDidMount() {
-    axios.get(`/api/users`)
+    axios
+      .get(`/api/users`)
       .then(res => {
         let users = res.data;
         this.setState({ users });
@@ -23,7 +24,8 @@ class UserApproval extends Component {
   onUpdateIsApprove = users => {
     console.log(users);
     axios.put(`/api/users`, users).then(
-        axios.get(`/api/users`)
+      axios
+        .get(`/api/users`)
         .then(res => {
           let users = res.data;
           this.setState({ users });
@@ -43,7 +45,7 @@ class UserApproval extends Component {
           const users = this.state.users[key];
           const compObj = users.userCompany;
           let compName = "";
-          if (compObj === null) {
+          if (compObj === null || compObj === undefined) {
             compName = "";
           } else {
             compName = compObj.name;
