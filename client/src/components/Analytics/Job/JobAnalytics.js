@@ -42,7 +42,6 @@ class JobAnalytics extends Component {
         let jobCompaniesCategories = {};
         for (let i = 0; i < jobs.length; i++) {
           const job = jobs[i];
-          console.log(job[i]);
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
             1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
 
@@ -57,14 +56,23 @@ class JobAnalytics extends Component {
             jobListLocation = [];
             jobDeliveryCategories[job.vesselLoadingLocation] = jobListLocation;
           }
-          let jobListCompanies = jobCompaniesCategories[job.user.companyName];
-          if (!jobListCompanies) {
-            jobListCompanies = [];
-            jobCompaniesCategories[job.user.companyName] = jobListCompanies;
+          if (
+            job.user.userCompany !== null &&
+            job.user.userCompany.name !== null
+          ) {
+            let jobListCompanies =
+              jobCompaniesCategories[job.user.userCompany.name];
+            if (!jobListCompanies) {
+              jobListCompanies = [];
+              jobCompaniesCategories[
+                job.user.userCompany.name
+              ] = jobListCompanies;
+            }
+            jobListCompanies.push(job);
           }
+
           jobListMonth.push(job);
           jobListLocation.push(job);
-          jobListCompanies.push(job);
         }
         this.setState({
           jobMonthCategories: jobMonthCategories,
