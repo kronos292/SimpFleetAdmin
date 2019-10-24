@@ -82,9 +82,11 @@ router.post("/logout", async (req, res) => {
 /* @access  Private admin */
 router.get("/", (req, res) => {
   if (req.session.user.userType === "Admin") {
-    AdminUser.find().then(user => {
-      res.json(user);
-    });
+    User.find()
+      .populate({ path: "userCompany", model: "userCompanies" })
+      .then(user => {
+        res.json(user);
+      });
   }
 });
 
