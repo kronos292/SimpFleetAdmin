@@ -54,7 +54,9 @@ class JobSummaryTable extends Component {
           this.props.archive_only ? this.props.archive_only : false
         }&non_archive_only=${
           this.props.non_archive_only ? this.props.non_archive_only : false
-        }`
+        }&page=${
+          this.props.page === undefined ? false : this.props.page
+        }&limit=${this.props.limit === undefined ? false : this.props.limit}`
       )
       .then(res => {
         const data = [];
@@ -179,7 +181,6 @@ class JobSummaryTable extends Component {
                 } else {
                   statusStyle = {};
                 }
-                console.log(vessel);
                 let vesselName = "";
                 let vesselIMOID = "";
                 if (vessel === null) {
