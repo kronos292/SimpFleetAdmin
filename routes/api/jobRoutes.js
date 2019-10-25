@@ -80,6 +80,7 @@ router.get("/", async (req, res) => {
     })
     .select();
 
+
   if (req.query.page !== "false" && req.query.limit !== "false") {
     jobs = jobs.slice(startIndex, endIndex);
   }
@@ -180,17 +181,18 @@ router.get("/", async (req, res) => {
       new Date(a.jobBookingDateTime.toString())
     );
   });
+
   const numLimit =
     req.query.numLimit && req.query.numLimit !== "false"
       ? parseInt(req.query.numLimit)
       : jobs.length;
   let filteredJobs = [];
-  for (let i = 0; i < jobs.length; i++) {
-    if (i < numLimit) {
-      filteredJobs.push(jobs[i]);
-    } else {
-      break;
-    }
+    for (let i = 0; i < jobs.length; i++) {
+      if (i < numLimit) {
+        filteredJobs.push(jobs[i]);
+      } else {
+        break;
+      }
   }
 
   //Check for tomorrows jobs

@@ -33,7 +33,7 @@ class JobAnalytics extends Component {
     // Get all jobs
     axios
       .get(
-        `/api/jobs?user_only=false&numLimit=false&archive_only=false&non_archive_only=false`
+        `/api/jobs?user_only=false&numLimit=false&archive_only=false&non_archive_only=false&page=false&limit=false`
       )
       .then(res => {
         let jobs = res.data;
@@ -101,6 +101,10 @@ class JobAnalytics extends Component {
         userCompany: CompanyCategories
       });
     });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(this.state)
   }
 
   render() {
