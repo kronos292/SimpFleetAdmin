@@ -77,7 +77,7 @@ class BreakdownByCompanies extends Component {
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
                 <thead>
-                  <tr>
+                  <tr style={{ backgroundColor: "#49AE4B", color: "white" }}>
                     <th>Companies</th>
                     <th>Ongoing Jobs</th>
                     <th>Completed Jobs</th>
