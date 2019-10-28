@@ -20,6 +20,13 @@ const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
 
 router.get("/", async (req, res) => {
+  /* pagination */
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
   let params = {};
 
   if (req.query.archive_only === "true") {
@@ -29,7 +36,6 @@ router.get("/", async (req, res) => {
   if (req.query.non_archive_only === "true") {
     params.isArchived = false;
   }
-
   // Get all jobs
   let jobs = await Job.find(params)
     .populate({
@@ -73,6 +79,11 @@ router.get("/", async (req, res) => {
       model: "jobOfflandItems"
     })
     .select();
+
+
+  if (req.query.page !== "false" && req.query.limit !== "false") {
+    jobs = jobs.slice(startIndex, endIndex);
+  }
 
   // Search bar query filter
   if (req.query.searchBarQuery) {
@@ -170,17 +181,18 @@ router.get("/", async (req, res) => {
       new Date(a.jobBookingDateTime.toString())
     );
   });
+
   const numLimit =
     req.query.numLimit && req.query.numLimit !== "false"
       ? parseInt(req.query.numLimit)
       : jobs.length;
   let filteredJobs = [];
-  for (let i = 0; i < jobs.length; i++) {
-    if (i < numLimit) {
-      filteredJobs.push(jobs[i]);
-    } else {
-      break;
-    }
+    for (let i = 0; i < jobs.length; i++) {
+      if (i < numLimit) {
+        filteredJobs.push(jobs[i]);
+      } else {
+        break;
+      }
   }
 
   //Check for tomorrows jobs
@@ -210,7 +222,11 @@ router.get("/", async (req, res) => {
     }
     return res.send(jobsTomorrow);
   }
-  res.send(filteredJobs);
+  if (req.query.page !== "false" && req.query.limit !== "false") {
+    res.send(filteredJobs);
+  } else {
+    res.send(filteredJobs);
+  }
 });
 
 router.get("/index", async (req, res) => {
