@@ -16,14 +16,14 @@ class BreakdownByVessels extends Component {
         let cancelledJobsOthers = 0;
         let openJobsOthers = 0;
         let completedJobsOthers = 0;
-        const jobVesselCategories = Object.keys(jobVesselsCategory).map(
-          (key, index) => {
-            const vessels = Vessel.map(vessel => {
+        const vessels = Vessel.map(vessel => {
+          const jobVesselCategories = Object.keys(jobVesselsCategory).map(
+            (key, index) => {
               const jobs = jobVesselsCategory[key];
               const cancelledJobs = [];
               const openJobs = [];
               const completedJobs = [];
-              if (key === vessel.vesselName) {
+              if (key === vessel._id) {
                 for (let i = 0; i < jobs.length; i++) {
                   const job = jobs[i];
 
@@ -42,7 +42,7 @@ class BreakdownByVessels extends Component {
                 }
                 const sortJob = {
                   id: `${o++}`,
-                  vessel: `${key}`,
+                  vessel: `${vessel.vesselName}`,
                   vesselIMO: `${vessel.vesselIMOID}`,
                   vesselCallsign: `${vessel.vesselCallsign}`,
                   ongoing: `${openJobs.length}`,
@@ -54,9 +54,9 @@ class BreakdownByVessels extends Component {
                 };
                 jobSort.push(sortJob);
               }
-            });
-          }
-        );
+            }
+          );
+        });
 
         jobSort.sort((a, b) => {
           return b.total - a.total;
@@ -89,7 +89,7 @@ class BreakdownByVessels extends Component {
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
                 <thead>
-                  <tr>
+                  <tr style={{ backgroundColor: "#49AE4B", color: "white" }}>
                     <th>Vessels Name</th>
                     <th>Vessels IMO</th>
                     <th>Vessels Callsign</th>

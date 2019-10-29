@@ -345,7 +345,6 @@ class JobSummaryTable extends Component {
                     />
                   </div>
                 )}
-                <Pagination />
               </div>
             );
         }

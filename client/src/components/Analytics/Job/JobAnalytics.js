@@ -39,7 +39,7 @@ class JobAnalytics extends Component {
     // Get all jobs
     axios
       .get(
-        `/api/jobs?user_only=false&numLimit=false&archive_only=false&non_archive_only=false`
+        `/api/jobs?user_only=false&numLimit=false&archive_only=false&non_archive_only=false&page=false&limit=false`
       )
       .then(res => {
         let jobs = res.data;
@@ -79,10 +79,10 @@ class JobAnalytics extends Component {
           }
 
           if (job.vessel !== null && job.vessel.vesselName !== null) {
-            let jobListVessels = jobVesselsCategories[job.vessel.vesselName];
+            let jobListVessels = jobVesselsCategories[job.vessel._id];
             if (!jobListVessels) {
               jobListVessels = [];
-              jobVesselsCategories[job.vessel.vesselName] = jobListVessels;
+              jobVesselsCategories[job.vessel._id] = jobListVessels;
             }
             jobListVessels.push(job);
           }
@@ -100,6 +100,10 @@ class JobAnalytics extends Component {
       .catch(err => {
         console.log(err);
       });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(this.state);
   }
 
   render() {
