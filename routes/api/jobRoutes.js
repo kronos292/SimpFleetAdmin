@@ -20,13 +20,6 @@ const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
 
 router.get("/", async (req, res) => {
-  /* pagination */
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
-
-  const startIndex = (page - 1) * limit;
-  const endIndex = page * limit;
-
   let params = {};
 
   if (req.query.archive_only === "true") {
@@ -79,10 +72,6 @@ router.get("/", async (req, res) => {
       model: "jobOfflandItems"
     })
     .select();
-
-  if (req.query.page !== "false" && req.query.limit !== "false") {
-    jobs = jobs.slice(startIndex, endIndex);
-  }
 
   // Search bar query filter
   if (req.query.searchBarQuery) {
@@ -220,11 +209,8 @@ router.get("/", async (req, res) => {
     }
     return res.send(jobsTomorrow);
   }
-  if (req.query.page !== "false" && req.query.limit !== "false") {
-    res.send(filteredJobs);
-  } else {
-    res.send(filteredJobs);
-  }
+
+  res.send(filteredJobs);
 });
 
 router.get("/index", async (req, res) => {

@@ -9,7 +9,7 @@ class AdminDashboard extends Component {
       <Container fluid>
         <Row>
           <Col md="12">
-            <JobSummaryTable user_only={false} page={1} limit={5} />
+            <JobSummaryTable />
           </Col>
         </Row>
       </Container>

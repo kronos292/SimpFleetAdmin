@@ -7,13 +7,15 @@ import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
 class JobAnalytics extends Component {
   state = {
     userCompany: null,
+    vessel: null,
     jobMonthCategories: null,
     jobDeliveryCategories: null,
     jobCompaniesCategories: null,
-    jobVesselCategories: null
+    jobVesselsCategories: null
   };
 
   componentDidMount() {
+    /* get user company */
     axios.get("/api/company/usercompany").then(res => {
       let Company = res.data;
       let CompanyCategories = {};
@@ -30,6 +32,10 @@ class JobAnalytics extends Component {
         userCompany: CompanyCategories
       });
     });
+    /* get vessel */
+    axios.get("/api/vessels").then(res => {
+      this.setState({ vessel: res.data });
+    });
     // Get all jobs
     axios
       .get(
@@ -40,6 +46,7 @@ class JobAnalytics extends Component {
         let jobMonthCategories = {};
         let jobDeliveryCategories = {};
         let jobCompaniesCategories = {};
+        let jobVesselsCategories = {};
         for (let i = 0; i < jobs.length; i++) {
           const job = jobs[i];
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
@@ -71,36 +78,28 @@ class JobAnalytics extends Component {
             jobListCompanies.push(job);
           }
 
+          if (job.vessel !== null && job.vessel.vesselName !== null) {
+            let jobListVessels = jobVesselsCategories[job.vessel.vesselName];
+            if (!jobListVessels) {
+              jobListVessels = [];
+              jobVesselsCategories[job.vessel.vesselName] = jobListVessels;
+            }
+            jobListVessels.push(job);
+          }
+
           jobListMonth.push(job);
           jobListLocation.push(job);
         }
         this.setState({
           jobMonthCategories: jobMonthCategories,
           jobDeliveryCategories: jobDeliveryCategories,
-          jobCompaniesCategories: jobCompaniesCategories
+          jobCompaniesCategories: jobCompaniesCategories,
+          jobVesselsCategories: jobVesselsCategories
         });
       })
       .catch(err => {
         console.log(err);
       });
-
-    axios.get("/api/company/usercompany").then(res => {
-      let Company = res.data;
-      let CompanyCategories = {};
-      for (let i = 0; i < Company.length; i++) {
-        const cmp = Company[i];
-        const Companies = cmp.name;
-        let ListCompany = CompanyCategories[Companies];
-        if (!ListCompany) {
-          ListCompany = [];
-          CompanyCategories[Companies] = ListCompany;
-        }
-      }
-
-      this.setState({
-        userCompany: CompanyCategories
-      });
-    });
   }
 
   render() {
@@ -111,7 +110,8 @@ class JobAnalytics extends Component {
           jobDeliveryCategory={this.state.jobDeliveryCategories}
         />
         <BreakdownByVessels
-          jobVesselCategory={this.state.jobVesselCategories}
+          jobVesselsCategory={this.state.jobVesselsCategories}
+          Vessel={this.state.vessel}
         />
         <BreakdownByCompanies
           jobCompaniesCategory={this.state.jobCompaniesCategories}
