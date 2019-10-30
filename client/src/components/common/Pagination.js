@@ -13,7 +13,7 @@ export default function Pagination({
   }
 
   return (
-    <nav aria-label="Page navigation example mt-3">
+    <nav aria-label="Page navigation example">
       <ul className="pagination justify-content-center">
         <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
           <a

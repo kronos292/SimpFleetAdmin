@@ -156,6 +156,9 @@ class JobSummaryTable extends Component {
           case null:
             return <div></div>;
           default:
+            const { postsPerPage, currentPage, paginate } = this.props;
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexofFirstPost = indexOfLastPost - postsPerPage;
             const vesselDeliveries = this.state.jobs
               .sort((a, b) => {
                 return (
@@ -243,7 +246,14 @@ class JobSummaryTable extends Component {
                     <MediaQuery minWidth={768}>
                       {/* webview table */}
                       <JobSummaryTableSearchBar
-                        data={this.state.data}
+                        data={
+                          postsPerPage
+                            ? this.state.data.slice(
+                                indexofFirstPost,
+                                indexOfLastPost
+                              )
+                            : this.state.data
+                        }
                         showSharingModal={this.state.showSharingModal}
                         toggleSharingModal={showSharingModal => {
                           this.setState({ showSharingModal });
@@ -294,7 +304,14 @@ class JobSummaryTable extends Component {
                     <MediaQuery maxWidth={767}>
                       {/* mobileview table */}
                       <JobSummaryTableDisplayMobile
-                        data={this.state.data}
+                        data={
+                          postsPerPage
+                            ? this.state.data.slice(
+                                indexofFirstPost,
+                                indexOfLastPost
+                              )
+                            : this.state.data
+                        }
                         showSharingModal={this.state.showSharingModal}
                         toggleSharingModal={showSharingModal => {
                           this.setState({ showSharingModal });
@@ -345,6 +362,15 @@ class JobSummaryTable extends Component {
                     />
                   </div>
                 )}
+                <br />
+                {postsPerPage ? (
+                  <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={this.state.data.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                  />
+                ) : null}
               </div>
             );
         }
