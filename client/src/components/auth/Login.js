@@ -78,8 +78,6 @@ class Login extends Component {
   renderContent = () => {
     const { errors } = this.state;
     switch (this.props.auth.isAuthenticated) {
-      case null:
-        return;
       case false:
         return (
           <Container fluid className="signin-background">
@@ -173,7 +171,7 @@ class Login extends Component {
             </Row>
           </Container>
         );
-      default:
+      case null:
         return <Redirect to="/" />;
     }
   };

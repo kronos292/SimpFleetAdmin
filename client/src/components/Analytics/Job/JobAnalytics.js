@@ -4,13 +4,15 @@ import BreakdownByMonth from "./BreakdownBy/BreakdownByMonth";
 import BreakdownByDeliveryLocations from "./BreakdownBy/BreakdownByDeliveryLocations";
 import BreakdownByVessels from "./BreakdownBy/BreakdownByVessels";
 import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
+import NumberOfDeliveries from "./Charts/NumberOfDeliveries";
 class JobAnalytics extends Component {
   state = {
     userCompany: null,
     jobMonthCategories: null,
     jobDeliveryCategories: null,
     jobCompaniesCategories: null,
-    jobVesselCategories: null
+    jobVesselCategories: null,
+    monthOfAnalityc: null
   };
 
   componentDidMount() {
@@ -40,11 +42,20 @@ class JobAnalytics extends Component {
         let jobMonthCategories = {};
         let jobDeliveryCategories = {};
         let jobCompaniesCategories = {};
+        let jobMonthAnalitycs = {};
         for (let i = 0; i < jobs.length; i++) {
           const job = jobs[i];
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
             1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
+          const monthOfAnalityc = `${new Date(
+            job.jobBookingDateTime
+          ).getMonth()}`;
 
+          let jobMonthAnalytic = jobMonthAnalitycs[monthOfAnalityc];
+          if (!jobMonthAnalytic) {
+            jobMonthAnalytic = [];
+            jobMonthAnalitycs[monthOfAnalityc] = jobMonthAnalytic;
+          }
           let jobListMonth = jobMonthCategories[monthOfJob];
           if (!jobListMonth) {
             jobListMonth = [];
@@ -70,14 +81,15 @@ class JobAnalytics extends Component {
             }
             jobListCompanies.push(job);
           }
-
+          jobMonthAnalytic.push(job);
           jobListMonth.push(job);
           jobListLocation.push(job);
         }
         this.setState({
           jobMonthCategories: jobMonthCategories,
           jobDeliveryCategories: jobDeliveryCategories,
-          jobCompaniesCategories: jobCompaniesCategories
+          jobCompaniesCategories: jobCompaniesCategories,
+          monthOfAnalityc: jobMonthAnalitycs
         });
       })
       .catch(err => {
@@ -104,12 +116,13 @@ class JobAnalytics extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(this.state)
+    console.log(this.state);
   }
 
   render() {
     return (
       <div>
+        <NumberOfDeliveries jobMonthAnalityc={this.state.monthOfAnalityc} />
         <BreakdownByMonth jobMonthCategory={this.state.jobMonthCategories} />
         <BreakdownByDeliveryLocations
           jobDeliveryCategory={this.state.jobDeliveryCategories}

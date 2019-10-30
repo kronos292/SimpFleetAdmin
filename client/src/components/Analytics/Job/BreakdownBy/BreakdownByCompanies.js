@@ -68,7 +68,6 @@ class BreakdownByCompanies extends Component {
             </tr>
           );
         });
-        console.log(jobSort);
         return (
           <Row>
             <Col cs="12" md={{ size: 12, offset: 0 }} className="text-center">
