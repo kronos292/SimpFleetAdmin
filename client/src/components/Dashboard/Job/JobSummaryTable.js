@@ -15,6 +15,7 @@ import JobSummaryTableSearchBar from "./JobSummaryTableSearchBar";
 import Slide from "@material-ui/core/Slide";
 import JobShareModal from "../../Job/JobDetails/JobShareModal/JobShareModal";
 import JobShareSlide from "../../Job/JobShareSlide/JobShareSlide";
+import Pagination from "../../common/Pagination";
 
 function priceRow(qty, price) {
   // return qty * price;
@@ -54,9 +55,7 @@ class JobSummaryTable extends Component {
           this.props.archive_only ? this.props.archive_only : false
         }&non_archive_only=${
           this.props.non_archive_only ? this.props.non_archive_only : false
-        }&page=${
-          this.props.page === undefined ? false : this.props.page
-        }&limit=${this.props.limit === undefined ? false : this.props.limit}`
+        }`
       )
       .then(res => {
         const data = [];
@@ -207,32 +206,6 @@ class JobSummaryTable extends Component {
                     <td data-title="Job Number">{job.jobId}</td>
                     <td data-title="Vessel IMO">{vesselIMOID}</td>
                     <td data-title="Vessel Name">{vesselName}</td>
-                    <td data-title="Status" style={statusStyle}>
-                      {statusString}
-                    </td>
-                  </tr>
-                );
-
-                return (
-                  <tr
-                    key={index}
-                    className="job-summary-table-row"
-                    onClick={e =>
-                      this.props.history.push(`/job_details?job=${job.index}`)
-                    }
-                  >
-                    {this.props.auth.userType === "Admin" ? (
-                      <td data-title="Company">{user.companyName}</td>
-                    ) : (
-                      ""
-                    )}
-                    <td data-title="Job Number">{job.jobId}</td>
-                    <td data-title="Vessel IMO">
-                      {vessel !== null ? vessel.vesselIMOID : ""}
-                    </td>
-                    <td data-title="Vessel Name">
-                      {vessel !== null ? vessel.vesselName : ""}
-                    </td>
                     <td data-title="Status" style={statusStyle}>
                       {statusString}
                     </td>

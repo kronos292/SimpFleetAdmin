@@ -1,36 +1,53 @@
 import React from "react";
 
-function Pagination() {
+export default function Pagination({
+  postsPerPage,
+  totalPosts,
+  paginate,
+  currentPage
+}) {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-            Previous
+    <nav aria-label="Page navigation example mt-3">
+      <ul className="pagination justify-content-center">
+        <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
+          <a
+            className="page-link"
+            aria-label="Previous"
+            onClick={() => paginate(currentPage - 1)}
+          >
+            <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li class="page-item">
-          <a class="page-link" href="#">
-            1
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">
-            2
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">
-            3
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">
-            Next
+        {pageNumbers.map(number => (
+          <li
+            key={number}
+            className={`page-item${number === currentPage ? " active" : ""}`}
+          >
+            <a onClick={() => paginate(number)} className="page-link">
+              {number}
+            </a>
+          </li>
+        ))}
+        <li
+          className={`page-item${
+            currentPage === pageNumbers.length ? " disabled" : ""
+          }`}
+        >
+          <a
+            className="page-link"
+            aria-label="Next"
+            onClick={() => paginate(currentPage + 1)}
+          >
+            <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
       </ul>
     </nav>
   );
 }
-export default Pagination;
