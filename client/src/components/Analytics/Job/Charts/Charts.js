@@ -36,7 +36,8 @@ class Charts extends Component {
                     key ===
                       `${new Date(job.jobBookingDateTime).getMonth() +
                         1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
-                    job.jobItems.length !== 0
+                    job.jobItems.length !== 0 &&
+                    job.isCancelled !== "Confirmed"
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
                       psaitems += job.jobItems[j].quantity;
@@ -51,7 +52,8 @@ class Charts extends Component {
                     key ===
                       `${new Date(job.jobBookingDateTime).getMonth() +
                         1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
-                    job.jobItems.length !== 0
+                    job.jobItems.length !== 0 &&
+                    job.isCancelled !== "Confirmed"
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
                       jpitems += job.jobItems[j].quantity;
@@ -66,7 +68,8 @@ class Charts extends Component {
                     key ===
                       `${new Date(job.jobBookingDateTime).getMonth() +
                         1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
-                    job.jobItems.length !== 0
+                    job.jobItems.length !== 0 &&
+                    job.isCancelled !== "Confirmed"
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
                       shipyarditems += job.jobItems[j].quantity;
@@ -81,7 +84,8 @@ class Charts extends Component {
                     key ===
                       `${new Date(job.jobBookingDateTime).getMonth() +
                         1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
-                    job.jobItems.length !== 0
+                    job.jobItems.length !== 0 &&
+                    job.isCancelled !== "Confirmed"
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
                       othersitems += job.jobItems[j].quantity;
