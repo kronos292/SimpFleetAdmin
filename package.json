@@ -2,13 +2,13 @@
   "name": "simpfleet",
   "version": "1.0.0",
   "description": "transaction tracker for SSD's ops",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --verbose",
     "start": "node index.js",
     "build": "npm run build --prefix client --verbose",
     "client-install": "npm install --prefix client",
-    "server": "nodemon server.js",
+    "server": "nodemon index.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "models-update": "npm un git+https://github.com/kronos292/SimpFleet_Models.git && npm i git+https://github.com/kronos292/SimpFleet_Models.git",
@@ -18,6 +18,7 @@
   "author": "wiwie ssd",
   "license": "MIT",
   "dependencies": {
+    "nodemon": "^1.19.1",
     "@material-ui/core": "^4.3.2",
     "aws-sdk": "^2.534.0",
     "aws-serverless-express": "^3.3.6",
@@ -63,7 +64,8 @@
     "tunnel-ssh": "^4.1.4",
     "validator": "^11.1.0"
   },
-  "devDependencies": {
-    "nodemon": "^1.19.1"
+  "engines": {
+    "node": "9.4.0",
+    "npm": "5.6.0"
   }
 }
