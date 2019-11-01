@@ -83,6 +83,7 @@ class JobAssignment extends Component {
   };
 
   render() {
+    console.log(this.state.jobAssignments);
     switch (this.state.jobAssignments) {
       case null:
         return <div></div>;

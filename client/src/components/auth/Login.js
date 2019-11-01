@@ -78,8 +78,6 @@ class Login extends Component {
   renderContent = () => {
     const { errors } = this.state;
     switch (this.props.auth.isAuthenticated) {
-      case null:
-        return;
       case false:
         return (
           <Container fluid className="signin-background">
@@ -169,24 +167,11 @@ class Login extends Component {
                     </Paper>
                   </Col>
                 </Row>
-                <Row>
-                  <Col md={{ size: 4, offset: 4 }}>
-                    <Paper>
-                      <p className="text-center signup">
-                        Don't have account?
-                        <NavLink to="/register" className="link">
-                          {" "}
-                          Sign Up
-                        </NavLink>
-                      </p>
-                    </Paper>
-                  </Col>
-                </Row>
               </Col>
             </Row>
           </Container>
         );
-      default:
+      case null:
         return <Redirect to="/" />;
     }
   };
