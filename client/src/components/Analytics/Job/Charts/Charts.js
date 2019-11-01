@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Row, Col, Card, CardBody, CardTitle, CardText } from "reactstrap";
-import { Bar, Line } from "react-chartjs-2";
-import { isNullOrUndefined } from "util";
-class NumberOfDeliveries extends Component {
+import { Bar } from "react-chartjs-2";
+class Charts extends Component {
   render() {
-    const { jobMonthAnalityc, jobDeliveryCategory } = this.props;
-    switch (jobMonthAnalityc && jobDeliveryCategory) {
+    const { jobMonthAnalys, jobDeliveryCategory } = this.props;
+    switch (jobMonthAnalys && jobDeliveryCategory) {
       case null:
         return <div></div>;
       default:
@@ -18,7 +17,7 @@ class NumberOfDeliveries extends Component {
         const jpItems = [];
         const shipyardItems = [];
         const OthersItems = [];
-        const MonthMap = Object.keys(jobMonthAnalityc).map((key, index) => {
+        const MonthMap = Object.keys(jobMonthAnalys).map((key, index) => {
           let psaitems = 0;
           let jpitems = 0;
           let shipyarditems = 0;
@@ -35,7 +34,8 @@ class NumberOfDeliveries extends Component {
                   let job = jobs[i];
                   if (
                     key ===
-                      `${new Date(job.jobBookingDateTime).getMonth() + 1}` &&
+                      `${new Date(job.jobBookingDateTime).getMonth() +
+                        1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
                     job.jobItems.length !== 0
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
@@ -49,7 +49,8 @@ class NumberOfDeliveries extends Component {
                   let job = jobs[i];
                   if (
                     key ===
-                      `${new Date(job.jobBookingDateTime).getMonth() + 1}` &&
+                      `${new Date(job.jobBookingDateTime).getMonth() +
+                        1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
                     job.jobItems.length !== 0
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
@@ -63,7 +64,8 @@ class NumberOfDeliveries extends Component {
                   let job = jobs[i];
                   if (
                     key ===
-                      `${new Date(job.jobBookingDateTime).getMonth() + 1}` &&
+                      `${new Date(job.jobBookingDateTime).getMonth() +
+                        1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
                     job.jobItems.length !== 0
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
@@ -77,7 +79,8 @@ class NumberOfDeliveries extends Component {
                   let job = jobs[i];
                   if (
                     key ===
-                      `${new Date(job.jobBookingDateTime).getMonth() + 1}` &&
+                      `${new Date(job.jobBookingDateTime).getMonth() +
+                        1}/${new Date(job.jobBookingDateTime).getFullYear()}` &&
                     job.jobItems.length !== 0
                   ) {
                     for (let j = 0; j < job.jobItems.length; j++) {
@@ -89,29 +92,29 @@ class NumberOfDeliveries extends Component {
               }
             }
           );
-          if (key === "1") {
+          if (`${key.charAt(0)}${key.charAt(1)}` === "1/") {
             monthOfmap.push("Jan");
-          } else if (key === "2") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "2/") {
             monthOfmap.push("Feb");
-          } else if (key === "3") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "3/") {
             monthOfmap.push("Mar");
-          } else if (key === "4") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "4/") {
             monthOfmap.push("Apr");
-          } else if (key === "5") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "5/") {
             monthOfmap.push("May");
-          } else if (key === "6") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "6/") {
             monthOfmap.push("Jun");
-          } else if (key === "7") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "7/") {
             monthOfmap.push("Jul");
-          } else if (key === "8") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "8/") {
             monthOfmap.push("Aug");
-          } else if (key === "9") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "9/") {
             monthOfmap.push("Sep");
-          } else if (key === "10") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "10") {
             monthOfmap.push("Oct");
-          } else if (key === "11") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "11") {
             monthOfmap.push("Nov");
-          } else if (key === "12") {
+          } else if (String(`${key.charAt(0)}${key.charAt(1)}`) === "12") {
             monthOfmap.push("Dec");
           }
           psaItems.push(psaitems);
@@ -136,19 +139,19 @@ class NumberOfDeliveries extends Component {
               label: "JP-LT",
               stack: "Stack 0",
               data: jpjob,
-              backgroundColor: "rgb(28, 201, 86)"
+              backgroundColor: "rgb(28, 201, 140)"
             },
             {
               label: "Shipyard",
               stack: "Stack 0",
               data: shipyardjob,
-              backgroundColor: "rgb(13, 140, 55)"
+              backgroundColor: "rgb(13, 140, 100)"
             },
             {
               label: "Others",
               stack: "Stack 0",
               data: Others,
-              backgroundColor: "rgb(10, 92, 37)"
+              backgroundColor: "rgb(10, 92, 60)"
             }
           ]
         };
@@ -158,26 +161,26 @@ class NumberOfDeliveries extends Component {
             {
               label: "PSA Port",
               stack: "Stack 0",
-              data: psaItems,
+              data: psajob,
               backgroundColor: "rgb(161, 217, 180)"
             },
             {
               label: "JP-LT",
               stack: "Stack 0",
-              data: jpItems,
-              backgroundColor: "rgb(28, 201, 86)"
+              data: jpjob,
+              backgroundColor: "rgb(28, 201, 140)"
             },
             {
               label: "Shipyard",
               stack: "Stack 0",
-              data: shipyardItems,
-              backgroundColor: "rgb(13, 140, 55)"
+              data: shipyardjob,
+              backgroundColor: "rgb(13, 140, 100)"
             },
             {
               label: "Others",
               stack: "Stack 0",
-              data: OthersItems,
-              backgroundColor: "rgb(10, 92, 37)"
+              data: Others,
+              backgroundColor: "rgb(10, 92, 60)"
             }
           ]
         };
@@ -250,4 +253,4 @@ class NumberOfDeliveries extends Component {
     }
   }
 }
-export default NumberOfDeliveries;
+export default Charts;

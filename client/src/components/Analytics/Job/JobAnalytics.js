@@ -4,7 +4,7 @@ import BreakdownByMonth from "./BreakdownBy/BreakdownByMonth";
 import BreakdownByDeliveryLocations from "./BreakdownBy/BreakdownByDeliveryLocations";
 import BreakdownByVessels from "./BreakdownBy/BreakdownByVessels";
 import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
-import NumberOfDeliveries from "./Charts/NumberOfDeliveries";
+import Charts from "./Charts/Charts";
 class JobAnalytics extends Component {
   state = {
     userCompany: null,
@@ -12,7 +12,7 @@ class JobAnalytics extends Component {
     jobMonthCategories: null,
     jobDeliveryCategories: null,
     jobCompaniesCategories: null,
-    monthOfAnalityc: null,
+    AnalysData: null,
     jobVesselsCategories: null
   };
 
@@ -48,21 +48,13 @@ class JobAnalytics extends Component {
         let jobMonthCategories = {};
         let jobDeliveryCategories = {};
         let jobCompaniesCategories = {};
-        let jobMonthAnalitycs = {};
         let jobVesselsCategories = {};
+        let jobAnalys = {};
         for (let i = 0; i < jobs.length; i++) {
           const job = jobs[i];
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
             1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
-          const monthOfAnalityc = `${new Date(
-            job.jobBookingDateTime
-          ).getMonth() + 1}`;
 
-          let jobMonthAnalytic = jobMonthAnalitycs[monthOfAnalityc];
-          if (!jobMonthAnalytic) {
-            jobMonthAnalytic = [];
-            jobMonthAnalitycs[monthOfAnalityc] = jobMonthAnalytic;
-          }
           let jobListMonth = jobMonthCategories[monthOfJob];
           if (!jobListMonth) {
             jobListMonth = [];
@@ -88,7 +80,6 @@ class JobAnalytics extends Component {
             }
             jobListCompanies.push(job);
           }
-          jobMonthAnalytic.push(job);
 
           if (job.vessel !== null && job.vessel.vesselName !== null) {
             let jobListVessels = jobVesselsCategories[job.vessel._id];
@@ -102,11 +93,30 @@ class JobAnalytics extends Component {
           jobListMonth.push(job);
           jobListLocation.push(job);
         }
+
+        jobs.sort((a, b) => {
+          return (
+            new Date(a.jobBookingDateTime.toString()) -
+            new Date(b.jobBookingDateTime.toString())
+          );
+        });
+
+        for (let i = 0; i < jobs.length; i++) {
+          const job = jobs[i];
+          const month = `${new Date(job.jobBookingDateTime).getMonth() +
+            1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
+          let jobListMonth = jobAnalys[month];
+          if (!jobListMonth) {
+            jobListMonth = [];
+            jobAnalys[month] = jobListMonth;
+          }
+          jobListMonth.push(job);
+        }
         this.setState({
           jobMonthCategories: jobMonthCategories,
           jobDeliveryCategories: jobDeliveryCategories,
           jobCompaniesCategories: jobCompaniesCategories,
-          monthOfAnalityc: jobMonthAnalitycs,
+          AnalysData: jobAnalys,
           jobVesselsCategories: jobVesselsCategories
         });
       })
@@ -122,8 +132,8 @@ class JobAnalytics extends Component {
   render() {
     return (
       <div>
-        <NumberOfDeliveries
-          jobMonthAnalityc={this.state.monthOfAnalityc}
+        <Charts
+          jobMonthAnalys={this.state.AnalysData}
           jobDeliveryCategory={this.state.jobDeliveryCategories}
         />
         <BreakdownByMonth jobMonthCategory={this.state.jobMonthCategories} />
