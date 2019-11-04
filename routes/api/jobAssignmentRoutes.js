@@ -5,7 +5,7 @@ const JobAssignment = require("simpfleet_models/models/JobAssignment");
 const Job = require("simpfleet_models/models/Job");
 
 const telegramBotMethods = require("../../service/telegramBotMethods");
-const emailMethods = require("../../service/emailMethods");
+const emailMethods = require("simpfleet_models/emails/emailMethods");
 
 router.get("/", async (req, res) => {
   const jobAssignments = await JobAssignment.find({ status: "Pending" })

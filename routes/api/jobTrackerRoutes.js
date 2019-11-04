@@ -6,7 +6,7 @@ const router = express.Router();
 const Job = require('simpfleet_models/models/Job');
 const JobTracker = require('simpfleet_models/models/JobTracker');
 
-const emailMethods = require('../services/emailMethods');
+const emailMethods = require('simpfleet_models/emails/emailMethods');
 const googleCalendarMethods = require('../services/googleCalendarMethods');
 
 router.post('/', async(req, res) => {

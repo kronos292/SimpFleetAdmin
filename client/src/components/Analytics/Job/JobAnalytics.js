@@ -5,6 +5,7 @@ import BreakdownByDeliveryLocations from "./BreakdownBy/BreakdownByDeliveryLocat
 import BreakdownByVessels from "./BreakdownBy/BreakdownByVessels";
 import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
 import Charts from "./Charts/Charts";
+import WeeksTable from "./Tables/WeeksTable";
 class JobAnalytics extends Component {
   state = {
     userCompany: null,
@@ -136,6 +137,7 @@ class JobAnalytics extends Component {
           jobMonthAnalys={this.state.AnalysData}
           jobDeliveryCategory={this.state.jobDeliveryCategories}
         />
+        <WeeksTable dataTable={this.state.jobMonthCategories} />
         <BreakdownByMonth jobMonthCategory={this.state.jobMonthCategories} />
         <BreakdownByDeliveryLocations
           jobDeliveryCategory={this.state.jobDeliveryCategories}

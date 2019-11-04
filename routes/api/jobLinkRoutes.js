@@ -6,7 +6,7 @@ const CareOffParty = require("simpfleet_models/models/CareOffParty");
 const Job = require("simpfleet_models/models/Job");
 const PaymentTracker = require("simpfleet_models/models/PaymentTracker");
 
-const emailMethods = require("../../service/emailMethods");
+const emailMethods = require("simpfleet_models/emails/emailMethods");
 
 router.get("/", async (req, res) => {
   const { jobIndex } = req.query;

@@ -12,7 +12,7 @@ const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
 const constants = require("../../service/constantTypes");
 //Load email methods
-const emailMethods = require("../../service/emailMethods");
+const emailMethods = require("simpfleet_models/emails/emailMethods");
 
 router.get("/fetch", async (req, res) => {
   if (req.session.user) {
