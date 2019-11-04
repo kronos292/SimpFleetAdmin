@@ -7,7 +7,6 @@ export const loginUser = userData => dispatch => {
   axios
     .post("/api/users/login", userData)
     .then(res => {
-      window.alert("Welcome to SimpFleet Apps. you are logged.");
       window.location.href = "/";
     })
     .catch(err => {
