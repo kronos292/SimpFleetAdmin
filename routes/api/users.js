@@ -137,7 +137,12 @@ router.post("/contact_mail", (req, res) => {
     `<p><strong>Email:</strong> ${email}</p>` +
     `<p><strong>Contact Number:</strong> ${contactNumber}</p>` +
     `<p><strong>Remarks:</strong> ${remarks}</p>`;
-  emailMethods.sendAutomatedEmail(keys.email, "Contact Form Request", htmlText);
+  emailMethods.sendAutomatedEmail(
+    keys.SHIP_SUPPLIES_DIRECT_SALES_EMAIL,
+    "Contact Form Request",
+    htmlText,
+    null
+  );
 
   res.send(null);
 });
