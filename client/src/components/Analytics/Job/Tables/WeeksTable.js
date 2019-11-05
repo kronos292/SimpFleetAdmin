@@ -11,7 +11,12 @@ class WeeksTable extends Component {
         return (
           <Row>
             <Col>
-              <Table bordered responsive size="lg">
+              <Table
+                bordered
+                responsive
+                size="sm"
+                style={{ minWidth: "7000px", textAlign: "center" }}
+              >
                 <thead
                   style={{
                     backgroundColor: "#49AE4B",
@@ -19,36 +24,35 @@ class WeeksTable extends Component {
                   }}
                 >
                   <tr>
-                    <td rowSpan="2" scope="row">
+                    <td rowSpan="2" style={{ verticalAlign: "middle" }}>
                       Week
                     </td>
-                    <td rowSpan="2">Client</td>
-                    <td rowSpan="2">Ongoing Jobs</td>
-                    <td rowSpan="2" style={{ color: "red" }}>
+                    <td rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Client
+                    </td>
+                    <td rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Ongoing Jobs
+                    </td>
+                    <td
+                      rowSpan="2"
+                      style={{ color: "red", verticalAlign: "middle" }}
+                    >
                       Cancelled Jobs
                     </td>
-                    <td rowSpan="2">Completed Jobs</td>
-                    <td rowSpan="2">Total Jobs</td>
-                    <td colSpan="8">
-                      <center>Delivery</center>
+                    <td rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Completed Jobs
                     </td>
-                    <td colSpan="8">
-                      <center>Offland</center>
+                    <td rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Total Jobs
                     </td>
-                    <td colSpan="5">
-                      <center>PSA</center>
-                    </td>
-                    <td colSpan="5">
-                      <center>Jurong Port-LT</center>
-                    </td>
-                    <td colSpan="5">
-                      <center>Shipyard</center>
-                    </td>
-                    <td colSpan="5">
-                      <center>Others</center>
-                    </td>
-                    <td rowSpan="2">
-                      <center>Billing ($)</center>
+                    <td colSpan="8">Delivery</td>
+                    <td colSpan="8">Offland</td>
+                    <td colSpan="5">PSA</td>
+                    <td colSpan="5">Jurong Port-LT</td>
+                    <td colSpan="5">Shipyard</td>
+                    <td colSpan="5">Others</td>
+                    <td rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Billing ($)
                     </td>
                   </tr>
                   <tr>

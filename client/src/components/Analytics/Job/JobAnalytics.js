@@ -55,7 +55,14 @@ class JobAnalytics extends Component {
           const job = jobs[i];
           const monthOfJob = `${new Date(job.jobBookingDateTime).getMonth() +
             1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
-
+          /* const weekOfJob = `${new Date(
+            job.jobBookingDateTime
+          ).getDay()}/${new Date(job.jobBookingDateTime).getMonth() +
+            1}/${new Date(job.jobBookingDateTime).getFullYear()} - ${new Date(
+            job.jobBookingDateTime
+          ).getDay() + 1}/${new Date(job.jobBookingDateTime).getMonth() +
+            1}/${new Date(job.jobBookingDateTime).getFullYear()}`;
+          console.log(weekOfJob); */
           let jobListMonth = jobMonthCategories[monthOfJob];
           if (!jobListMonth) {
             jobListMonth = [];

@@ -14,11 +14,6 @@ export const loginUser = userData => dispatch => {
         type: GET_ERRORS,
         payload: err.response.data
       });
-      if (err.response.data.isApproved) {
-        window.alert(
-          "Account not yet Approved. Please check your email or contact us."
-        );
-      }
     });
 };
 
