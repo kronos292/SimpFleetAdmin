@@ -246,6 +246,7 @@ class JobSummaryTable extends Component {
                     <MediaQuery minWidth={768}>
                       {/* webview table */}
                       <JobSummaryTableSearchBar
+                        check={postsPerPage}
                         data={
                           postsPerPage
                             ? this.state.data.slice(
