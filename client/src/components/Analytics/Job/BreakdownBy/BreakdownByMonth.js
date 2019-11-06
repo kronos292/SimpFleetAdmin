@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Row, Table, Col } from "reactstrap";
-import Chart from "chart.js";
 
 class BreakdownByMonth extends Component {
   render() {
@@ -79,7 +78,13 @@ class BreakdownByMonth extends Component {
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
                 <thead>
-                  <tr style={{ backgroundColor: "#49AE4B", color: "white" }}>
+                  <tr
+                    style={{
+                      backgroundColor: "#49AE4B",
+                      color: "white",
+                      textAlign: "center"
+                    }}
+                  >
                     <th>Month</th>
                     <th>Total jobs</th>
                     <th style={{ color: "red" }}>Cancelled jobs</th>
