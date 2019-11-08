@@ -19,7 +19,7 @@ const JobAssignment = require("simpfleet_models/models/JobAssignment");
 const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
 const PickupDetail = require("simpfleet_models/models/PickupDetail");
-const vesselLoadingLocation = require("simpfleet_models/models/vesselLoadingLocation");
+const VesselLoadingLocation = require("simpfleet_models/models/VesselLoadingLocation");
 
 router.get("/", async (req, res) => {
   let params = {};
