@@ -18,6 +18,8 @@ const PSAVessel = require("simpfleet_models/models/PSAVessel");
 const JobAssignment = require("simpfleet_models/models/JobAssignment");
 const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
+const PickupDetail = require("simpfleet_models/models/PickupDetail");
+const vesselLoadingLocation = require("simpfleet_models/models/vesselLoadingLocation");
 
 router.get("/", async (req, res) => {
   let params = {};
@@ -30,48 +32,46 @@ router.get("/", async (req, res) => {
     params.isArchived = false;
   }
   // Get all jobs
-  let jobs = await Job.find(params)
-    .populate({
-      path: "vessel",
-      model: "vessels"
-    })
-    .populate({
-      path: "user",
-      model: "users",
-      populate: [
-        {
-          path: "userCompany",
-          model: "userCompanies"
-        }
-      ]
-    })
-    .populate({
-      path: "jobTrackers",
-      model: "jobTrackers"
-    })
-    .populate({
-      path: "paymentTrackers",
-      model: "paymentTrackers"
-    })
-    .populate({
-      path: "careOffParties",
-      model: "careOffParties",
-      populate: [
-        {
-          path: "job",
-          model: "jobs"
-        }
-      ]
-    })
-    .populate({
-      path: "jobItems",
-      model: "jobItems"
-    })
-    .populate({
-      path: "jobOfflandItems",
-      model: "jobOfflandItems"
-    })
-    .select();
+  let jobs = await Job.find(params).populate({
+        path: 'vessel',
+        model: 'vessels'
+      }).populate({
+        path: 'vesselLoadingLocation',
+        model: 'vesselLoadingLocations'
+      }).populate({
+        path: 'user',
+        model: 'users'
+      }).populate({
+        path: 'jobTrackers',
+        model: 'jobTrackers'
+      }).populate({
+        path: 'paymentTrackers',
+        model: 'paymentTrackers'
+      }).populate({
+        path: 'pickupDetails',
+        model: 'pickupDetails',
+        populate: [
+          {
+            path: 'pickupLocation',
+            model: 'pickupLocations'
+          }
+        ]
+      }).populate({
+        path: 'careOffParties',
+        model: 'careOffParties',
+        populate: [
+          {
+            path: 'job',
+            model: 'jobs'
+          }
+        ]
+      }).populate({
+        path: 'jobItems',
+        model: 'jobItems'
+      }).populate({
+        path: 'jobOfflandItems',
+        model: 'jobOfflandItems'
+      }).select();
 
   // Search bar query filter
   if (req.query.searchBarQuery) {
