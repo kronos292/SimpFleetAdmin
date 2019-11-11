@@ -159,6 +159,7 @@ class JobSummaryTable extends Component {
             const { postsPerPage, currentPage, paginate } = this.props;
             const indexOfLastPost = currentPage * postsPerPage;
             const indexofFirstPost = indexOfLastPost - postsPerPage;
+            /* admin */
             const vesselDeliveries = this.state.jobs
               .sort((a, b) => {
                 return (
@@ -246,6 +247,7 @@ class JobSummaryTable extends Component {
                     <MediaQuery minWidth={768}>
                       {/* webview table */}
                       <JobSummaryTableSearchBar
+                        check={postsPerPage}
                         data={
                           postsPerPage
                             ? this.state.data.slice(

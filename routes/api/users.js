@@ -10,7 +10,7 @@ const AdminUser = require("simpfleet_models/models/AdminUser");
 const Location = require("simpfleet_models/models/Location");
 const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
-const constants = require("../../service/constantTypes");
+const constants = require("../../services/constantTypes");
 //Load email methods
 const emailMethods = require("simpfleet_models/emails/emailMethods");
 

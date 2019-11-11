@@ -32,46 +32,56 @@ router.get("/", async (req, res) => {
     params.isArchived = false;
   }
   // Get all jobs
-  let jobs = await Job.find(params).populate({
-        path: 'vessel',
-        model: 'vessels'
-      }).populate({
-        path: 'vesselLoadingLocation',
-        model: 'vesselLoadingLocations'
-      }).populate({
-        path: 'user',
-        model: 'users'
-      }).populate({
-        path: 'jobTrackers',
-        model: 'jobTrackers'
-      }).populate({
-        path: 'paymentTrackers',
-        model: 'paymentTrackers'
-      }).populate({
-        path: 'pickupDetails',
-        model: 'pickupDetails',
-        populate: [
-          {
-            path: 'pickupLocation',
-            model: 'pickupLocations'
-          }
-        ]
-      }).populate({
-        path: 'careOffParties',
-        model: 'careOffParties',
-        populate: [
-          {
-            path: 'job',
-            model: 'jobs'
-          }
-        ]
-      }).populate({
-        path: 'jobItems',
-        model: 'jobItems'
-      }).populate({
-        path: 'jobOfflandItems',
-        model: 'jobOfflandItems'
-      }).select();
+  let jobs = await Job.find(params)
+    .populate({
+      path: "vessel",
+      model: "vessels"
+    })
+    .populate({
+      path: "vesselLoadingLocationObj",
+      model: "vesselLoadingLocations"
+    })
+    .populate({
+      path: "user",
+      model: "users"
+    })
+    .populate({
+      path: "jobTrackers",
+      model: "jobTrackers"
+    })
+    .populate({
+      path: "paymentTrackers",
+      model: "paymentTrackers"
+    })
+    .populate({
+      path: "pickupDetails",
+      model: "pickupDetails",
+      populate: [
+        {
+          path: "pickupLocation",
+          model: "pickupLocations"
+        }
+      ]
+    })
+    .populate({
+      path: "careOffParties",
+      model: "careOffParties",
+      populate: [
+        {
+          path: "job",
+          model: "jobs"
+        }
+      ]
+    })
+    .populate({
+      path: "jobItems",
+      model: "jobItems"
+    })
+    .populate({
+      path: "jobOfflandItems",
+      model: "jobOfflandItems"
+    })
+    .select();
 
   // Search bar query filter
   if (req.query.searchBarQuery) {
@@ -257,6 +267,10 @@ router.get("/index", async (req, res) => {
     .populate({
       path: "jobOfflandItems",
       model: "jobOfflandItems"
+    })
+    .populate({
+      path: "vesselLoadingLocationObj",
+      model: "vesselLoadingLocations"
     })
     .select();
   res.send(job);
