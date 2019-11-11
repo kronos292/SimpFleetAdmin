@@ -19,6 +19,7 @@ class BreakdownByCompanies extends Component {
         const othersTotal = [];
         const jobCompanieCategories = Object.keys(Company).map(
           (uniq, index) => {
+            const companyData = Company[uniq][0].name;
             const cancelledJobs = [];
             const openJobs = [];
             const completedJobs = [];
@@ -32,13 +33,13 @@ class BreakdownByCompanies extends Component {
                 if (uniq === key) {
                   for (let i = 0; i < jobs.length; i++) {
                     let job = jobs[i];
-                    if (key === "PSA") {
+                    if (job.vesselLoadingLocationObj === "PSA") {
                       psaJobs.push(job);
                       psaTotal.push(job);
-                    } else if (key === "Jurong Port") {
+                    } else if (job.vesselLoadingLocationObj === "Jurong Port") {
                       jpJobs.push(job);
                       jpTotal.push(job);
-                    } else if (key === "Shipyard") {
+                    } else if (job.vesselLoadingLocationObj === "Shipyard") {
                       shipyardJobs.push(job);
                       shipyardTotal.push(job);
                     } else {
@@ -64,7 +65,7 @@ class BreakdownByCompanies extends Component {
             );
             const sortJob = {
               id: `${o++}`,
-              company: `${uniq}`,
+              company: `${companyData}`,
               ongoing: `${openJobs.length}`,
               completed: `${completedJobs.length}`,
               cancelled: `${cancelledJobs.length}`,
