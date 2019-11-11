@@ -11,6 +11,12 @@ const constantTypes = require("../../service/constantTypes");
 //const emailMethods = require("../services/emailMethods");
 //const telegramBotMethods = require("../services/telegramBotMethods");
 router.get("/test", (req, res) => res.json("Pesan : succes"));
+/* get all jobfiles */
+router.get("/all", async (req, res) => {
+  const jobFiles = await JobFile.find();
+  res.send(jobFiles);
+});
+/* get job file by job id */
 router.get("/", async (req, res) => {
   const jobID = req.query.jobID;
   const jobFiles = await JobFile.find({

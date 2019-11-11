@@ -134,7 +134,9 @@ export default class JobSummaryTableSearchBar extends Component {
                       style={{ width: "100%" }}
                       text={
                         rowData.job.vessel !== null
-                          ? rowData.job.vessel.vesselName.toUpperCase()
+                          ? rowData.job.vessel.vesselName !== undefined
+                            ? rowData.job.vessel.vesselName.toUpperCase()
+                            : "-"
                           : ""
                       }
                       maxLine="1"
@@ -357,18 +359,30 @@ export default class JobSummaryTableSearchBar extends Component {
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
-                  style={{ width: "10vw" }}
+                  style={{ width: "20vw" }}
                 >
                   <div style={{ width: "100%" }}>
                     <LinesEllipsis
                       style={{ width: "100%" }}
-                      text="-"
+                      text={
+                        rowData.File.length > 0
+                          ? "Uploaded"
+                          : "Not yet uploaded"
+                      }
                       maxLine="1"
+                      ala
                       ellipsis="..."
                       trimRight
                       basedOn="letters"
                       className={"job-table-text"}
                     />
+                    <i className="job-table-helper-text">
+                      {rowData.File.length > 0
+                        ? moment(rowData.File[0].timeUploaded).format(
+                            "MMM, DD YYYY, HH:mm"
+                          )
+                        : "-"}
+                    </i>
                   </div>
                 </div>
               )
@@ -484,13 +498,15 @@ export default class JobSummaryTableSearchBar extends Component {
               render: rowData => (
                 <div className="d-flex flex-column">
                   <span className="job-table-text">
-                    {rowData.job.vessel !== null
+                    {rowData.job.vessel !== null ||
+                    rowData.job.vessel !== undefined
                       ? rowData.job.vessel.vesselName.toUpperCase()
                       : ""}
                   </span>
                   <span className="job-table-helper-text">
                     <i>
-                      {rowData.job.vessel !== null
+                      {rowData.job.vessel !== null ||
+                      rowData.job.vessel !== undefined
                         ? rowData.job.vessel.vesselIMOID
                         : ""}
                     </i>

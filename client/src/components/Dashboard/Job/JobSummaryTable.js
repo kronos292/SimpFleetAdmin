@@ -22,7 +22,7 @@ function priceRow(qty, price) {
   return 0;
 }
 
-function createRow(name, imo, vesselName, status, job, eta, price) {
+function createRow(name, imo, vesselName, status, job, eta, price, File) {
   return {
     name: name,
     vesselImo: imo,
@@ -30,7 +30,8 @@ function createRow(name, imo, vesselName, status, job, eta, price) {
     status: status,
     job: job,
     eta: eta,
-    price: price
+    price: price,
+    File: File
   };
 }
 
@@ -46,6 +47,14 @@ class JobSummaryTable extends Component {
   };
 
   componentDidMount() {
+    const jobFilesArray = [];
+    /* get all job files */
+    axios.get("api/job_files/all").then(res => {
+      const jobFiles = res.data;
+      for (let i = 0; i < jobFiles.length; i++) {
+        jobFilesArray.push(res.data[i]);
+      }
+    });
     // Get all jobs
     axios
       .get(
@@ -79,6 +88,13 @@ class JobSummaryTable extends Component {
               return a;
             }, [])
             .reduce((sum, i) => sum + i, 0);
+          /* comparing job files */
+          const jobFile = [];
+          for (let i = 0; i < jobFilesArray.length; i++) {
+            if (job._id === jobFilesArray[i].job) {
+              jobFile.push(jobFilesArray[i]);
+            }
+          }
           data.push(
             createRow(
               job.jobId,
@@ -87,13 +103,15 @@ class JobSummaryTable extends Component {
               job.jobTrackers,
               job,
               job.vesselArrivalDateTime,
-              subtotal
+              subtotal,
+              jobFile
             )
           );
         }
         this.setState({
           data: data
         });
+        console.log(this.state.data);
       })
       .catch(err => {
         console.log(err);
