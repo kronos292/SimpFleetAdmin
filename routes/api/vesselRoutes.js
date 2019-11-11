@@ -21,7 +21,6 @@ router.get("/search", async (req, res) => {
     const result = res.data;
     for (let i = 0; i < result.length; i++) {
       let o = result[i];
-      console.log(o);
       if (
         o.SHIPNAME !== "" &&
         o.IMO !== "" &&

@@ -109,7 +109,13 @@ class BreakdownByDeliveryLocations extends Component {
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
                 <thead>
-                  <tr style={{ backgroundColor: "#49AE4B", color: "white", textAlign: "center" }}>
+                  <tr
+                    style={{
+                      backgroundColor: "#49AE4B",
+                      color: "white",
+                      textAlign: "center"
+                    }}
+                  >
                     <th>Delivery Location</th>
                     <th>No. of Pallets (Delivery)</th>
                     <th>No. of Pallets (Offland)</th>

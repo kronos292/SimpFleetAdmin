@@ -6,10 +6,10 @@ const fs = require("graceful-fs");
 const JobFile = require("simpfleet_models/models/JobFile");
 const Job = require("simpfleet_models/models/Job");
 
-const s3Methods = require("../../service/s3Methods");
-const constantTypes = require("../../service/constantTypes");
+const s3Methods = require("../../services/s3Methods");
+const constantTypes = require("../../services/constantTypes");
 //const emailMethods = require("../services/emailMethods");
-//const telegramBotMethods = require("../services/telegramBotMethods");
+//const telegramBotMethods = require("simpfleet_models/telegram/telegramBotMethods");
 router.get("/test", (req, res) => res.json("Pesan : succes"));
 /* get all jobfiles */
 router.get("/all", async (req, res) => {
