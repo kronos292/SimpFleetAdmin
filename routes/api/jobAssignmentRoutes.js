@@ -4,7 +4,7 @@ const router = express.Router();
 const JobAssignment = require("simpfleet_models/models/JobAssignment");
 const Job = require("simpfleet_models/models/Job");
 
-const telegramBotMethods = require("../../service/telegramBotMethods");
+const telegramBotMethods = require("simpfleet_models/telegram/telegramBotMethods");
 const emailMethods = require("simpfleet_models/emails/emailMethods");
 
 router.get("/", async (req, res) => {
