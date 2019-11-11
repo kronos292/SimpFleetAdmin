@@ -398,23 +398,23 @@ class JobAnalytics extends Component {
             jobListMonth = [];
             jobMonthCategories[monthOfJob] = jobListMonth;
           }
-          if (job.vesselLoadingLocationObj !== undefined) {
-            if (job.vesselLoadingLocationObj !== null) {
-              if (job.vesselLoadingLocationObj.name !== undefined) {
-                if (job.vesselLoadingLocationObj.name !== null) {
+          if (job.vesselLoadingLocation !== undefined) {
+            if (job.vesselLoadingLocation !== null) {
+              if (job.vesselLoadingLocation.name !== undefined) {
+                if (job.vesselLoadingLocation.name !== null) {
                   let jobListLocation =
-                    jobDeliveryCategories[job.vesselLoadingLocationObj.name];
+                    jobDeliveryCategories[job.vesselLoadingLocation.name];
                   if (!jobListLocation) {
                     jobListLocation = [];
                     jobDeliveryCategories[
-                      job.vesselLoadingLocationObj.name
+                      job.vesselLoadingLocation.name
                     ] = jobListLocation;
                   }
                   jobListLocation.push(job);
                 }
               }
             }
-          } 
+          }
           if (job.user.userCompany !== null) {
             let jobListCompanies = jobCompaniesCategories[job.user.userCompany];
             if (!jobListCompanies) {

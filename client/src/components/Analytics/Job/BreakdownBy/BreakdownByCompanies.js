@@ -33,18 +33,30 @@ class BreakdownByCompanies extends Component {
                 if (uniq === key) {
                   for (let i = 0; i < jobs.length; i++) {
                     let job = jobs[i];
-                    if (job.vesselLoadingLocationObj === "PSA") {
-                      psaJobs.push(job);
-                      psaTotal.push(job);
-                    } else if (job.vesselLoadingLocationObj === "Jurong Port") {
-                      jpJobs.push(job);
-                      jpTotal.push(job);
-                    } else if (job.vesselLoadingLocationObj === "Shipyard") {
-                      shipyardJobs.push(job);
-                      shipyardTotal.push(job);
-                    } else {
-                      othersJobs.push(job);
-                      othersTotal.push(job);
+                    if (job.vesselLoadingLocation !== undefined) {
+                      if (job.vesselLoadingLocation !== null) {
+                        if (job.vesselLoadingLocation.name !== undefined) {
+                          if (job.vesselLoadingLocation.name !== null) {
+                            if (job.vesselLoadingLocation.name === "PSA") {
+                              psaJobs.push(job);
+                              psaTotal.push(job);
+                            } else if (
+                              job.vesselLoadingLocation.name === "Jurong Port"
+                            ) {
+                              jpJobs.push(job);
+                              jpTotal.push(job);
+                            } else if (
+                              job.vesselLoadingLocation.name === "Shipyard"
+                            ) {
+                              shipyardJobs.push(job);
+                              shipyardTotal.push(job);
+                            } else {
+                              othersJobs.push(job);
+                              othersTotal.push(job);
+                            }
+                          }
+                        }
+                      }
                     }
 
                     if (job.isCancelled === "Confirmed") {
