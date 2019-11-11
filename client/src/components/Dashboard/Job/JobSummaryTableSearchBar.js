@@ -9,7 +9,6 @@ import LinesEllipsis from "react-lines-ellipsis";
 
 export default class JobSummaryTableSearchBar extends Component {
   render() {
-    console.log(this.props.check);
     if (this.props.check !== undefined) {
       return (
         <MaterialTable
@@ -75,15 +74,18 @@ export default class JobSummaryTableSearchBar extends Component {
                     <LinesEllipsis
                       style={{ width: "100%" }}
                       text={
-                        rowData.job.user.firstName === rowData.job.user.lastName
-                          ? rowData.job.user.firstName +
-                            ", " +
-                            rowData.job.user.userCompany.name
-                          : rowData.job.user.firstName +
-                            " " +
-                            rowData.job.user.lastName +
-                            ", " +
-                            rowData.job.user.userCompany.name
+                        rowData.job.user.userCompany !== null
+                          ? rowData.job.user.firstName ===
+                            rowData.job.user.lastName
+                            ? rowData.job.user.firstName +
+                              ", " +
+                              rowData.job.user.userCompany.name
+                            : rowData.job.user.firstName +
+                              " " +
+                              rowData.job.user.lastName +
+                              ", " +
+                              rowData.job.user.userCompany.name
+                          : "-"
                       }
                       maxLine="1"
                       ellipsis="..."
@@ -164,7 +166,13 @@ export default class JobSummaryTableSearchBar extends Component {
                   <div style={{ width: "100%" }}>
                     <LinesEllipsis
                       style={{ width: "100%" }}
-                      text={rowData.job.vesselLoadingLocation}
+                      text={
+                        rowData.job.vesselLoadingLocationObj !== undefined
+                          ? rowData.job.vesselLoadingLocationObj !== null
+                            ? rowData.job.vesselLoadingLocationObj.name
+                            : "-"
+                          : "-"
+                      }
                       maxLine="1"
                       ellipsis="..."
                       trimRight
@@ -249,8 +257,17 @@ export default class JobSummaryTableSearchBar extends Component {
                   <div style={{ width: "100%" }}>
                     <LinesEllipsis
                       style={{ width: "100%" }}
-                      text={rowData.job.paymentTrackers.label}
+                      text={
+                        rowData.job.paymentTrackers.length === 3
+                          ? rowData.job.paymentTrackers[2].label
+                          : rowData.job.paymentTrackers.length === 2
+                          ? rowData.job.paymentTrackers[1].label
+                          : rowData.job.paymentTrackers.length === 1
+                          ? rowData.job.paymentTrackers[0].label
+                          : "-"
+                      }
                       maxLine="1"
+                      ala
                       ellipsis="..."
                       trimRight
                       basedOn="letters"
