@@ -8,22 +8,43 @@ class BreakdownByCompanies extends Component {
       case null:
         return <div></div>;
       default:
-        let jobSort = [];
+        const jobSort = [];
         let o = 0;
         const cancelledjobstotal = [];
         const openjobstotal = [];
         const completedjobstotal = [];
+        const psaTotal = [];
+        const jpTotal = [];
+        const shipyardTotal = [];
+        const othersTotal = [];
         const jobCompanieCategories = Object.keys(Company).map(
           (uniq, index) => {
             const cancelledJobs = [];
             const openJobs = [];
             const completedJobs = [];
+            const psaJobs = [];
+            const jpJobs = [];
+            const shipyardJobs = [];
+            const othersJobs = [];
             const jobData = Object.keys(jobCompaniesCategory).map(
               (key, index) => {
                 const jobs = jobCompaniesCategory[key];
                 if (uniq === key) {
                   for (let i = 0; i < jobs.length; i++) {
                     let job = jobs[i];
+                    if (key === "PSA") {
+                      psaJobs.push(job);
+                      psaTotal.push(job);
+                    } else if (key === "Jurong Port") {
+                      jpJobs.push(job);
+                      jpTotal.push(job);
+                    } else if (key === "Shipyard") {
+                      shipyardJobs.push(job);
+                      shipyardTotal.push(job);
+                    } else {
+                      othersJobs.push(job);
+                      othersTotal.push(job);
+                    }
 
                     if (job.isCancelled === "Confirmed") {
                       cancelledJobs.push(job);
@@ -49,7 +70,11 @@ class BreakdownByCompanies extends Component {
               cancelled: `${cancelledJobs.length}`,
               total: `${openJobs.length +
                 completedJobs.length +
-                cancelledJobs.length}`
+                cancelledJobs.length}`,
+              psa: `${psaJobs.length}`,
+              jp: `${jpJobs.length}`,
+              shipyard: `${shipyardJobs.length}`,
+              others: `${othersJobs.length}`
             };
             jobSort.push(sortJob);
           }
@@ -65,6 +90,10 @@ class BreakdownByCompanies extends Component {
               <td>{job.completed}</td>
               <td style={{ color: "red" }}>{job.cancelled}</td>
               <td>{job.total}</td>
+              <td>{job.psa}</td>
+              <td>{job.jp}</td>
+              <td>{job.shipyard}</td>
+              <td>{job.others}</td>
             </tr>
           );
         });
@@ -75,13 +104,39 @@ class BreakdownByCompanies extends Component {
             </Col>
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
-                <thead>
-                  <tr style={{ backgroundColor: "#49AE4B", color: "white" }}>
-                    <th>Companies</th>
-                    <th>Ongoing Jobs</th>
-                    <th>Completed Jobs</th>
-                    <th style={{ color: "red" }}>Cancelled Jobs</th>
-                    <th>Total Jobs</th>
+                <thead
+                  style={{
+                    backgroundColor: "#49AE4B",
+                    color: "white",
+                    textAlign: "center"
+                  }}
+                >
+                  <tr>
+                    <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Companies
+                    </th>
+                    <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Ongoing Jobs
+                    </th>
+                    <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Completed Jobs
+                    </th>
+                    <th
+                      style={{ color: "red", verticalAlign: "middle" }}
+                      rowSpan="2"
+                    >
+                      Cancelled Jobs
+                    </th>
+                    <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                      Total Jobs
+                    </th>
+                    <th colSpan="4">Delivery Location</th>
+                  </tr>
+                  <tr>
+                    <th>PSA Port</th>
+                    <th>Jurong Port-LT</th>
+                    <th>Shipyard</th>
+                    <th>Others</th>
                   </tr>
                 </thead>
                 <tbody>{fillData}</tbody>
@@ -100,6 +155,10 @@ class BreakdownByCompanies extends Component {
                         cancelledjobstotal.length}{" "}
                       Jobs
                     </th>
+                    <th>{psaTotal.length} Jobs</th>
+                    <th>{jpTotal.length} Jobs</th>
+                    <th>{shipyardTotal.length} Jobs</th>
+                    <th>{othersTotal.length} Jobs</th>
                   </tr>
                 </tfoot>
               </Table>

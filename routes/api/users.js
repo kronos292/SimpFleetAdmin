@@ -12,7 +12,7 @@ const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
 const constants = require("../../service/constantTypes");
 //Load email methods
-const emailMethods = require("../../service/emailMethods");
+const emailMethods = require("simpfleet_models/emails/emailMethods");
 
 router.get("/fetch", async (req, res) => {
   if (req.session.user) {
@@ -137,7 +137,12 @@ router.post("/contact_mail", (req, res) => {
     `<p><strong>Email:</strong> ${email}</p>` +
     `<p><strong>Contact Number:</strong> ${contactNumber}</p>` +
     `<p><strong>Remarks:</strong> ${remarks}</p>`;
-  emailMethods.sendAutomatedEmail(keys.email, "Contact Form Request", htmlText);
+  emailMethods.sendAutomatedEmail(
+    keys.SHIP_SUPPLIES_DIRECT_SALES_EMAIL,
+    "Contact Form Request",
+    htmlText,
+    null
+  );
 
   res.send(null);
 });

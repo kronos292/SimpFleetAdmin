@@ -89,7 +89,13 @@ class BreakdownByVessels extends Component {
             <Col cs="12" md={{ size: 12, offset: 0 }}>
               <Table striped hover bordered responsive>
                 <thead>
-                  <tr style={{ backgroundColor: "#49AE4B", color: "white" }}>
+                  <tr
+                    style={{
+                      backgroundColor: "#49AE4B",
+                      color: "white",
+                      textAlign: "center"
+                    }}
+                  >
                     <th>Vessels Name</th>
                     <th>Vessels IMO</th>
                     <th>Vessels Callsign</th>
@@ -118,9 +124,7 @@ class BreakdownByVessels extends Component {
                 <br />
                 <tfoot>
                   <tr>
-                    <th>Total</th>
-                    <th></th>
-                    <th></th>
+                    <th colSpan="3">Total</th>
                     <th>{openJobstotal.length} Jobs</th>
                     <th>{completedJobstotal.length} Jobs</th>
                     <th style={{ color: "red" }}>

@@ -18,7 +18,8 @@ const PSAVessel = require("simpfleet_models/models/PSAVessel");
 const JobAssignment = require("simpfleet_models/models/JobAssignment");
 const PickupLocation = require("simpfleet_models/models/PickupLocation");
 const UserCompany = require("simpfleet_models/models/UserCompany");
-const vesselLoadingLocation = require("simpfleet_models/models/VesselLoadingLocation");
+const PickupDetail = require("simpfleet_models/models/PickupDetail");
+const VesselLoadingLocation = require("simpfleet_models/models/VesselLoadingLocation");
 
 router.get("/", async (req, res) => {
   let params = {};
@@ -37,14 +38,12 @@ router.get("/", async (req, res) => {
       model: "vessels"
     })
     .populate({
+      path: "vesselLoadingLocationObj",
+      model: "vesselLoadingLocations"
+    })
+    .populate({
       path: "user",
-      model: "users",
-      populate: [
-        {
-          path: "userCompany",
-          model: "userCompanies"
-        }
-      ]
+      model: "users"
     })
     .populate({
       path: "jobTrackers",
@@ -53,6 +52,16 @@ router.get("/", async (req, res) => {
     .populate({
       path: "paymentTrackers",
       model: "paymentTrackers"
+    })
+    .populate({
+      path: "pickupDetails",
+      model: "pickupDetails",
+      populate: [
+        {
+          path: "pickupLocation",
+          model: "pickupLocations"
+        }
+      ]
     })
     .populate({
       path: "careOffParties",
@@ -71,10 +80,6 @@ router.get("/", async (req, res) => {
     .populate({
       path: "jobOfflandItems",
       model: "jobOfflandItems"
-    })
-    .populate({
-      path: "vesselLoadingLocationObj",
-      model: "vesselLoadingLocations"
     })
     .select();
 
