@@ -17,6 +17,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Job Created",
               field: "jobCreated",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -25,9 +26,14 @@ export default class JobSummaryTableSearchBar extends Component {
                   <div style={{ width: "100%" }}>
                     <LinesEllipsis
                       style={{ width: "100%" }}
-                      text={moment(rowData.job.jobBookingDateTime).format(
-                        "DD MMM YYYY, HH:mm"
-                      )}
+                      text={
+                        (rowData.job.jobBookingDateTime !== null) |
+                        (rowData.job.jobBookingDateTime !== undefined)
+                          ? moment(rowData.job.jobBookingDateTime).format(
+                              "DD MMM YYYY, HH:mm"
+                            )
+                          : "-"
+                      }
                       maxLine="1"
                       ellipsis="..."
                       trimRight
@@ -42,6 +48,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Date of Delivery",
               field: "dateOfDelivery",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -65,6 +72,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Client",
               field: "userCompanyName",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -101,6 +109,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Job Number",
               field: "name",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -109,7 +118,11 @@ export default class JobSummaryTableSearchBar extends Component {
                   <div style={{ width: "100%" }}>
                     <LinesEllipsis
                       style={{ width: "100%" }}
-                      text={rowData.name}
+                      text={
+                        rowData.name !== null || rowData.name !== undefined
+                          ? rowData.name
+                          : "-"
+                      }
                       maxLine="1"
                       ellipsis="..."
                       trimRight
@@ -124,6 +137,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Vessel",
               field: "vesselName",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -137,7 +151,7 @@ export default class JobSummaryTableSearchBar extends Component {
                           ? rowData.job.vessel.vesselName !== undefined
                             ? rowData.job.vessel.vesselName.toUpperCase()
                             : "-"
-                          : ""
+                          : "-"
                       }
                       maxLine="1"
                       ellipsis="..."
@@ -160,6 +174,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Vessel Loading Location",
               field: "vesselLoadingLocation",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -189,29 +204,42 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Delivery Items",
               field: "deliveryitems",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
                   style={{ width: "15vw" }}
                 >
                   <div className="" style={{ width: "100%" }}>
-                    {rowData.job.jobItems.map((items, index) => {
-                      return (
-                        <LinesEllipsis
-                          style={{ width: "100%" }}
-                          text={
-                            index === rowData.job.jobItems.length - 1
-                              ? items.quantity + " " + items.uom
-                              : items.quantity + " " + items.uom + ", "
-                          }
-                          maxLine="1"
-                          ellipsis="..."
-                          trimRight
-                          basedOn="letters"
-                          className={"job-table-text"}
-                        />
-                      );
-                    })}
+                    {rowData.job.jobItems.length !== 0 ? (
+                      rowData.job.jobItems.map((items, index) => {
+                        return (
+                          <LinesEllipsis
+                            style={{ width: "100%" }}
+                            text={
+                              index === rowData.job.jobItems.length - 1
+                                ? items.quantity + " " + items.uom
+                                : items.quantity + " " + items.uom + ", "
+                            }
+                            maxLine="1"
+                            ellipsis="..."
+                            trimRight
+                            basedOn="letters"
+                            className={"job-table-text"}
+                          />
+                        );
+                      })
+                    ) : (
+                      <LinesEllipsis
+                        style={{ width: "100%" }}
+                        text="-"
+                        maxLine="1"
+                        ellipsis="..."
+                        trimRight
+                        basedOn="letters"
+                        className={"job-table-text"}
+                      />
+                    )}
                   </div>
                 </div>
               )
@@ -220,29 +248,42 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Offland Items",
               field: "jobOfflandItems",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
                   style={{ width: "15vw" }}
                 >
                   <div className="" style={{ width: "100%" }}>
-                    {rowData.job.jobOfflandItems.map((items, index) => {
-                      return (
-                        <LinesEllipsis
-                          style={{ width: "100%" }}
-                          text={
-                            index === rowData.job.jobOfflandItems.length - 1
-                              ? items.quantity + " " + items.uom
-                              : items.quantity + " " + items.uom + ", "
-                          }
-                          maxLine="1"
-                          ellipsis="..."
-                          trimRight
-                          basedOn="letters"
-                          className={"job-table-text"}
-                        />
-                      );
-                    })}
+                    {rowData.job.jobOfflandItems.length !== 0 ? (
+                      rowData.job.jobOfflandItems.map((items, index) => {
+                        return (
+                          <LinesEllipsis
+                            style={{ width: "100%" }}
+                            text={
+                              index === rowData.job.jobOfflandItems.length - 1
+                                ? items.quantity + " " + items.uom
+                                : items.quantity + " " + items.uom + ", "
+                            }
+                            maxLine="1"
+                            ellipsis="..."
+                            trimRight
+                            basedOn="letters"
+                            className={"job-table-text"}
+                          />
+                        );
+                      })
+                    ) : (
+                      <LinesEllipsis
+                        style={{ width: "100%" }}
+                        text="-"
+                        maxLine="1"
+                        ellipsis="..."
+                        trimRight
+                        basedOn="letters"
+                        className={"job-table-text"}
+                      />
+                    )}
                   </div>
                 </div>
               )
@@ -251,6 +292,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Billing",
               field: "billing",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -284,6 +326,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Status",
               field: "status",
+              editable: "never",
               disableClick: true,
               sorting: false,
               filtering: false,
@@ -356,6 +399,7 @@ export default class JobSummaryTableSearchBar extends Component {
             {
               title: "Document",
               field: "document",
+              editable: "never",
               render: rowData => (
                 <div
                   className="d-flex align-items-center"
@@ -399,7 +443,11 @@ export default class JobSummaryTableSearchBar extends Component {
                   <div style={{ width: "100%" }}>
                     <LinesEllipsis
                       style={{ width: "100%" }}
-                      text="-"
+                      text={
+                        rowData.Assignment[0].status !== "Pending"
+                          ? rowData.Assignment[0].logisticsCompany.name
+                          : "-"
+                      }
                       maxLine="1"
                       ellipsis="..."
                       trimRight
@@ -426,9 +474,24 @@ export default class JobSummaryTableSearchBar extends Component {
               fontSize: "14px",
               fontWeight: "bold",
               color: "#707070"
-            }
+            },
+            actionsColumnIndex: 12
           }}
           onRowClick={this.props.handleRowClick}
+          /* editable={{
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  {
+                    const data = this.state.data;
+                    const index = data.indexOf(oldData);
+                    data[index] = newData;
+                    this.setState({ data }, () => resolve());
+                  }
+                  resolve();
+                }, 1000);
+              })
+          }} */
         />
       );
     } else {

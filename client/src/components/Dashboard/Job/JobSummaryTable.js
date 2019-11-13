@@ -22,7 +22,17 @@ function priceRow(qty, price) {
   return 0;
 }
 
-function createRow(name, imo, vesselName, status, job, eta, price, File) {
+function createRow(
+  name,
+  imo,
+  vesselName,
+  status,
+  job,
+  eta,
+  price,
+  File,
+  Assignment
+) {
   return {
     name: name,
     vesselImo: imo,
@@ -31,7 +41,8 @@ function createRow(name, imo, vesselName, status, job, eta, price, File) {
     job: job,
     eta: eta,
     price: price,
-    File: File
+    File: File,
+    Assignment: Assignment
   };
 }
 
@@ -43,75 +54,95 @@ class JobSummaryTable extends Component {
     copied: false,
     jobClicked: null,
     archived: false,
-    inputSelected: false
+    inputSelected: false,
+    jobFilesArray: [],
+    jobAssignmentArray: []
   };
 
   componentDidMount() {
-    const jobFilesArray = [];
     /* get all job files */
-    axios.get("api/job_files/all").then(res => {
-      const jobFiles = res.data;
-      for (let i = 0; i < jobFiles.length; i++) {
-        jobFilesArray.push(res.data[i]);
-      }
-    });
-    // Get all jobs
     axios
-      .get(
-        `/api/jobs?user_only=${this.props.user_only}&numLimit=${
-          this.props.numLimit ? this.props.numLimit : false
-        }&archive_only=${
-          this.props.archive_only ? this.props.archive_only : false
-        }&non_archive_only=${
-          this.props.non_archive_only ? this.props.non_archive_only : false
-        }`
-      )
+      .get("api/job_files/all")
       .then(res => {
-        const data = [];
-        const jobs = res.data.sort((a, b) => {
-          return (
-            new Date(b.jobBookingDateTime.toString()) -
-            new Date(a.jobBookingDateTime.toString())
-          );
-        });
-        this.setState({
-          jobs: jobs
-        });
-        for (let i = 0; i < jobs.length; i++) {
-          let job = jobs[i];
-          job.jobTrackers.sort((a, b) => {
-            return b.index - a.index;
-          });
-          const subtotal = job.jobItems
-            .reduce((a, jobItem) => {
-              a.push(priceRow(jobItem.quantity, jobItem.price));
-              return a;
-            }, [])
-            .reduce((sum, i) => sum + i, 0);
-          /* comparing job files */
-          const jobFile = [];
-          for (let i = 0; i < jobFilesArray.length; i++) {
-            if (job._id === jobFilesArray[i].job) {
-              jobFile.push(jobFilesArray[i]);
-            }
-          }
-          data.push(
-            createRow(
-              job.jobId,
-              job.vessel !== null ? job.vessel.vesselIMOID : "",
-              job.vessel !== null ? job.vessel.vesselName : "",
-              job.jobTrackers,
-              job,
-              job.vesselArrivalDateTime,
-              subtotal,
-              jobFile
+        const contents = res.data;
+        this.setState({ jobFilesArray: contents });
+        /* get all job assignment */
+        axios.get("api/job_assignments/all").then(res => {
+          const contents = res.data;
+          this.setState({ jobAssignmentArray: contents });
+          // Get all jobs
+          axios
+            .get(
+              `/api/jobs?user_only=${this.props.user_only}&numLimit=${
+                this.props.numLimit ? this.props.numLimit : false
+              }&archive_only=${
+                this.props.archive_only ? this.props.archive_only : false
+              }&non_archive_only=${
+                this.props.non_archive_only
+                  ? this.props.non_archive_only
+                  : false
+              }`
             )
-          );
-        }
-        this.setState({
-          data: data
+            .then(res => {
+              const data = [];
+              const jobs = res.data.sort((a, b) => {
+                return (
+                  new Date(b.jobBookingDateTime.toString()) -
+                  new Date(a.jobBookingDateTime.toString())
+                );
+              });
+              this.setState({
+                jobs: jobs
+              });
+
+              /* loop job & set job to data's state */
+              for (let i = 0; i < jobs.length; i++) {
+                let job = jobs[i];
+                job.jobTrackers.sort((a, b) => {
+                  return b.index - a.index;
+                });
+                const subtotal = job.jobItems
+                  .reduce((a, jobItem) => {
+                    a.push(priceRow(jobItem.quantity, jobItem.price));
+                    return a;
+                  }, [])
+                  .reduce((sum, i) => sum + i, 0);
+                /* comparing job files */
+                const jobFile = [];
+                for (let i = 0; i < this.state.jobFilesArray.length; i++) {
+                  if (job._id === this.state.jobFilesArray[i].job) {
+                    jobFile.push(this.state.jobFilesArray[i]);
+                  }
+                }
+                /* comparing job assignments */
+                const jobAssignment = [];
+                for (let i = 0; i < this.state.jobAssignmentArray.length; i++) {
+                  if (
+                    job.jobId === this.state.jobAssignmentArray[i].job.jobId
+                  ) {
+                    jobAssignment.push(this.state.jobAssignmentArray[i]);
+                  }
+                }
+                data.push(
+                  createRow(
+                    job.jobId,
+                    job.vessel !== null ? job.vessel.vesselIMOID : "",
+                    job.vessel !== null ? job.vessel.vesselName : "",
+                    job.jobTrackers,
+                    job,
+                    job.vesselArrivalDateTime,
+                    subtotal,
+                    jobFile,
+                    jobAssignment
+                  )
+                );
+              }
+              this.setState({
+                data: data
+              });
+              console.log(this.state.data);
+            });
         });
-        console.log(this.state.data);
       })
       .catch(err => {
         console.log(err);
