@@ -140,7 +140,9 @@ class JobSummaryTable extends Component {
               this.setState({
                 data: data
               });
-              console.log(this.state.data);
+              this.setState({
+                dataBackup: data
+              });
             });
         });
       })
@@ -194,6 +196,26 @@ class JobSummaryTable extends Component {
 
   handleSelect = e => {
     this.setState({ inputSelected: true });
+  };
+
+  /* filter function */
+  /* pending job */
+  /* ongoing job */
+  /* closed job */
+  closedJobFilter = () => {
+    const filtered = this.state.dataBackup;
+    this.setState({
+      data: filtered
+    });
+  };
+  /* cancelled job */
+  cancelledJobFilter = () => {
+    const filtered = this.state.dataBackup.filter(
+      item => item.job.isCancelled === "Confirmed"
+    );
+    this.setState({
+      data: filtered
+    });
   };
 
   render() {
@@ -296,6 +318,8 @@ class JobSummaryTable extends Component {
                     <MediaQuery minWidth={768}>
                       {/* webview table */}
                       <JobSummaryTableSearchBar
+                        cancelledJobFilter={this.cancelledJobFilter.bind(this)}
+                        closedJobFilter={this.closedJobFilter.bind(this)}
                         check={postsPerPage}
                         data={
                           postsPerPage
@@ -395,7 +419,10 @@ class JobSummaryTable extends Component {
                     </MediaQuery>
 
                     <Snackbar
-                      anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+                      anchorOrigin={{
+                        horizontal: "left",
+                        vertical: "bottom"
+                      }}
                       open={this.state.archived}
                       message={
                         <span id="message-id">Item has been Archived</span>
