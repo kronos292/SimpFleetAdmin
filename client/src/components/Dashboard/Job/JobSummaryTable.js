@@ -56,7 +56,8 @@ class JobSummaryTable extends Component {
     archived: false,
     inputSelected: false,
     jobFilesArray: [],
-    jobAssignmentArray: []
+    jobAssignmentArray: [],
+    activeFilter: ""
   };
 
   componentDidMount() {
@@ -143,6 +144,7 @@ class JobSummaryTable extends Component {
               this.setState({
                 dataBackup: data
               });
+              console.log(this.state.data);
             });
         });
       })
@@ -200,21 +202,53 @@ class JobSummaryTable extends Component {
 
   /* filter function */
   /* pending job */
+  pendingJobFilter = () => {
+    const filtered = this.state.dataBackup.filter(items => {
+      return (
+        items.job.isCancelled !== "Confirmed" &&
+        items.job.jobTrackers.length === 1
+      );
+    });
+    this.setState({
+      data: filtered,
+      activeFilter: "pendingJob"
+    });
+  };
   /* ongoing job */
+  ongoingJobFilter = () => {
+    const filtered = this.state.dataBackup.filter(items => {
+      return (
+        items.job.isCancelled !== "Confirmed" &&
+        items.job.jobTrackers.length < 6 &&
+        items.job.jobTrackers.length > 1
+      );
+    });
+    this.setState({
+      data: filtered,
+      activeFilter: "ongoingJob"
+    });
+  };
   /* closed job */
   closedJobFilter = () => {
-    const filtered = this.state.dataBackup;
+    const filtered = this.state.dataBackup.filter(items => {
+      return (
+        items.job.isCancelled !== "Confirmed" &&
+        items.job.jobTrackers.length === 6
+      );
+    });
     this.setState({
-      data: filtered
+      data: filtered,
+      activeFilter: "closedJob"
     });
   };
   /* cancelled job */
   cancelledJobFilter = () => {
     const filtered = this.state.dataBackup.filter(
-      item => item.job.isCancelled === "Confirmed"
+      items => items.job.isCancelled === "Confirmed"
     );
     this.setState({
-      data: filtered
+      data: filtered,
+      activeFilter: "cancelledJob"
     });
   };
 
@@ -318,6 +352,9 @@ class JobSummaryTable extends Component {
                     <MediaQuery minWidth={768}>
                       {/* webview table */}
                       <JobSummaryTableSearchBar
+                        activeFilter={this.state.activeFilter}
+                        pendingJobFilter={this.pendingJobFilter.bind(this)}
+                        ongoingJobFilter={this.ongoingJobFilter.bind(this)}
                         cancelledJobFilter={this.cancelledJobFilter.bind(this)}
                         closedJobFilter={this.closedJobFilter.bind(this)}
                         check={postsPerPage}

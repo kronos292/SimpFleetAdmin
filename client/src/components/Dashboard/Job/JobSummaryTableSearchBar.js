@@ -20,26 +20,36 @@ export default class JobSummaryTableSearchBar extends Component {
             <div class="filter btn-group btn-group-toggle mt-1 col-7">
               <button
                 type="button"
-                class="filter btn text-secondary btn-outline-light"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "pendingJob" ? "active" : null
+                }`}
+                onClick={() => this.props.pendingJobFilter()}
               >
                 Pending Job
               </button>
               <button
                 type="button"
-                class="filter btn text-secondary btn-outline-light"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "ongoingJob" ? "active" : null
+                }`}
+                onClick={() => this.props.ongoingJobFilter()}
               >
                 Ongoing Job
               </button>
               <button
                 type="button"
-                class="filter btn text-secondary btn-outline-light"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "closedJob" ? "active" : null
+                }`}
                 onClick={() => this.props.closedJobFilter()}
               >
                 Closed Job
               </button>
               <button
                 type="button"
-                class="filter btn text-secondary btn-outline-light"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "cancelledJob" ? "active" : null
+                }`}
                 onClick={() => this.props.cancelledJobFilter()}
               >
                 Cancelled Job
@@ -490,10 +500,12 @@ export default class JobSummaryTableSearchBar extends Component {
                         <LinesEllipsis
                           style={{ width: "100%" }}
                           text={
-                            rowData.Assignment[0].status !== "Pending"
-                              ? rowData.Assignment[0].logisticsCompany !==
-                                undefined
-                                ? rowData.Assignment[0].logisticsCompany.name
+                            rowData.Assignment.length !== 0
+                              ? rowData.Assignment[0].status !== "Pending"
+                                ? rowData.Assignment[0].logisticsCompany !==
+                                  undefined
+                                  ? rowData.Assignment[0].logisticsCompany.name
+                                  : "-"
                                 : "-"
                               : "-"
                           }
