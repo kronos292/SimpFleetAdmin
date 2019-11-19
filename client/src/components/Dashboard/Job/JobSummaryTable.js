@@ -144,7 +144,6 @@ class JobSummaryTable extends Component {
               this.setState({
                 dataBackup: data
               });
-              console.log(this.state.data);
             });
         });
       })
@@ -203,53 +202,81 @@ class JobSummaryTable extends Component {
   /* filter function */
   /* pending job */
   pendingJobFilter = () => {
-    const filtered = this.state.dataBackup.filter(items => {
-      return (
-        items.job.isCancelled !== "Confirmed" &&
-        items.job.jobTrackers.length === 1
-      );
-    });
-    this.setState({
-      data: filtered,
-      activeFilter: "pendingJob"
-    });
+    if (this.state.activeFilter === "pendingJob") {
+      this.setState({
+        data: this.state.dataBackup,
+        activeFilter: ""
+      });
+    } else {
+      const filtered = this.state.dataBackup.filter(items => {
+        return (
+          items.job.isCancelled !== "Confirmed" &&
+          items.job.jobTrackers.length === 1
+        );
+      });
+      this.setState({
+        data: filtered,
+        activeFilter: "pendingJob"
+      });
+    }
   };
   /* ongoing job */
   ongoingJobFilter = () => {
-    const filtered = this.state.dataBackup.filter(items => {
-      return (
-        items.job.isCancelled !== "Confirmed" &&
-        items.job.jobTrackers.length < 6 &&
-        items.job.jobTrackers.length > 1
-      );
-    });
-    this.setState({
-      data: filtered,
-      activeFilter: "ongoingJob"
-    });
+    if (this.state.activeFilter === "ongoingJob") {
+      this.setState({
+        data: this.state.dataBackup,
+        activeFilter: ""
+      });
+    } else {
+      const filtered = this.state.dataBackup.filter(items => {
+        return (
+          items.job.isCancelled !== "Confirmed" &&
+          items.job.jobTrackers.length < 6 &&
+          items.job.jobTrackers.length > 1
+        );
+      });
+      this.setState({
+        data: filtered,
+        activeFilter: "ongoingJob"
+      });
+    }
   };
   /* closed job */
   closedJobFilter = () => {
-    const filtered = this.state.dataBackup.filter(items => {
-      return (
-        items.job.isCancelled !== "Confirmed" &&
-        items.job.jobTrackers.length === 6
-      );
-    });
-    this.setState({
-      data: filtered,
-      activeFilter: "closedJob"
-    });
+    if (this.state.activeFilter === "closedJob") {
+      this.setState({
+        data: this.state.dataBackup,
+        activeFilter: ""
+      });
+    } else {
+      const filtered = this.state.dataBackup.filter(items => {
+        return (
+          items.job.isCancelled !== "Confirmed" &&
+          items.job.jobTrackers.length === 6
+        );
+      });
+      this.setState({
+        data: filtered,
+        activeFilter: "closedJob"
+      });
+    }
   };
   /* cancelled job */
   cancelledJobFilter = () => {
-    const filtered = this.state.dataBackup.filter(
-      items => items.job.isCancelled === "Confirmed"
-    );
-    this.setState({
-      data: filtered,
-      activeFilter: "cancelledJob"
-    });
+    if (this.state.activeFilter === "cancelledJob") {
+      this.setState({
+        data: this.state.dataBackup,
+        activeFilter: ""
+      });
+    } else {
+      const filtered = this.state.dataBackup.filter(
+        items => items.job.isCancelled === "Confirmed"
+      );
+      this.setState({
+        data: filtered,
+        activeFilter: "cancelledJob"
+      });
+    }
   };
 
   render() {

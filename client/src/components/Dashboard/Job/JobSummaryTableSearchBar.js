@@ -6,6 +6,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import moment from "moment";
 import LinesEllipsis from "react-lines-ellipsis";
+import axios from "axios";
 
 export default class JobSummaryTableSearchBar extends Component {
   render() {
@@ -490,6 +491,16 @@ export default class JobSummaryTableSearchBar extends Component {
                 /* 3pl* */
                 {
                   title: "3PL",
+                  field: "Assignment[0].logisticsCompany.name",
+                  lookup: {
+                    undefined: "-",
+                    "Winspec Logistics": "Winspec Logistics",
+                    "Prestige Ocean": "Prestige Ocean",
+                    "AA Logistics": "AA Logistics"
+                  }
+                } /* ,
+                {
+                  title: "3PLs",
                   field: "3pl",
                   render: rowData => (
                     <div
@@ -523,7 +534,7 @@ export default class JobSummaryTableSearchBar extends Component {
                     "Prestige Ocean": "Prestige Ocean",
                     "AA Logistics": "AA Logistics"
                   }
-                }
+                } */
               ]}
               data={this.props.data}
               components={{
@@ -546,16 +557,25 @@ export default class JobSummaryTableSearchBar extends Component {
               onRowClick={this.props.handleRowClick}
               editable={{
                 onRowUpdate: (newData, oldData) =>
-                  new Promise((resolve, reject) => {
-                    /* setTimeout(() => {
-                  {
-                    const data = this.state.data;
-                    const index = data.indexOf(oldData);
-                    data[index] = newData;
-                    this.setState({ data }, () => resolve());
-                  }
-                  resolve();
-                }, 1000); */
+                  new Promise(resolve => {
+                    setTimeout(() => {
+                      {
+                        resolve();
+                        console.log(newData.Assignment[0]._id);
+                        /* update job assignment */
+                        /* axios
+                        .put("/api/job_assignments", {
+                          jobAssignments: this.state.jobAssignments
+                        })
+                        .then(res => {
+                          window.location.reload();
+                        })
+                        .catch(err => {
+                          console.log(err);
+                        }); */
+                      }
+                      resolve();
+                    }, 1000);
                   })
               }}
             />
