@@ -33,6 +33,7 @@ class JobAssignment extends Component {
   }
 
   saveJobAssignments = () => {
+    console.log(this.state.jobAssignments);
     axios
       .put("/api/job_assignments", {
         jobAssignments: this.state.jobAssignments

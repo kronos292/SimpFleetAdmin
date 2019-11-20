@@ -57,7 +57,8 @@ class JobSummaryTable extends Component {
     inputSelected: false,
     jobFilesArray: [],
     jobAssignmentArray: [],
-    activeFilter: ""
+    activeFilter: "",
+    logisticCompany: []
   };
 
   componentDidMount() {
@@ -138,9 +139,52 @@ class JobSummaryTable extends Component {
                   )
                 );
               }
-              this.setState({
-                data: data
-              });
+              if (this.state.activeFilter === "pendingJob") {
+                const filtered = data.filter(items => {
+                  return (
+                    items.job.isCancelled !== "Confirmed" &&
+                    items.job.jobTrackers.length === 1
+                  );
+                });
+                this.setState({
+                  data: filtered,
+                  activeFilter: "pendingJob"
+                });
+              } else if (this.state.activeFilter === "ongoingJob") {
+                const filtered = data.filter(items => {
+                  return (
+                    items.job.isCancelled !== "Confirmed" &&
+                    items.job.jobTrackers.length < 6 &&
+                    items.job.jobTrackers.length > 1
+                  );
+                });
+                this.setState({
+                  data: filtered
+                });
+              } else if (this.state.activeFilter === "closedJob") {
+                const filtered = data.filter(items => {
+                  return (
+                    items.job.isCancelled !== "Confirmed" &&
+                    items.job.jobTrackers.length === 6
+                  );
+                });
+                this.setState({
+                  data: filtered,
+                  activeFilter: "closedJob"
+                });
+              } else if (this.state.activeFilter === "cancelledJob") {
+                const filtered = data.filter(
+                  items => items.job.isCancelled === "Confirmed"
+                );
+                this.setState({
+                  data: filtered,
+                  activeFilter: "cancelledJob"
+                });
+              } else {
+                this.setState({
+                  data: data
+                });
+              }
               this.setState({
                 dataBackup: data
               });
@@ -150,7 +194,14 @@ class JobSummaryTable extends Component {
       .catch(err => {
         console.log(err);
       });
+    /* get logistic company */
+    axios.get("api/logistics_companies").then(res => {
+      this.setState({ logisticCompany: res.data });
+    });
   }
+  reload = () => {
+    this.componentDidMount();
+  };
 
   handleRowClick = (e, rd) => {
     let index = rd.tableData.id;
@@ -379,6 +430,8 @@ class JobSummaryTable extends Component {
                     <MediaQuery minWidth={768}>
                       {/* webview table */}
                       <JobSummaryTableSearchBar
+                        reload={this.reload}
+                        logisticCompany={this.state.logisticCompany}
                         activeFilter={this.state.activeFilter}
                         pendingJobFilter={this.pendingJobFilter.bind(this)}
                         ongoingJobFilter={this.ongoingJobFilter.bind(this)}

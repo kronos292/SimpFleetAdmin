@@ -10,7 +10,16 @@ import axios from "axios";
 
 export default class JobSummaryTableSearchBar extends Component {
   render() {
-    let check = "";
+    let logisticCompany = this.props.logisticCompany;
+    let category = "";
+    for (let i = 0; i < logisticCompany.length; i++) {
+      if (i !== logisticCompany.length - 1) {
+        category = `${category}"${logisticCompany[i]._id}": "${logisticCompany[i].name}", \n`;
+      } else {
+        category = `${category}"${logisticCompany[i]._id}": "${logisticCompany[i].name}"`;
+      }
+    }
+    console.log(category);
     if (this.props.check !== undefined) {
       return (
         <React.Fragment>
@@ -491,50 +500,14 @@ export default class JobSummaryTableSearchBar extends Component {
                 /* 3pl* */
                 {
                   title: "3PL",
-                  field: "Assignment[0].logisticsCompany.name",
+                  field: "Assignment[0].logisticsCompany._id",
                   lookup: {
                     undefined: "-",
-                    "Winspec Logistics": "Winspec Logistics",
-                    "Prestige Ocean": "Prestige Ocean",
-                    "AA Logistics": "AA Logistics"
+                    "5d6cc6b6552e522480a70cae": "Winspec Logistics",
+                    "5d6e606735dae240e8d4db34": "Prestige Ocean",
+                    "5d6e606e35dae240e8d4db35": "AA Logistics"
                   }
-                } /* ,
-                {
-                  title: "3PLs",
-                  field: "3pl",
-                  render: rowData => (
-                    <div
-                      className="d-flex align-items-center"
-                      style={{ width: "10vw" }}
-                    >
-                      <div style={{ width: "100%" }}>
-                        <LinesEllipsis
-                          style={{ width: "100%" }}
-                          text={
-                            rowData.Assignment.length !== 0
-                              ? rowData.Assignment[0].status !== "Pending"
-                                ? rowData.Assignment[0].logisticsCompany !==
-                                  undefined
-                                  ? rowData.Assignment[0].logisticsCompany.name
-                                  : "-"
-                                : "-"
-                              : "-"
-                          }
-                          maxLine="1"
-                          ellipsis="..."
-                          trimRight
-                          basedOn="letters"
-                          className={"job-table-text"}
-                        />
-                      </div>
-                    </div>
-                  ),
-                  lookup: {
-                    "Winspec Logistics": "Winspec Logistics",
-                    "Prestige Ocean": "Prestige Ocean",
-                    "AA Logistics": "AA Logistics"
-                  }
-                } */
+                }
               ]}
               data={this.props.data}
               components={{
@@ -561,18 +534,31 @@ export default class JobSummaryTableSearchBar extends Component {
                     setTimeout(() => {
                       {
                         resolve();
-                        console.log(newData.Assignment[0]._id);
-                        /* update job assignment */
-                        /* axios
-                        .put("/api/job_assignments", {
-                          jobAssignments: this.state.jobAssignments
-                        })
-                        .then(res => {
-                          window.location.reload();
-                        })
-                        .catch(err => {
-                          console.log(err);
-                        }); */
+                        for (let i = 0; i < logisticCompany.length; i++) {
+                          if (
+                            logisticCompany[i]._id ===
+                            newData.Assignment[0].logisticsCompany._id
+                          ) {
+                            const jobAssignmentNew = {
+                              status: newData.Assignment[0].status,
+                              _id: newData.Assignment[0]._id,
+                              job: newData.Assignment[0].job,
+                              logisticsCompany: logisticCompany[i]
+                            };
+                            const jobAssignmentNewArray = [];
+                            jobAssignmentNewArray.push(jobAssignmentNew);
+                            axios
+                              .put("/api/job_assignments", {
+                                jobAssignments: jobAssignmentNewArray
+                              })
+                              .then(res => {
+                                this.props.reload();
+                              })
+                              .catch(err => {
+                                console.log(err);
+                              });
+                          }
+                        }
                       }
                       resolve();
                     }, 1000);
