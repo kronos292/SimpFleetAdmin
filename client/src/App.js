@@ -14,6 +14,7 @@ import SideMenuSlider from "./components/SideMenuSlider/SideMenuSlider";
 import JobDetails from "./components/Job/JobDetails/JobDetails";
 import UserApproval from "./components/UserApproval/UserApproval";
 import LogisticsUserApproval from "./components/LogisticsUserApproval/LogisticsUserApproval";
+import EditUsers from "./components/EditUsers/EditUsers";
 
 class DynamicImport extends Component {
   state = {
@@ -135,6 +136,7 @@ class App extends Component {
                   component={LogisticsUserApproval}
                 />
                 <Route path="/analytics" component={Analytics} />
+                <Route path="/edit_users" component={EditUsers} />
               </React.Fragment>
             ) : null}
           </div>

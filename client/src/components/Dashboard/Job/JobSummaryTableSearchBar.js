@@ -66,7 +66,10 @@ export default class JobSummaryTableSearchBar extends Component {
             </div>
             {/* export */}
             <div className="col-2 ml-5 mt-1">
-              <button className="btn text-secondary btn-outline-light filter" onClick={()=>this.props.exportTable()}>
+              <button
+                className="btn text-secondary btn-outline-light filter"
+                onClick={() => this.props.exportTable()}
+              >
                 Export<i class="fas fa-file-excel ml-3"></i>
               </button>
             </div>

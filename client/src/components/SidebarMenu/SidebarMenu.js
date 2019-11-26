@@ -113,6 +113,11 @@ class SidebarMenu extends Component {
                   Logistics User Approval
                 </NavLink>
               </Grid>
+              <Grid item xs={12}>
+                <NavLink to="/edit_users" className="sidebar-link">
+                  Edit Users
+                </NavLink>
+              </Grid>
             </React.Fragment>
           ) : (
             ""
