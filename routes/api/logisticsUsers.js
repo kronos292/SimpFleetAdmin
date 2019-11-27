@@ -27,7 +27,7 @@ router.get("/", (req, res) => {
   }
 });
 
-/* @route   PUT /api/users */
+/* @route   PUT /api/logistics_users */
 /* @desc    edit user isapproved status */
 /* @access  Private admin */
 router.put("/", (req, res) => {
@@ -61,6 +61,24 @@ router.put("/", (req, res) => {
         }
       });
     }
+  }
+});
+
+/* @route   PUT /api/logistics_users/update */
+/* @desc    edit user */
+/* @access  Private admin */
+router.put("/update", (req, res) => {
+  if (req.session.user.userType === "Admin") {
+    LogisticsUser.findByIdAndUpdate(req.body.newData._id, {
+      $set: {
+        firstName: req.body.newData.firstName,
+        lastName: req.body.newData.lastName,
+        email: req.body.newData.email,
+        contactNumber: req.body.newData.contactNumber
+      }
+    }).then(logisticUser => {
+      res.json(logisticUser);
+    });
   }
 });
 

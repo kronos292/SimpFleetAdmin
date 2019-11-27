@@ -127,6 +127,24 @@ router.put("/", (req, res) => {
   }
 });
 
+/* @route   PUT /api/users/update */
+/* @desc    edit user */
+/* @access  Private admin */
+router.put("/update", (req, res) => {
+  if (req.session.user.userType === "Admin") {
+    User.findByIdAndUpdate(req.body.newData._id, {
+      $set: {
+        firstName: req.body.newData.firstName,
+        lastName: req.body.newData.lastName,
+        email: req.body.newData.email,
+        contactNumber: req.body.newData.contactNumber
+      }
+    }).then(user => {
+      res.json(user);
+    });
+  }
+});
+
 /* @route post contact_us */
 router.post("/contact_mail", (req, res) => {
   const { email, firstName, contactNumber, remarks } = req.body;
