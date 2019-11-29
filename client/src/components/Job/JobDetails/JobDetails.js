@@ -22,7 +22,8 @@ import ShareIcon from '@material-ui/icons/Share';
 
 import {Col, Container, Row, Button} from 'react-bootstrap'
 
-import JobDetailCard from "./JobDetailCard";
+// import JobDetailCard from "./JobDetailCard";
+import JobDetailsCard from '@bit/ssddev.simpfleet.job-details-card';
 import JobFilesDisplay from "./Files/JobFilesDisplay";
 import JobShareModal from "./JobShareModal/JobShareModal";
 import JobStatusDisplay from "./JobStatusDisplay/JobStatusDisplay";
@@ -174,7 +175,7 @@ class JobDetails extends Component {
         const showComponent = () => {
             switch (this.state.activeScreen) {
                 case 'jobDetails':
-                    return <JobDetailCard job={this.state.job}/>;
+                    return <JobDetailsCard job={this.state.job}/>;
                 case 'document':
                     return <JobFilesDisplay job={this.state.job}/>;
                 case 'status':
@@ -184,7 +185,7 @@ class JobDetails extends Component {
                 case 'billing':
                     return <JobBillingDetail job={this.state.job} saveJobCancellation={this.saveJobCancellation}/>;
                 default:
-                    return <JobDetailCard job={this.state.job}/>;
+                    return <JobDetailsCard job={this.state.job}/>;
             }
         };
 
