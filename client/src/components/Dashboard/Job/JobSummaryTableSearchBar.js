@@ -11,12 +11,12 @@ import axios from "axios";
 export default class JobSummaryTableSearchBar extends Component {
   render() {
     let logisticCompany = this.props.logisticCompany;
-    let category = "";
+    let category = { undefined: "-" };
     for (let i = 0; i < logisticCompany.length; i++) {
-      if (i !== logisticCompany.length - 1) {
-        category = `${category}"${logisticCompany[i]._id}": "${logisticCompany[i].name}", \n`;
-      } else {
-        category = `${category}"${logisticCompany[i]._id}": "${logisticCompany[i].name}"`;
+      let companyName = category[logisticCompany[i]._id];
+      if (!companyName) {
+        companyName = logisticCompany[i].name;
+        category[logisticCompany[i]._id] = companyName;
       }
     }
     if (this.props.check !== undefined) {
@@ -503,12 +503,7 @@ export default class JobSummaryTableSearchBar extends Component {
                 {
                   title: "3PL",
                   field: "Assignment[0].logisticsCompany._id",
-                  lookup: {
-                    undefined: "-",
-                    "5d6cc6b6552e522480a70cae": "Winspec Logistics",
-                    "5d6e606735dae240e8d4db34": "Prestige Ocean",
-                    "5d6e606e35dae240e8d4db35": "AA Logistics"
-                  }
+                  lookup: category
                 }
               ]}
               data={this.props.data}
@@ -531,6 +526,8 @@ export default class JobSummaryTableSearchBar extends Component {
               }}
               onRowClick={this.props.handleRowClick}
               editable={{
+                isEditable: rowData =>
+                  rowData.Assignment[0].status !== "Assigned",
                 onRowUpdate: (newData, oldData) =>
                   new Promise(resolve => {
                     setTimeout(() => {
