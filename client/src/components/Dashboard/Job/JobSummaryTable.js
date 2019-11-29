@@ -16,8 +16,9 @@ import Slide from "@material-ui/core/Slide";
 import JobShareModal from "../../Job/JobDetails/JobShareModal/JobShareModal";
 import JobShareSlide from "../../Job/JobShareSlide/JobShareSlide";
 import Pagination from "../../common/Pagination";
-import ExcelJs from "exceljs/dist/es5/exceljs.browser.js";
+// import ExcelJs from "exceljs/dist/es5/exceljs.browser.js";
 import { saveAs } from "file-saver";
+import * as ExcelJs from 'exceljs/dist/exceljs';
 import moment from "moment";
 
 function priceRow(qty, price) {
