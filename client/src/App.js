@@ -13,6 +13,8 @@ import JobAssignment from "./components/Job/JobAssignment/JobAssignment";
 import SideMenuSlider from "./components/SideMenuSlider/SideMenuSlider";
 import JobDetails from "./components/Job/JobDetails/JobDetails";
 import UserApproval from "./components/UserApproval/UserApproval";
+import LogisticsUserApproval from "./components/LogisticsUserApproval/LogisticsUserApproval";
+import EditUsers from "./components/EditUsers/EditUsers";
 
 class DynamicImport extends Component {
   state = {
@@ -128,7 +130,13 @@ class App extends Component {
               <React.Fragment>
                 <Route path="/user_approval" component={UserApproval} />
                 <Route exact path="/job_assignment" component={JobAssignment} />
+                <Route
+                  exact
+                  path="/logistics_user_approval"
+                  component={LogisticsUserApproval}
+                />
                 <Route path="/analytics" component={Analytics} />
+                <Route path="/edit_users" component={EditUsers} />
               </React.Fragment>
             ) : null}
           </div>
@@ -143,7 +151,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  fetchUser
-)(App);
+export default connect(mapStateToProps, fetchUser)(App);

@@ -25,12 +25,13 @@ class JobAnalytics extends Component {
       let CompanyCategories = {};
       for (let i = 0; i < Company.length; i++) {
         const cmp = Company[i];
-        const Companies = cmp.name;
+        const Companies = cmp._id;
         let ListCompany = CompanyCategories[Companies];
         if (!ListCompany) {
           ListCompany = [];
           CompanyCategories[Companies] = ListCompany;
         }
+        ListCompany.push(cmp);
       }
       this.setState({
         userCompany: CompanyCategories
@@ -397,23 +398,28 @@ class JobAnalytics extends Component {
             jobListMonth = [];
             jobMonthCategories[monthOfJob] = jobListMonth;
           }
-          let jobListLocation =
-            jobDeliveryCategories[job.vesselLoadingLocation];
-          if (!jobListLocation) {
-            jobListLocation = [];
-            jobDeliveryCategories[job.vesselLoadingLocation] = jobListLocation;
+          if (job.vesselLoadingLocation !== undefined) {
+            if (job.vesselLoadingLocation !== null) {
+              if (job.vesselLoadingLocation.name !== undefined) {
+                if (job.vesselLoadingLocation.name !== null) {
+                  let jobListLocation =
+                    jobDeliveryCategories[job.vesselLoadingLocation.name];
+                  if (!jobListLocation) {
+                    jobListLocation = [];
+                    jobDeliveryCategories[
+                      job.vesselLoadingLocation.name
+                    ] = jobListLocation;
+                  }
+                  jobListLocation.push(job);
+                }
+              }
+            }
           }
-          if (
-            job.user.userCompany !== null &&
-            job.user.userCompany.name !== null
-          ) {
-            let jobListCompanies =
-              jobCompaniesCategories[job.user.userCompany.name];
+          if (job.user.userCompany !== null) {
+            let jobListCompanies = jobCompaniesCategories[job.user.userCompany];
             if (!jobListCompanies) {
               jobListCompanies = [];
-              jobCompaniesCategories[
-                job.user.userCompany.name
-              ] = jobListCompanies;
+              jobCompaniesCategories[job.user.userCompany] = jobListCompanies;
             }
             jobListCompanies.push(job);
           }
@@ -428,9 +434,7 @@ class JobAnalytics extends Component {
           }
           jobListweek.push(job);
           jobListMonth.push(job);
-          jobListLocation.push(job);
         }
-        console.log(jobweekdata);
         jobs.sort((a, b) => {
           return (
             new Date(a.jobBookingDateTime.toString()) -
@@ -474,7 +478,10 @@ class JobAnalytics extends Component {
           jobMonthAnalys={this.state.AnalysData}
           jobDeliveryCategory={this.state.jobDeliveryCategories}
         />
-        <WeeksTable WeeksData={this.state.jobWeeks}/>
+        <WeeksTable
+          WeeksData={this.state.jobWeeks}
+          Company={this.state.userCompany}
+        />
         <BreakdownByMonth jobMonthCategory={this.state.jobMonthCategories} />
         <BreakdownByDeliveryLocations
           jobDeliveryCategory={this.state.jobDeliveryCategories}

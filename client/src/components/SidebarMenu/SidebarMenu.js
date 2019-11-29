@@ -102,11 +102,23 @@ class SidebarMenu extends Component {
           {/*  ""*/}
           {/*)}*/}
           {this.props.auth.user.userType === "Admin" ? (
-            <Grid item xs={12}>
-              <NavLink to="/user_approval" className="sidebar-link">
-                User Approval
-              </NavLink>
-            </Grid>
+            <React.Fragment>
+              <Grid item xs={12}>
+                <NavLink to="/user_approval" className="sidebar-link">
+                  User Approval
+                </NavLink>
+              </Grid>
+              <Grid item xs={12}>
+                <NavLink to="/logistics_user_approval" className="sidebar-link">
+                  Logistics User Approval
+                </NavLink>
+              </Grid>
+              <Grid item xs={12}>
+                <NavLink to="/edit_users" className="sidebar-link">
+                  Edit Users
+                </NavLink>
+              </Grid>
+            </React.Fragment>
           ) : (
             ""
           )}

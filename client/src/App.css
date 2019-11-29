@@ -137,5 +137,17 @@ h3 {
   margin-top: 50px;
   margin-left: 50px;
   margin-bottom: 50px;
-  color: #49AE4B;
+  color: #49ae4b;
+}
+.filter {
+  border-color: #e0e0e0 !important;
+}
+.upper {
+  position: static;
+  margin-top: -50px !important;
+  z-index: -1;
+}
+.zindex {
+  position: relative;
+  z-index: 2;
 }

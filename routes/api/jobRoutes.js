@@ -42,6 +42,10 @@ router.get("/", async (req, res) => {
       model: "vesselLoadingLocations"
     })
     .populate({
+      path: "vesselLoadingLocation",
+      model: "vesselLoadingLocations"
+    })
+    .populate({
       path: "user",
       model: "users"
     })

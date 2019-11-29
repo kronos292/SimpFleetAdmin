@@ -19,6 +19,7 @@ class BreakdownByCompanies extends Component {
         const othersTotal = [];
         const jobCompanieCategories = Object.keys(Company).map(
           (uniq, index) => {
+            const companyData = Company[uniq][0].name;
             const cancelledJobs = [];
             const openJobs = [];
             const completedJobs = [];
@@ -32,18 +33,30 @@ class BreakdownByCompanies extends Component {
                 if (uniq === key) {
                   for (let i = 0; i < jobs.length; i++) {
                     let job = jobs[i];
-                    if (key === "PSA") {
-                      psaJobs.push(job);
-                      psaTotal.push(job);
-                    } else if (key === "Jurong Port") {
-                      jpJobs.push(job);
-                      jpTotal.push(job);
-                    } else if (key === "Shipyard") {
-                      shipyardJobs.push(job);
-                      shipyardTotal.push(job);
-                    } else {
-                      othersJobs.push(job);
-                      othersTotal.push(job);
+                    if (job.vesselLoadingLocation !== undefined) {
+                      if (job.vesselLoadingLocation !== null) {
+                        if (job.vesselLoadingLocation.name !== undefined) {
+                          if (job.vesselLoadingLocation.name !== null) {
+                            if (job.vesselLoadingLocation.name === "PSA") {
+                              psaJobs.push(job);
+                              psaTotal.push(job);
+                            } else if (
+                              job.vesselLoadingLocation.name === "Jurong Port"
+                            ) {
+                              jpJobs.push(job);
+                              jpTotal.push(job);
+                            } else if (
+                              job.vesselLoadingLocation.name === "Shipyard"
+                            ) {
+                              shipyardJobs.push(job);
+                              shipyardTotal.push(job);
+                            } else {
+                              othersJobs.push(job);
+                              othersTotal.push(job);
+                            }
+                          }
+                        }
+                      }
                     }
 
                     if (job.isCancelled === "Confirmed") {
@@ -64,7 +77,7 @@ class BreakdownByCompanies extends Component {
             );
             const sortJob = {
               id: `${o++}`,
-              company: `${uniq}`,
+              company: `${companyData}`,
               ongoing: `${openJobs.length}`,
               completed: `${completedJobs.length}`,
               cancelled: `${cancelledJobs.length}`,

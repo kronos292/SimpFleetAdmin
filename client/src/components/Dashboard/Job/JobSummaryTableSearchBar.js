@@ -6,201 +6,98 @@ import ShareIcon from "@material-ui/icons/Share";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import moment from "moment";
 import LinesEllipsis from "react-lines-ellipsis";
+import axios from "axios";
 
 export default class JobSummaryTableSearchBar extends Component {
   render() {
+    let logisticCompany = this.props.logisticCompany;
+    let category = { undefined: "-" };
+    for (let i = 0; i < logisticCompany.length; i++) {
+      let companyName = category[logisticCompany[i]._id];
+      if (!companyName) {
+        companyName = logisticCompany[i].name;
+        category[logisticCompany[i]._id] = companyName;
+      }
+    }
     if (this.props.check !== undefined) {
       return (
-        <MaterialTable
-          columns={[
-            /* job created* = created record date */
-            {
-              title: "Job Created",
-              field: "jobCreated",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "15vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text={moment(rowData.job.jobBookingDateTime).format(
-                        "DD MMM YYYY, HH:mm"
-                      )}
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                  </div>
-                </div>
-              )
-            },
-            /* date of delivery */
-            {
-              title: "Date of Delivery",
-              field: "dateOfDelivery",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "15vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text="-"
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                  </div>
-                </div>
-              )
-            },
-            /* client */
-            {
-              title: "Client",
-              field: "userCompanyName",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "20vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text={
-                        rowData.job.user.userCompany !== null
-                          ? rowData.job.user.firstName ===
-                            rowData.job.user.lastName
-                            ? rowData.job.user.firstName +
-                              ", " +
-                              rowData.job.user.userCompany.name
-                            : rowData.job.user.firstName +
-                              " " +
-                              rowData.job.user.lastName +
-                              ", " +
-                              rowData.job.user.userCompany.name
-                          : "-"
-                      }
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                  </div>
-                </div>
-              )
-            },
-            /* job number */
-            {
-              title: "Job Number",
-              field: "name",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "10vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text={rowData.name}
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                  </div>
-                </div>
-              )
-            },
-            /* vessel */
-            {
-              title: "Vessel",
-              field: "vesselName",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "20vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text={
-                        rowData.job.vessel !== null
-                          ? rowData.job.vessel.vesselName.toUpperCase()
-                          : ""
-                      }
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                    <i className="job-table-helper-text">
-                      {rowData.job.vessel !== null
-                        ? rowData.job.vessel.vesselIMOID
-                        : ""}
-                    </i>
-                  </div>
-                </div>
-              ),
-              customSort: (a, b) =>
-                a.job.vessel.vesselName.localeCompare(b.job.vessel.vesselName)
-            },
-            /* vessel loading location */
-            {
-              title: "Vessel Loading Location",
-              field: "vesselLoadingLocation",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "20vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text={
-                        rowData.job.vesselLoadingLocationObj !== undefined
-                          ? rowData.job.vesselLoadingLocationObj !== null
-                            ? rowData.job.vesselLoadingLocationObj.name
-                            : "-"
-                          : "-"
-                      }
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                  </div>
-                </div>
-              )
-            },
-            /* delivery item* = jobItems */
-            {
-              title: "Delivery Items",
-              field: "deliveryitems",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "15vw" }}
-                >
-                  <div className="" style={{ width: "100%" }}>
-                    {rowData.job.jobItems.map((items, index) => {
-                      return (
+        <React.Fragment>
+          {/* title */}
+          <h3 className="job-summary-header">Dashboard</h3>
+          {/* filter */}
+          <div className="row zindex">
+            <div class="filter btn-group btn-group-toggle mt-1 col-7">
+              <button
+                type="button"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "pendingJob" ? "active" : null
+                }`}
+                onClick={() => this.props.pendingJobFilter()}
+              >
+                Pending Job
+              </button>
+              <button
+                type="button"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "ongoingJob" ? "active" : null
+                }`}
+                onClick={() => this.props.ongoingJobFilter()}
+              >
+                Ongoing Job
+              </button>
+              <button
+                type="button"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "closedJob" ? "active" : null
+                }`}
+                onClick={() => this.props.closedJobFilter()}
+              >
+                Closed Job
+              </button>
+              <button
+                type="button"
+                class={`filter btn text-secondary btn-outline-light ${
+                  this.props.activeFilter === "cancelledJob" ? "active" : null
+                }`}
+                onClick={() => this.props.cancelledJobFilter()}
+              >
+                Cancelled Job
+              </button>
+            </div>
+            {/* export */}
+            <div className="col-2 ml-5 mt-1">
+              <button
+                className="btn text-secondary btn-outline-light filter"
+                onClick={() => this.props.exportTable()}
+              >
+                Export<i class="fas fa-file-excel ml-3"></i>
+              </button>
+            </div>
+          </div>
+          {/* table */}
+          <div className="upper">
+            <MaterialTable
+              columns={[
+                /* job created* = created record date */
+                {
+                  title: "Job Created",
+                  field: "jobCreated",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "15vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
                         <LinesEllipsis
                           style={{ width: "100%" }}
                           text={
-                            index === rowData.job.jobItems.length - 1
-                              ? items.quantity + " " + items.uom
-                              : items.quantity + " " + items.uom + ", "
+                            (rowData.job.jobBookingDateTime !== null) |
+                            (rowData.job.jobBookingDateTime !== undefined)
+                              ? moment(rowData.job.jobBookingDateTime).format(
+                                  "DD MMM YYYY, HH:mm"
+                                )
+                              : "-"
                           }
                           maxLine="1"
                           ellipsis="..."
@@ -208,30 +105,60 @@ export default class JobSummaryTableSearchBar extends Component {
                           basedOn="letters"
                           className={"job-table-text"}
                         />
-                      );
-                    })}
-                  </div>
-                </div>
-              )
-            },
-            /* offland item* = OfflandItems */
-            {
-              title: "Offland Items",
-              field: "jobOfflandItems",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "15vw" }}
-                >
-                  <div className="" style={{ width: "100%" }}>
-                    {rowData.job.jobOfflandItems.map((items, index) => {
-                      return (
+                      </div>
+                    </div>
+                  )
+                },
+                /* date of delivery */
+                {
+                  title: "Date of Delivery",
+                  field: "dateOfDelivery",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "15vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
+                        <LinesEllipsis
+                          style={{ width: "100%" }}
+                          text="-"
+                          maxLine="1"
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                          className={"job-table-text"}
+                        />
+                      </div>
+                    </div>
+                  )
+                },
+                /* client */
+                {
+                  title: "Client",
+                  field: "userCompanyName",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "20vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
                         <LinesEllipsis
                           style={{ width: "100%" }}
                           text={
-                            index === rowData.job.jobOfflandItems.length - 1
-                              ? items.quantity + " " + items.uom
-                              : items.quantity + " " + items.uom + ", "
+                            rowData.job.user.userCompany !== null
+                              ? rowData.job.user.firstName ===
+                                rowData.job.user.lastName
+                                ? rowData.job.user.firstName +
+                                  ", " +
+                                  rowData.job.user.userCompany.name
+                                : rowData.job.user.firstName +
+                                  " " +
+                                  rowData.job.user.lastName +
+                                  ", " +
+                                  rowData.job.user.userCompany.name
+                              : "-"
                           }
                           maxLine="1"
                           ellipsis="..."
@@ -239,183 +166,406 @@ export default class JobSummaryTableSearchBar extends Component {
                           basedOn="letters"
                           className={"job-table-text"}
                         />
-                      );
-                    })}
-                  </div>
-                </div>
-              )
-            },
-            /* billing* = payment tracker */
-            {
-              title: "Billing",
-              field: "billing",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "20vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text={
-                        rowData.job.paymentTrackers.length === 3
-                          ? rowData.job.paymentTrackers[2].label
-                          : rowData.job.paymentTrackers.length === 2
-                          ? rowData.job.paymentTrackers[1].label
-                          : rowData.job.paymentTrackers.length === 1
-                          ? rowData.job.paymentTrackers[0].label
-                          : "-"
-                      }
-                      maxLine="1"
-                      ala
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                    <i className="job-table-helper-text">$XX</i>
-                  </div>
-                </div>
-              )
-            },
-            /* status */
-            {
-              title: "Status",
-              field: "status",
-              disableClick: true,
-              sorting: false,
-              filtering: false,
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "20vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text={
-                        rowData.job.isCancelled === "Confirmed"
-                          ? "Job has been cancelled"
-                          : rowData.status[0].title
-                      }
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={
-                        rowData.job.isCancelled === "Confirmed"
-                          ? "job-table-text red"
-                          : "job-table-text"
-                      }
-                    />
-                    <i className="job-table-helper-text">
-                      {moment(rowData.status[0].timestamp).format(
-                        "MMM DD YYYY, HH:mm"
+                      </div>
+                    </div>
+                  )
+                },
+                /* job number */
+                {
+                  title: "Job Number",
+                  field: "name",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "10vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
+                        <LinesEllipsis
+                          style={{ width: "100%" }}
+                          text={
+                            rowData.name !== null || rowData.name !== undefined
+                              ? rowData.name
+                              : "-"
+                          }
+                          maxLine="1"
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                          className={"job-table-text"}
+                        />
+                      </div>
+                    </div>
+                  )
+                },
+                /* vessel */
+                {
+                  title: "Vessel",
+                  field: "vesselName",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "20vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
+                        <LinesEllipsis
+                          style={{ width: "100%" }}
+                          text={
+                            rowData.job.vessel !== null
+                              ? rowData.job.vessel.vesselName !== undefined
+                                ? rowData.job.vessel.vesselName.toUpperCase()
+                                : "-"
+                              : "-"
+                          }
+                          maxLine="1"
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                          className={"job-table-text"}
+                        />
+                        <i className="job-table-helper-text">
+                          {rowData.job.vessel !== null
+                            ? rowData.job.vessel.vesselIMOID
+                            : ""}
+                        </i>
+                      </div>
+                    </div>
+                  ),
+                  customSort: (a, b) =>
+                    a.job.vessel.vesselName.localeCompare(
+                      b.job.vessel.vesselName
+                    )
+                },
+                /* vessel loading location */
+                {
+                  title: "Vessel Loading Location",
+                  field: "vesselLoadingLocation",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "20vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
+                        <LinesEllipsis
+                          style={{ width: "100%" }}
+                          text={
+                            rowData.job.vesselLoadingLocationObj !== undefined
+                              ? rowData.job.vesselLoadingLocationObj !== null
+                                ? rowData.job.vesselLoadingLocationObj.name
+                                : "-"
+                              : "-"
+                          }
+                          maxLine="1"
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                          className={"job-table-text"}
+                        />
+                      </div>
+                    </div>
+                  )
+                },
+                /* delivery item* = jobItems */
+                {
+                  title: "Delivery Items",
+                  field: "deliveryitems",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "15vw" }}
+                    >
+                      <div className="" style={{ width: "100%" }}>
+                        {rowData.job.jobItems.length !== 0 ? (
+                          rowData.job.jobItems.map((items, index) => {
+                            return (
+                              <LinesEllipsis
+                                style={{ width: "100%" }}
+                                text={
+                                  index === rowData.job.jobItems.length - 1
+                                    ? items.quantity + " " + items.uom
+                                    : items.quantity + " " + items.uom + ", "
+                                }
+                                maxLine="1"
+                                ellipsis="..."
+                                trimRight
+                                basedOn="letters"
+                                className={"job-table-text"}
+                              />
+                            );
+                          })
+                        ) : (
+                          <LinesEllipsis
+                            style={{ width: "100%" }}
+                            text="-"
+                            maxLine="1"
+                            ellipsis="..."
+                            trimRight
+                            basedOn="letters"
+                            className={"job-table-text"}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )
+                },
+                /* offland item* = OfflandItems */
+                {
+                  title: "Offland Items",
+                  field: "jobOfflandItems",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "15vw" }}
+                    >
+                      <div className="" style={{ width: "100%" }}>
+                        {rowData.job.jobOfflandItems.length !== 0 ? (
+                          rowData.job.jobOfflandItems.map((items, index) => {
+                            return (
+                              <LinesEllipsis
+                                style={{ width: "100%" }}
+                                text={
+                                  index ===
+                                  rowData.job.jobOfflandItems.length - 1
+                                    ? items.quantity + " " + items.uom
+                                    : items.quantity + " " + items.uom + ", "
+                                }
+                                maxLine="1"
+                                ellipsis="..."
+                                trimRight
+                                basedOn="letters"
+                                className={"job-table-text"}
+                              />
+                            );
+                          })
+                        ) : (
+                          <LinesEllipsis
+                            style={{ width: "100%" }}
+                            text="-"
+                            maxLine="1"
+                            ellipsis="..."
+                            trimRight
+                            basedOn="letters"
+                            className={"job-table-text"}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )
+                },
+                /* billing* = payment tracker */
+                {
+                  title: "Billing",
+                  field: "billing",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "20vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
+                        <LinesEllipsis
+                          style={{ width: "100%" }}
+                          text={
+                            rowData.job.paymentTrackers.length === 3
+                              ? rowData.job.paymentTrackers[2].label
+                              : rowData.job.paymentTrackers.length === 2
+                              ? rowData.job.paymentTrackers[1].label
+                              : rowData.job.paymentTrackers.length === 1
+                              ? rowData.job.paymentTrackers[0].label
+                              : "-"
+                          }
+                          maxLine="1"
+                          ala
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                          className={"job-table-text"}
+                        />
+                        <i className="job-table-helper-text">$XX</i>
+                      </div>
+                    </div>
+                  )
+                },
+                /* status */
+                {
+                  title: "Status",
+                  field: "status",
+                  editable: "never",
+                  disableClick: true,
+                  sorting: false,
+                  filtering: false,
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "20vw" }}
+                    >
+                      <div style={{ width: "100%" }}>
+                        <LinesEllipsis
+                          style={{ width: "100%" }}
+                          text={
+                            rowData.job.isCancelled === "Confirmed"
+                              ? "Job has been cancelled"
+                              : rowData.status[0].title
+                          }
+                          maxLine="1"
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                          className={
+                            rowData.job.isCancelled === "Confirmed"
+                              ? "job-table-text red"
+                              : "job-table-text"
+                          }
+                        />
+                        <i className="job-table-helper-text">
+                          {moment(rowData.status[0].timestamp).format(
+                            "MMM DD YYYY, HH:mm"
+                          )}
+                        </i>
+                      </div>
+                      {rowData.job.jobTrackers.filter(o => {
+                        return o.index === 6;
+                      }).length > 0 && this.props.allowArchive ? (
+                        <Button
+                          variant="outlined"
+                          onClick={event => {
+                            rowData.job.isArchived = true;
+                            this.props.saveJobArchive(rowData.job);
+                          }}
+                          key={rowData.tableData.id}
+                          className="table-share-button mr-5"
+                        >
+                          <div className="d-flex align-items-center">
+                            Archive
+                            <ArchiveIcon />
+                          </div>
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          onClick={event => {
+                            this.props.toggleSharingModal(true);
+                            this.props.jobClicked(rowData.job);
+                          }}
+                          key={rowData.tableData.id}
+                          className="table-share-button mr-5"
+                        >
+                          <div className="d-flex align-items-center">
+                            Share
+                            <ShareIcon />
+                          </div>
+                        </Button>
                       )}
-                    </i>
-                  </div>
-                  {rowData.job.jobTrackers.filter(o => {
-                    return o.index === 6;
-                  }).length > 0 && this.props.allowArchive ? (
-                    <Button
-                      variant="outlined"
-                      onClick={event => {
-                        rowData.job.isArchived = true;
-                        this.props.saveJobArchive(rowData.job);
-                      }}
-                      key={rowData.tableData.id}
-                      className="table-share-button"
+                    </div>
+                  )
+                },
+                /* document* = check job file */
+                {
+                  title: "Document",
+                  field: "document",
+                  editable: "never",
+                  render: rowData => (
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ width: "20vw" }}
                     >
-                      <div className="d-flex align-items-center">
-                        Archive
-                        <ArchiveIcon />
+                      <div style={{ width: "100%" }}>
+                        <LinesEllipsis
+                          style={{ width: "100%" }}
+                          text={
+                            rowData.File.length > 0
+                              ? "Uploaded"
+                              : "Not yet uploaded"
+                          }
+                          maxLine="1"
+                          ala
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                          className={"job-table-text"}
+                        />
+                        <i className="job-table-helper-text">
+                          {rowData.File.length > 0
+                            ? moment(rowData.File[0].timeUploaded).format(
+                                "MMM, DD YYYY, HH:mm"
+                              )
+                            : "-"}
+                        </i>
                       </div>
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="outlined"
-                      onClick={event => {
-                        this.props.toggleSharingModal(true);
-                        this.props.jobClicked(rowData.job);
-                      }}
-                      key={rowData.tableData.id}
-                      className="table-share-button"
-                    >
-                      <div className="d-flex align-items-center">
-                        Share
-                        <ShareIcon />
-                      </div>
-                    </Button>
-                  )}
-                </div>
-              )
-            },
-            /* document* = check job file */
-            {
-              title: "Document",
-              field: "document",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "10vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text="-"
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                  </div>
-                </div>
-              )
-            },
-            /* 3pl* */
-            {
-              title: "3PL",
-              field: "3pl",
-              render: rowData => (
-                <div
-                  className="d-flex align-items-center"
-                  style={{ width: "10vw" }}
-                >
-                  <div style={{ width: "100%" }}>
-                    <LinesEllipsis
-                      style={{ width: "100%" }}
-                      text="-"
-                      maxLine="1"
-                      ellipsis="..."
-                      trimRight
-                      basedOn="letters"
-                      className={"job-table-text"}
-                    />
-                  </div>
-                </div>
-              )
-            }
-          ]}
-          data={this.props.data}
-          components={{
-            Container: props => <Paper {...props} elevation={0} />,
-            Row: props => <MTableBodyRow {...props} className="rows" />
-          }}
-          options={{
-            sorting: true,
-            paging: false,
-            padding: "dense",
-            showTitle: false,
-            headerStyle: {
-              fontFamily: "Roboto",
-              fontSize: "14px",
-              fontWeight: "bold",
-              color: "#707070"
-            }
-          }}
-          onRowClick={this.props.handleRowClick}
-        />
+                    </div>
+                  )
+                },
+                /* 3pl* */
+                {
+                  title: "3PL",
+                  field: "Assignment[0].logisticsCompany._id",
+                  lookup: category
+                }
+              ]}
+              data={this.props.data}
+              components={{
+                Container: props => <Paper {...props} elevation={0} />,
+                Row: props => <MTableBodyRow {...props} className="rows" />
+              }}
+              options={{
+                sorting: true,
+                paging: false,
+                padding: "dense",
+                showTitle: false,
+                headerStyle: {
+                  fontFamily: "Roboto",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  color: "#707070"
+                },
+                actionsColumnIndex: 12
+              }}
+              onRowClick={this.props.handleRowClick}
+              editable={{
+                isEditable: rowData =>
+                  rowData.Assignment[0].status !== "Assigned",
+                onRowUpdate: (newData, oldData) =>
+                  new Promise(resolve => {
+                    setTimeout(() => {
+                      {
+                        resolve();
+                        for (let i = 0; i < logisticCompany.length; i++) {
+                          if (
+                            logisticCompany[i]._id ===
+                            newData.Assignment[0].logisticsCompany._id
+                          ) {
+                            const jobAssignmentNew = {
+                              status: newData.Assignment[0].status,
+                              _id: newData.Assignment[0]._id,
+                              job: newData.Assignment[0].job,
+                              logisticsCompany: logisticCompany[i]
+                            };
+                            const jobAssignmentNewArray = [];
+                            jobAssignmentNewArray.push(jobAssignmentNew);
+                            axios
+                              .put("/api/job_assignments", {
+                                jobAssignments: jobAssignmentNewArray
+                              })
+                              .then(res => {
+                                this.props.reload();
+                              })
+                              .catch(err => {
+                                console.log(err);
+                              });
+                          }
+                        }
+                      }
+                      resolve();
+                    }, 1000);
+                  })
+              }}
+            />
+          </div>
+        </React.Fragment>
       );
     } else {
       return (
@@ -484,13 +634,15 @@ export default class JobSummaryTableSearchBar extends Component {
               render: rowData => (
                 <div className="d-flex flex-column">
                   <span className="job-table-text">
-                    {rowData.job.vessel !== null
+                    {rowData.job.vessel !== null ||
+                    rowData.job.vessel !== undefined
                       ? rowData.job.vessel.vesselName.toUpperCase()
                       : ""}
                   </span>
                   <span className="job-table-helper-text">
                     <i>
-                      {rowData.job.vessel !== null
+                      {rowData.job.vessel !== null ||
+                      rowData.job.vessel !== undefined
                         ? rowData.job.vessel.vesselIMOID
                         : ""}
                     </i>

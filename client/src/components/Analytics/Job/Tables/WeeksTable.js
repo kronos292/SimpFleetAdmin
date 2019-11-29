@@ -3,7 +3,7 @@ import { Row, Table, Col } from "reactstrap";
 
 class WeeksTable extends Component {
   render() {
-    const { WeeksData } = this.props;
+    const { WeeksData, Company } = this.props;
     switch (WeeksData) {
       case null:
         return <div></div>;
@@ -62,7 +62,6 @@ class WeeksTable extends Component {
               } else {
                 openJobs.push(job);
               }
-              console.log(job.vesselLoadingLocation);
               if (job.vesselLoadingLocation === "PSA") {
                 psaJob.push(job);
                 const { jobItems, jobOfflandItems } = job;
@@ -285,17 +284,18 @@ class WeeksTable extends Component {
                 }
               }
             }
-
-            if (
-              job.user.userCompany !== null &&
-              job.user.userCompany.name !== null
-            ) {
-              let clientlist = topclient[job.user.userCompany.name];
-              if (!clientlist) {
-                clientlist = [];
-                topclient[job.user.userCompany.name] = clientlist;
-              }
-              clientlist.push(job);
+            if (job.user.userCompany !== null) {
+              const compCompare = Object.keys(Company).map((uniq, index) => {
+                const companyName = Company[uniq][0].name;
+                if (job.user.userCompany === uniq) {
+                  let clientlist = topclient[companyName];
+                  if (!clientlist) {
+                    clientlist = [];
+                    topclient[companyName] = clientlist;
+                  }
+                  clientlist.push(job);
+                }
+              });
             }
           }
           topclient.sort((a, b) => {
