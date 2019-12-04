@@ -39,27 +39,39 @@ router.put("/", (req, res) => {
         res.json(user);
       });
     } else if (req.body.isApproved === false) {
-      LogisticsCompany.findById(req.body.company).then(lC => {
-        if (lC) {
-          /* console.log("directly save"); */
-          LogisticsUser.findByIdAndUpdate(req.body._id, {
-            $set: { isApproved: true }
-          }).then(user => {
-            res.json(user);
-          });
-        } else {
-          /* console.log("create usercompany and link to user"); */
-          const newLComp = new LogisticsCompany({ name: req.body.company });
-          newLComp.save().then(lComp => {
-            console.log(lComp);
+      if (req.body.company === undefined) {
+        /* console.log("undefined"); */
+        LogisticsCompany.findOne({ name: req.body.companyName }).then(lC => {
+          if (lC) {
+            /* console.log("link to user"); */
             LogisticsUser.findByIdAndUpdate(req.body._id, {
-              $set: { isApproved: true, company: lComp._id }
+              $set: { isApproved: true, company: lC._id }
             }).then(user => {
               res.json(user);
             });
-          });
-        }
-      });
+          } else {
+            /* console.log("create usercompany and link to user"); */
+            const newLComp = new LogisticsCompany({
+              name: req.body.companyName
+            });
+            newLComp.save().then(lComp => {
+              console.log(lComp);
+              LogisticsUser.findByIdAndUpdate(req.body._id, {
+                $set: { isApproved: true, company: lComp._id }
+              }).then(user => {
+                res.json(user);
+              });
+            });
+          }
+        });
+      } else {
+        /* console.log("defined"); */
+        LogisticsUser.findByIdAndUpdate(req.body._id, {
+          $set: { isApproved: true }
+        }).then(user => {
+          res.json(user);
+        });
+      }
     }
   }
 });
