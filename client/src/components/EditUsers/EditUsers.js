@@ -10,7 +10,11 @@ class EditUsers extends Component {
       { title: "Last Name", field: "lastName" },
       { title: "Email", field: "email" },
       { title: "Contact Number", field: "contactNumber" },
-      { title: "Company Name", field: "userCompany.name", editable: "never" },
+      {
+        title: "Company Name",
+        field: "userCompany._id",
+        lookup: {}
+      },
       { title: "User Type", field: "userType", editable: "never" }
     ],
     logisticsColumns: [
@@ -18,11 +22,13 @@ class EditUsers extends Component {
       { title: "Last Name", field: "lastName" },
       { title: "Email", field: "email" },
       { title: "Contact Number", field: "contactNumber" },
-      { title: "Company Name", field: "company.name", editable: "never" },
+      { title: "Company Name", field: "company._id", lookup: {} },
       { title: "User Type", field: "userType", editable: "never" }
     ],
     data: [],
-    logisticsData: []
+    logisticsData: [],
+    usrCompData: [],
+    logCompData: []
   };
 
   componentDidMount() {
@@ -38,6 +44,45 @@ class EditUsers extends Component {
         logisticsData: res.data
       })
     );
+    /* get userCompany */
+    Axios.get("api/company/userCompany").then(res => {
+      this.setState({ usrCompData: res.data });
+      let usrCmpCat = {};
+      for (let i = 0; i < this.state.usrCompData.length; i++) {
+        let usrComp = usrCmpCat[this.state.usrCompData[i]._id];
+        if (!usrComp) {
+          usrComp = this.state.usrCompData[i].name;
+          usrCmpCat[this.state.usrCompData[i]._id] = usrComp;
+        }
+      }
+      this.setState(prevState => ({
+        columns: prevState.columns.map(obj =>
+          obj.title === "Company Name"
+            ? Object.assign(obj, { lookup: usrCmpCat })
+            : obj
+        )
+      }));
+    });
+
+    /* get logisticsCompany */
+    Axios.get("/api/logistics_companies").then(res => {
+      this.setState({ logCompData: res.data });
+      let logCmpCat = {};
+      for (let i = 0; i < this.state.logCompData.length; i++) {
+        let logComp = logCmpCat[this.state.logCompData[i]._id];
+        if (!logComp) {
+          logComp = this.state.logCompData[i].name;
+          logCmpCat[this.state.logCompData[i]._id] = logComp;
+        }
+      }
+      this.setState(prevState => ({
+        logisticsColumns: prevState.logisticsColumns.map(obj =>
+          obj.title === "Company Name"
+            ? Object.assign(obj, { lookup: logCmpCat })
+            : obj
+        )
+      }));
+    });
   }
 
   render() {

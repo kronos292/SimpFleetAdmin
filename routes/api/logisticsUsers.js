@@ -81,15 +81,19 @@ router.put("/", (req, res) => {
 /* @access  Private admin */
 router.put("/update", (req, res) => {
   if (req.session.user.userType === "Admin") {
-    LogisticsUser.findByIdAndUpdate(req.body.newData._id, {
-      $set: {
-        firstName: req.body.newData.firstName,
-        lastName: req.body.newData.lastName,
-        email: req.body.newData.email,
-        contactNumber: req.body.newData.contactNumber
-      }
-    }).then(logisticUser => {
-      res.json(logisticUser);
+    LogisticsCompany.findById(req.body.newData.company._id).then(lC => {
+      LogisticsUser.findByIdAndUpdate(req.body.newData._id, {
+        $set: {
+          firstName: req.body.newData.firstName,
+          lastName: req.body.newData.lastName,
+          email: req.body.newData.email,
+          contactNumber: req.body.newData.contactNumber,
+          companyName: lC.name,
+          company: lC._id
+        }
+      }).then(logisticUser => {
+        res.json(logisticUser);
+      });
     });
   }
 });

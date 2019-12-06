@@ -96,26 +96,26 @@ router.get("/", (req, res) => {
 router.put("/", (req, res) => {
   if (req.session.user.userType === "Admin") {
     if (req.body.isApproved === true) {
-      console.log("approved");
+      /* console.log("approved"); */
       User.findByIdAndUpdate(req.body._id, {
         $set: { isApproved: false }
       }).then(user => {
         res.json(user);
       });
     } else if (req.body.isApproved === false) {
-      console.log("not approve");
+      /* console.log("not approve"); */
       if (req.body.userCompany === undefined) {
-        console.log("undefined");
+        /* console.log("undefined"); */
         UserCompany.findOne({ name: req.body.companyName }).then(uC => {
           if (uC) {
-            console.log("directly save");
+            /* console.log("directly save"); */
             User.findByIdAndUpdate(req.body._id, {
               $set: { isApproved: true, userCompany: uC._id }
             }).then(user => {
               res.json(user);
             });
           } else {
-            console.log("create usercompany and link to user");
+            /* console.log("create usercompany and link to user"); */
             const newUComp = new UserCompany({ name: req.body.companyName });
             newUComp.save().then(uComp => {
               console.log(uComp);
@@ -128,7 +128,7 @@ router.put("/", (req, res) => {
           }
         });
       } else {
-        console.log("defined");
+        /* console.log("defined"); */
         User.findByIdAndUpdate(req.body._id, {
           $set: { isApproved: false }
         }).then(user => {
@@ -144,15 +144,19 @@ router.put("/", (req, res) => {
 /* @access  Private admin */
 router.put("/update", (req, res) => {
   if (req.session.user.userType === "Admin") {
-    User.findByIdAndUpdate(req.body.newData._id, {
-      $set: {
-        firstName: req.body.newData.firstName,
-        lastName: req.body.newData.lastName,
-        email: req.body.newData.email,
-        contactNumber: req.body.newData.contactNumber
-      }
-    }).then(user => {
-      res.json(user);
+    UserCompany.findById(req.body.newData.userCompany._id).then(uC => {
+      User.findByIdAndUpdate(req.body.newData._id, {
+        $set: {
+          firstName: req.body.newData.firstName,
+          lastName: req.body.newData.lastName,
+          email: req.body.newData.email,
+          contactNumber: req.body.newData.contactNumber,
+          companyName: uC.name,
+          userCompany: uC._id
+        }
+      }).then(user => {
+        res.json(user);
+      });
     });
   }
 });
