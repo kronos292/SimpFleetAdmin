@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Container } from "reactstrap";
-import { Row, Table, Col } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import axios from "axios";
-import UserApprovalModal from "./UserApprovalModal";
+import ApprovalTable from "../ApprovalTable/ApprovalTable";
 
 class UserApproval extends Component {
   state = {
@@ -41,62 +41,6 @@ class UserApproval extends Component {
       case null:
         return <div></div>;
       default:
-        const content = Object.keys(this.state.users).map((key, index) => {
-          const users = this.state.users[key];
-          const compObj = users.userCompany;
-          let compName = "";
-          if (compObj === null || compObj === undefined) {
-            compName = "";
-          } else {
-            compName = compObj.name;
-          }
-          return (
-            <React.Fragment key={index}>
-              <tr>
-                <td>{users.firstName === "" ? "-" : users.firstName}</td>
-                <td>{users.lastName === "" ? "-" : users.lastName}</td>
-                <td>{users.email === "" ? "-" : users.email}</td>
-                <td>{compName === "" ? "-" : compName}</td>
-                <td>
-                  {users.contactNumber === "" ? "-" : users.contactNumber}
-                </td>
-                <td>
-                  {users.isApproved === true ? "approved" : "not yet approved"}
-                </td>
-                <td>
-                  <button
-                    className={`btn btn-${
-                      users.isApproved ? "danger" : "primary"
-                    }`}
-                    /* onClick={() => this.onUpdateIsApprove(users) } */
-                    data-toggle="modal"
-                    data-target={`#approvemodal${users._id}`}
-                  >
-                    {users.isApproved ? "disable" : "enable"}
-                  </button>
-                </td>
-              </tr>
-              {/* modal approve */}
-              <div
-                className="modal fade"
-                id={`approvemodal${users._id}`}
-                tabIndex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <UserApprovalModal
-                  user={
-                    users.firstName === "" ? "this account" : users.firstName
-                  }
-                  status={users.isApproved ? "disable" : "enable"}
-                  onUpdateIsApprove={this.onUpdateIsApprove}
-                  users={users}
-                />
-              </div>
-            </React.Fragment>
-          );
-        });
         return (
           <Container fluid>
             <br />
@@ -105,20 +49,11 @@ class UserApproval extends Component {
                 <h1>User Approval</h1>
               </Col>
               <Col cs="12" md={{ size: 12, offset: 0 }}>
-                <Table hover bordered responsive striped>
-                  <thead>
-                    <tr>
-                      <th>First name</th>
-                      <th>Last name</th>
-                      <th>Email</th>
-                      <th>Company</th>
-                      <th>Contact</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>{content}</tbody>
-                </Table>
+                {/* approval table component */}
+                <ApprovalTable
+                  users={this.state.users}
+                  onUpdateIsApprove={this.onUpdateIsApprove}
+                />
               </Col>
             </Row>
           </Container>
