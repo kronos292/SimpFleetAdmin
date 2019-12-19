@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container } from "reactstrap";
 import { Row, Col } from "reactstrap";
 import axios from "axios";
-import ApprovalTable from "../ApprovalTable/ApprovalTable";
+import ApprovalTable from "@bit/ssddev.simpfleet.approval-table";
 
 class LogisticsUserApproval extends Component {
   state = {
