@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
-import BreakdownByMonth from "./BreakdownBy/BreakdownByMonth";
-import BreakdownByDeliveryLocations from "./BreakdownBy/BreakdownByDeliveryLocations";
-import BreakdownByVessels from "./BreakdownBy/BreakdownByVessels";
-import BreakdownByCompanies from "./BreakdownBy/BreakdownByCompanies";
-import Charts from "./Charts/Charts";
-import WeeksTable from "./Tables/WeeksTable";
+import BreakdownByMonth from "@bit/ssddev.simpfleet.a-month-table";
+import BreakdownByDeliveryLocations from "@bit/ssddev.simpfleet.a-delv-table";
+import BreakdownByVessels from "@bit/ssddev.simpfleet.a-vess-table";
+import BreakdownByCompanies from "@bit/ssddev.simpfleet.a-comp-table";
+import Charts from "@bit/ssddev.simpfleet.charts";
+import WeeksTable from "@bit/ssddev.simpfleet.tables";
 class JobAnalytics extends Component {
   state = {
     userCompany: null,

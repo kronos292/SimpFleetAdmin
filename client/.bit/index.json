@@ -54,5 +54,101 @@
     },
     "isSymlink": false,
     "hash": "e557ce556059a87c4143d9d985f23acba68c0f0b"
+  },
+  {
+    "id": {
+      "scope": null,
+      "name": "tables"
+    },
+    "isSymlink": true,
+    "hash": "3915396b5fe58dce8505b3e62c31b4f79b3ccc2c"
+  },
+  {
+    "id": {
+      "scope": "ssddev.simpfleet",
+      "name": "tables"
+    },
+    "isSymlink": false,
+    "hash": "3b11957c055372ef58b8a7b4f4d75fafc5e79b7f"
+  },
+  {
+    "id": {
+      "scope": null,
+      "name": "a-comp-table"
+    },
+    "isSymlink": true,
+    "hash": "0dfa3878186b339dfa7950ec472098dc4c20092b"
+  },
+  {
+    "id": {
+      "scope": null,
+      "name": "a-delv-table"
+    },
+    "isSymlink": true,
+    "hash": "b485bf2f7201d4769c7430a96955ee492c777971"
+  },
+  {
+    "id": {
+      "scope": null,
+      "name": "a-month-table"
+    },
+    "isSymlink": true,
+    "hash": "f1148c5536d4a2443325d8e6809ec98e648c2222"
+  },
+  {
+    "id": {
+      "scope": null,
+      "name": "a-vess-table"
+    },
+    "isSymlink": true,
+    "hash": "41366658cb5ae777ac573ff9c891f0cafdd702e1"
+  },
+  {
+    "id": {
+      "scope": "ssddev.simpfleet",
+      "name": "a-comp-table"
+    },
+    "isSymlink": false,
+    "hash": "9362ee4b3be3b7246f3b38e932a8b019fb466776"
+  },
+  {
+    "id": {
+      "scope": "ssddev.simpfleet",
+      "name": "a-delv-table"
+    },
+    "isSymlink": false,
+    "hash": "4d46c0d676f7252d42a0d852cefebd68d329206d"
+  },
+  {
+    "id": {
+      "scope": "ssddev.simpfleet",
+      "name": "a-month-table"
+    },
+    "isSymlink": false,
+    "hash": "62b4fe74a0d39c8b898084d137e49951e69b35e6"
+  },
+  {
+    "id": {
+      "scope": "ssddev.simpfleet",
+      "name": "a-vess-table"
+    },
+    "isSymlink": false,
+    "hash": "46efd0fba29f2e55f7e9ca467aba236e14705107"
+  },
+  {
+    "id": {
+      "scope": null,
+      "name": "charts"
+    },
+    "isSymlink": true,
+    "hash": "3c1836f3a69c98f75ea3c5cb3054a8e1afcca366"
+  },
+  {
+    "id": {
+      "scope": "ssddev.simpfleet",
+      "name": "charts"
+    },
+    "isSymlink": false,
+    "hash": "4dadff9b0b6ef77c1c58db8e695463d08b576961"
   }
 ]

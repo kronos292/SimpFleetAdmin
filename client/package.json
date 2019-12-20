@@ -4,7 +4,13 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.0",
+    "@bit/ssddev.simpfleet.a-comp-table": "0.0.1",
+    "@bit/ssddev.simpfleet.a-delv-table": "0.0.1",
+    "@bit/ssddev.simpfleet.a-month-table": "0.0.1",
+    "@bit/ssddev.simpfleet.a-vess-table": "0.0.1",
     "@bit/ssddev.simpfleet.approval-table": "0.0.1",
+    "@bit/ssddev.simpfleet.charts": "0.0.1",
+    "@bit/ssddev.simpfleet.tables": "0.0.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-brands-svg-icons": "^5.9.0",
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
