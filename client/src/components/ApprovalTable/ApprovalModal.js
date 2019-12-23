@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function UserApprovalModal(props) {
+function ApprovalModal(props) {
   return (
     <React.Fragment>
       <div className="modal-dialog" role="document">
@@ -45,3 +45,4 @@ export default function UserApprovalModal(props) {
     </React.Fragment>
   );
 }
+export default ApprovalModal;
