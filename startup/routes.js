@@ -20,6 +20,10 @@ module.exports = function(app) {
     "/api/logistics_companies",
     require("../routes/api/logisticsCompanyRoutes")
   );
+  app.use(
+    "/api/vessel_loading_locations",
+    require("../routes/api/vesselLoadingLocationRoutes")
+  );
   /*
   app.use("/api/job_trackers", require("../routes/api/jobTrackerRoutes"));
   app.use("/api/payment_trackers", require("../routes/api/paymentTrackerRoutes"));

@@ -22,7 +22,7 @@ import ShareIcon from '@material-ui/icons/Share';
 
 import {Col, Container, Row, Button} from 'react-bootstrap'
 
-import JobDetailCard from "./JobDetailCard";
+import JobDetailCard from "@bit/ssddev.simpfleet.job-details-card";
 import JobFilesDisplay from "./Files/JobFilesDisplay";
 import JobShareModal from "./JobShareModal/JobShareModal";
 import JobStatusDisplay from "./JobStatusDisplay/JobStatusDisplay";
@@ -74,6 +74,7 @@ const AntTab = withStyles(theme => ({
 class JobDetails extends Component {
     state = {
         job: null,
+        currentCareOffParty:[],
         jobLink: '',
         activeScreen: 'jobDetails',
         showSharingModal: false,
@@ -85,6 +86,18 @@ class JobDetails extends Component {
         // Get job
         axios.get(`/api/jobs/index?index=${queryString.parse(this.props.location.search).job}`).then(res => {
             const job = res.data;
+            //Check for careoff party
+            let currentCareOffParty = null;
+            const {careOffParties} = job;
+            for (let i = 0; i < careOffParties.length; i++) {
+                const careOffParty = careOffParties[i];
+                if (careOffParty.user === this.props.auth._id) {
+                    currentCareOffParty = careOffParty;
+                    this.setState({currentCareOffParty});
+                    break;
+                }
+            }
+
             this.setState({job});
 
             // Get job link
@@ -105,6 +118,7 @@ class JobDetails extends Component {
         }).catch(err => {
             console.log(err);
         });
+
     }
 
     setTabURL = (tabName) => {
@@ -170,11 +184,263 @@ class JobDetails extends Component {
         this.setState({inputSelected: true});
     };
 
-    render() {
+    renderJobDetails = () => {
         const showComponent = () => {
             switch (this.state.activeScreen) {
                 case 'jobDetails':
+                    return <JobDetailCard job={this.state.job} currentCareOffParty={this.state.currentCareOffParty}/>;
+                case 'document':
+                    return <JobFilesDisplay job={this.state.job}/>;
+                case 'status':
+                    return <JobStatusDisplay job={this.state.job}/>;
+                case 'dropoff':
+                    return <JobDropoffDetail job={this.state.job}/>;
+                case 'billing':
+                    return <JobBillingDetail job={this.state.job} saveJobCancellation={this.saveJobCancellation}/>;
+                default:
                     return <JobDetailCard job={this.state.job}/>;
+            }
+        };
+
+        return (
+            <div>
+                <MediaQuery minWidth={769}>
+                    <Container fluid style={{marginTop: 20, marginBottom: 30}}>
+                        <Row>
+                            <Col xs={12} md={{span: 10, offset: 1}}>
+                                <Paper elevation={0} className='job-detail-breadcrumbs' square={true}>
+                                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small"/>}
+                                                 aria-label="Breadcrumb">
+                                        <Link href="#" onClick={(e) => {
+                                            this.props.history.push('/');
+                                        }} className='job-detail-breadcrumbs-link'>
+                                            Dashboard
+                                        </Link>
+                                        {
+                                            this.state.job.vessel !== null
+                                                ? <h4>{this.state.job.vessel !== null? this.state.job.vessel.vesselName.toUpperCase(): ''}, {this.state.job.vessel !== null? this.state.job.vessel.vesselIMOID: ''}</h4>
+                                                : <h4>{this.state.job.vesselLoadingLocation.type !== 'others'? this.state.job.vesselLoadingLocation.name: this.state.job.otherVesselLoadingLocation}</h4>
+                                        }
+                                    </Breadcrumbs>
+                                </Paper>
+                                <Paper square={true}>
+                                    <Paper className='job-details-ship-title' square={true}>
+                                        <div className='d-flex align-items-center'>
+                                            <h1 className='job-detail-fonts'
+                                                style={{marginBottom: '0px'}}>{this.state.job.vessel !== null? this.state.job.vessel.vesselName.toUpperCase(): ''} {this.state.job.vessel !== null? this.state.job.vessel.vesselIMOID: ''}</h1>
+                                            <Button variant="outlined"
+                                                    onClick={this.generateInvitationLink}
+                                                    className='job-details-share-button ml-auto'
+                                                    href="#">
+                                                <ShareIcon className='job-detail-share-icon'/>
+                                                Share
+                                            </Button>
+                                        </div>
+                                    </Paper>
+                                    <Paper square={true} className='job-detail-side-bar'>
+                                        <Container fluid>
+                                            <Row className='align-items-stretch'>
+                                                <Col xs={3} className='col-no-padding job-details-menu'>
+                                                    <Paper square={true}
+                                                           className='job-details-menu-paper'
+                                                           elevation={0}>
+                                                        <List disablePadding={true}>
+                                                            <ListItem button key='jobDetails'
+                                                                      onClick={() => {
+                                                                          this.handleDrawerClick('jobDetails')
+                                                                      }}
+                                                                      className={this.state.activeScreen === 'jobDetails' ? 'job-details-nav-active' : 'job-details-nav'}>
+                                                                <ListItemText>Job Details</ListItemText>
+                                                            </ListItem>
+                                                            <ListItem button key='status'
+                                                                      onClick={() => {
+                                                                          this.handleDrawerClick('status')
+                                                                      }}
+                                                                      className={this.state.activeScreen === 'status' ? 'job-details-nav-active' : 'job-details-nav'}>
+                                                                <ListItemText>Status</ListItemText>
+                                                            </ListItem>
+                                                            <ListItem button key='document'
+                                                                      onClick={() => {
+                                                                          this.handleDrawerClick('document')
+                                                                      }}
+                                                                      className={this.state.activeScreen === 'document' ? 'job-details-nav-active' : 'job-details-nav'}>
+                                                                <ListItemText>Document</ListItemText>
+                                                            </ListItem>
+                                                            <ListItem button key='dropoff'
+                                                                      onClick={() => {
+                                                                          this.handleDrawerClick('dropoff')
+                                                                      }}
+                                                                      className={this.state.activeScreen === 'dropoff' ? 'job-details-nav-active' : 'job-details-nav'}>
+                                                                <ListItemText>Drop Off</ListItemText>
+                                                            </ListItem>
+                                                            <ListItem button key='billing'
+                                                                      onClick={() => {
+                                                                          this.handleDrawerClick('billing')
+                                                                      }}
+                                                                      className={this.state.activeScreen === 'billing' ? 'job-details-nav-active' : 'job-details-nav'}>
+                                                                <ListItemText>Billing</ListItemText>
+                                                            </ListItem>
+                                                        </List>
+                                                    </Paper>
+                                                </Col>
+                                                <Col xs={9}
+                                                     className='col-no-padding job-detail-content-border-rad'
+                                                     as={Paper}>
+                                                    {showComponent()}
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </Paper>
+                                </Paper>
+
+                                <div>
+                                    <JobShareModal show={this.state.showSharingModal}
+                                                   Close={this.handleShareModalClose}
+                                                   joblinkurl={this.state.jobLink.url}
+                                                   job={this.state.job}
+                                                   copied={this.handleCopy}
+                                    />
+                                    <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                                              open={this.state.copied}
+                                              message={<span
+                                                  id="message-id">Link Has Been Copied</span>}
+                                              action={
+                                                  <IconButton
+                                                      key="close"
+                                                      color="inherit"
+                                                      onClick={this.handleClose}
+                                                  >
+                                                      <CloseIcon/>
+                                                  </IconButton>
+                                              }
+                                              TransitionComponent={this.SlideTransition}
+                                    />
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                </MediaQuery>
+                <MediaQuery maxWidth={768}>
+                    <Container fluid
+                               style={{ padding: "5% 8%", backgroundColor: '#F7F8F7'}}>
+                        <Row>
+                            <Paper elevation={0} square={true}
+                                   className='d-flex align-items-center w-100' style={{backgroundColor: '#F7F8F7'}}>
+                                <Breadcrumbs separator={<NavigateNextIcon fontSize="small"/>}
+                                             aria-label="Breadcrumb">
+                                    <Link href="#" onClick={(e) => {
+                                        this.props.history.push('/');
+                                    }} className='job-detail-breadcrumbs-link'>
+                                        Dashboard
+                                    </Link>
+                                    <h4 className='job-details-ship-title-font'>{this.state.job.vessel !== null? this.state.job.vessel.vesselName.toUpperCase(): ''} {this.state.job.vessel !== null? this.state.job.vessel.vesselIMOID: ''}</h4>
+                                </Breadcrumbs>
+                                <div className='ml-auto'>
+                                    <FocusOn enabled={this.props.isPopoverOpen}
+                                             onClickOutside={this.props.handlePopoverClose}
+                                             onEscapeKey={this.props.handlePopoverClose}>
+                                        <Popover
+                                            isOpen={this.props.isPopoverOpen}
+                                            position={'bottom'}
+                                            padding={10}
+                                            containerStyle={{marginTop: '-10px'}}
+                                            windowBorderPadding={15}
+                                            onClickOutside={this.props.handlePopoverClose}
+                                            content={({position, targetRect, popoverRect}) => (
+                                                <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+                                                    position={position}
+                                                    targetRect={targetRect}
+                                                    popoverRect={popoverRect}
+                                                    arrowColor={'#666666'}
+                                                    arrowSize={10}
+                                                    arrowStyle={{opacity: 1}}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            backgroundColor: '#666666',
+                                                            opacity: 1,
+                                                            width: "80vw",
+                                                            padding: 16,
+                                                            borderRadius: '5px'
+                                                        }}
+                                                        onClick={this.props.handlePopoverClose}
+                                                    ><span style={{
+                                                        fontFamily: 'Roboto',
+                                                        fontSize: '14px',
+                                                        color: 'white'
+                                                    }}>Click on this button to share the job with
+                                                            anyone who is sending items to the same
+                                                            vessel!</span>
+                                                    </div>
+                                                </ArrowContainer>
+                                            )}
+                                        >
+                                            <IconButton onClick={this.generateInvitationLink}>
+                                                <ShareIcon
+                                                    className='job-detail-share-icon-button'/>
+                                            </IconButton>
+                                        </Popover>
+                                    </FocusOn>
+                                </div>
+                            </Paper>
+                        </Row>
+                        <Row>
+                            <AntTabs value={this.state.activeScreen} onChange={this.handleChangeTab} variant="fullWidth" centered className='w-100'>
+                                <AntTab label='Job Details' value='jobDetails'/>
+                                <AntTab label='Status' value='status'/>
+                                <AntTab label='Documents' value='document'/>
+                                <AntTab label='Drop-off' value='dropoff'/>
+                                <AntTab label='Billing' value='billing'/>
+                            </AntTabs>
+                        </Row>
+                        <Row>
+                            <Paper square={true} elevation={5} className='w-100'>
+                                {showComponent()}
+                            </Paper>
+                        </Row>
+                        <div>
+                            <JobShareSlide open={this.state.showSharingModal}
+                                           onClose={this.handleShareModalClose}
+                                           joblinkurl={this.state.jobLink.url}
+                                           job={this.state.job}
+                                           inputSelected={this.state.inputSelected}
+                                           handleSelect={this.handleSelect}/>
+                        </div>
+                    </Container>
+                </MediaQuery>
+            </div>
+        );
+    };
+
+    render() {
+        switch (this.props.auth) {
+            case null:
+                return <div></div>;
+            case false:
+                return <Redirect to="/"/>;
+            default:
+                switch (this.state.job) {
+                    case null:
+                        return <div></div>;
+                    default:
+                        // Check if user can access job
+                        switch (this.props.auth) {
+                            case null:
+                                return <div></div>;
+                            case false:
+                                return <Redirect to="/"/>;
+                            default:
+                                return(this.renderJobDetails());
+                        }
+                }
+        }
+    }
+
+    /* render() {
+        const showComponent = () => {
+            switch (this.state.activeScreen) {
+                case 'jobDetails':
+                    return <JobDetailCard job={this.state.job} currentCareOffParty={this.state.currentCareOffParty} />;
                 case 'document':
                     return <JobFilesDisplay job={this.state.job}/>;
                 case 'status':
@@ -404,7 +670,7 @@ class JobDetails extends Component {
                         );
                 }
         }
-    }
+    } */
 }
 
 
